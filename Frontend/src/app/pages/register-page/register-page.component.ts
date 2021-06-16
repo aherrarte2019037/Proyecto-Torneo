@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./register-page.component.css']
 })
 export class RegisterPageComponent implements OnInit {
+  registerForm: FormGroup = this.buildForm();
 
   constructor( private fmBuilder: FormBuilder ) { }
 
@@ -16,10 +17,10 @@ export class RegisterPageComponent implements OnInit {
 
   buildForm(){
     return this.fmBuilder.group({
-      'nombre': ['',[Validators.required]],
-      'apellido': ['',[Validators.required]],
-      'email': ['', [Validators.required, Validators.email]],
-      'pass' : ['', Validators.required]
+      'firstname': ['',[Validators.required]],
+      'lastname' : ['',[Validators.required]],
+      'email'    : ['', [Validators.required, Validators.email]],
+      'pass'     : ['', Validators.required]
     })
   }
 

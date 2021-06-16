@@ -67,7 +67,7 @@
   }
   
   .background-img {
-    background: url('../../../assets/registerBg.svg');
+    background: url('../../../assets/loginBg3.jpg');
     width: calc(100% - 50%);
     background-repeat: no-repeat;
     background-size: cover;
@@ -79,8 +79,14 @@
   .form {
     width: 50%;
     min-height: 100vh;
-    display: block;
-    padding: 74px 7% 55px 7%;
+    display: flex;
+    padding: 0 7% 0 7%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .form div {
+    width: 100%;
   }
   
   .form-title {

@@ -2,7 +2,7 @@
     <img src="../../../assets/logo.png" width="160px" class="rounded-full -mt-1 ml-8 logo-icon shadow-2xl">
   
     <span class="register-span mr-8">
-      Ya tenías una cuenta? &nbsp;<button class="wobble" routerLink="/login">Iniciar Sesión</button>
+      Ya tienes cuenta? &nbsp;<button class="wobble" routerLink="/login">Iniciar Sesión</button>
     </span>
   </div>
   
@@ -11,47 +11,49 @@
     <div class="login-container">
       <div class="login-wrapper">
   
-        <form class="form">
-          <span class="form-title pb-8 text-center xl:text-left">Registrarse</span>
+        <form class="form" [formGroup]="registerForm" (ngSubmit)="register()">
+          <div>
+            <span class="form-title pb-8 text-center xl:text-left">Crear Cuenta</span>
 
-          <div class="input-wrap">
-            <input inputClass formControlName="email" class="input-field" type="nombre">
-            <span class="focus-input"></span>
-            <span class="label-input">Nombre</span>
-          </div>
-
-          <div class="input-wrap">
-            <input inputClass formControlName="nombre" class="input-field" type="text">
-            <span class="focus-input"></span>
-            <span class="label-input">Apellido</span>
-          </div>
+            <div class="input-wrap">
+              <input inputClass formControlName="firstname" class="input-field" type="text">
+              <span class="focus-input"></span>
+              <span class="label-input">Nombre</span>
+            </div>
   
-          <div class="input-wrap">
-            <input inputClass formControlName="nombre" class="input-field" type="text">
-            <span class="focus-input"></span>
-            <span class="label-input">Correo</span>
-          </div>
-  
-          <div class="input-wrap">
-            <input inputClass formControlName="pass" class="input-field" type="password" #pass>
-            <span class="focus-input"></span>
-            <span class="label-input">Contraseña</span>
-          </div>
-          
-          <div class="btn-login">
-            <button type="submit" class="form-btn">Registrarse</button>
-          </div>
-  
-          <div class="text-center pt-7 pb-7 flex items-center">
-            <hr class="w-full">
-            <span class="login-span px-2">Crear Cuenta con</span>
-            <hr class="w-full">
-  
-          </div>
-  
-          <div class="flex gap-y-5 flex-col justify-center text-sm">
-            <button class="btn-login-alternative"><img src="../../../assets/iconGoogle.svg"> Ingresar con Google</button>
-            <button class="btn-login-alternative"><img class="fix" src="../../../assets/iconFacebook.svg"> Ingresar con Facebook</button>
+            <div class="input-wrap">
+              <input inputClass formControlName="lastname" class="input-field" type="text">
+              <span class="focus-input"></span>
+              <span class="label-input">Apellido</span>
+            </div>
+    
+            <div class="input-wrap">
+              <input inputClass formControlName="email" class="input-field" type="text">
+              <span class="focus-input"></span>
+              <span class="label-input">Correo</span>
+            </div>
+    
+            <div class="input-wrap">
+              <input inputClass formControlName="pass" class="input-field" type="password">
+              <span class="focus-input"></span>
+              <span class="label-input">Contraseña</span>
+            </div>
+            
+            <div class="btn-login">
+              <button type="submit" class="form-btn">Crear Cuenta</button>
+            </div>
+    
+            <div class="text-center pt-7 pb-7 flex items-center">
+              <hr class="w-full">
+              <span class="login-span px-2">Crear Cuenta con</span>
+              <hr class="w-full">
+    
+            </div>
+    
+            <div class="flex gap-y-5 flex-col justify-center text-sm">
+              <button class="btn-login-alternative"><img src="../../../assets/iconGoogle.svg"> Ingresar con Google</button>
+              <button class="btn-login-alternative"><img class="fix" src="../../../assets/iconFacebook.svg"> Ingresar con Facebook</button>
+            </div>
           </div>
         </form>
   
