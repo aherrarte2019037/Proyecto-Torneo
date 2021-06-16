@@ -12,7 +12,8 @@
     <div class="login-wrapper">
 
       <form class="form" [formGroup]="loginForm" (ngSubmit)="login()">
-        <span class="form-title pb-8 text-center xl:text-left">Iniciar Sesión</span>
+        <div>
+          <span class="form-title pb-8 text-center xl:text-left">Iniciar Sesión</span>
 
         <div class="input-wrap">
           <input inputClass formControlName="email" class="input-field" type="email">
@@ -21,7 +22,7 @@
         </div>
 
         <div class="input-wrap">
-          <input inputClass formControlName="pass" class="input-field" type="password" #pass>
+          <input inputClass formControlName="pass" class="input-field" type="password">
           <span class="focus-input"></span>
           <span class="label-input">Contraseña</span>
         </div>
@@ -55,6 +56,7 @@
         <div class="flex gap-y-5 flex-col justify-center text-sm">
           <button class="btn-login-alternative"><img src="../../../assets/iconGoogle.svg"> Continuar con Google</button>
           <button class="btn-login-alternative"><img class="fix" src="../../../assets/iconFacebook.svg"> Continuar con Facebook</button>
+        </div>
         </div>
       </form>
 
