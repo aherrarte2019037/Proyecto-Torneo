@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -8,9 +9,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginPageComponent implements OnInit {
   loginForm: FormGroup = this.buildForm();
 
-  constructor( private fmBuilder: FormBuilder ) { }
+  constructor( private fmBuilder: FormBuilder, private title: Title ) { }
 
   ngOnInit() {
+    this.title.setTitle( 'Iniciar Sesión' )
   }
 
   buildForm() {
