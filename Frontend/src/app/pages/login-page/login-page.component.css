@@ -383,7 +383,7 @@ input.input-field {
   padding-top: 6px;
   padding-bottom: 6px;
   transition: 0.4s ease;
-  background: rgb(250, 82, 135);
+  background: #242323;
   @apply px-3.5 text-white rounded-full;
 }
 
