@@ -67,7 +67,7 @@
   }
   
   .background-img {
-    background: url('../../../assets/loginBg3.jpg');
+    background: url('../../../assets/registerBg.jpg');
     width: calc(100% - 50%);
     background-repeat: no-repeat;
     background-size: cover;
