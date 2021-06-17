@@ -53,16 +53,6 @@ button {
     opacity: .5;
   }
 
-  25% {
-    transform: translateX(-50px);
-    opacity: .5;
-  }
-
-  50% {
-    transform: translateX(0px);
-    opacity: .5;
-  }
-
   100% {
     transform: translateX(-50px);
     opacity: 1;
@@ -70,7 +60,7 @@ button {
 }
 
 .pulsate-bck {
-  animation: pulsate-bck 0.5s ease-in-out infinite both;
+  animation: pulsate-bck 1s ease-in-out infinite both;
 }
 
 @keyframes pulsate-bck {
@@ -84,5 +74,18 @@ button {
 
   100% {
     transform: scale(1);
+  }
+}
+
+.jump {
+  animation: .4s jump ease infinite alternate;
+}
+
+@keyframes jump {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
   }
 }
