@@ -19,11 +19,11 @@
 .nav-container a:hover:not(.nav-active) {
     color: white;
     background: #082855;
-    box-shadow: 5px 5px 15px 5px #02142ee8;
+    box-shadow: 5px 5px 15px 3px #02142ea6;
 }
 
 .nav-active {
-    box-shadow: 5px 5px 15px 5px #02142ee8;
+    box-shadow: 5px 5px 15px 3px #02142ea6;
     color: white;
     background: #1f6bfc;
 }
