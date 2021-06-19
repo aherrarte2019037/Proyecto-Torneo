@@ -17,6 +17,7 @@
 }
 
 .nav-container a:hover:not(.nav-active) {
+    color: white;
     background: #082855;
     box-shadow: 5px 5px 15px 5px #02142ee8;
 }
