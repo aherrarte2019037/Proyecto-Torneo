@@ -1,0 +1,36 @@
+.sidebar {
+    background: #021e45;
+}
+
+.nav-container {
+    color: #7c90b1;
+}
+
+.nav-container a {
+    @apply px-3 py-1.5 rounded-xl;
+    cursor: pointer;
+    transition: 0.2s ease-in;
+}
+
+.nav-container a:focus {
+    animation: pulsate-bck-once 0.5s ease-in-out both;
+}
+
+.nav-container a:hover:not(.nav-active) {
+    background: #082855;
+    box-shadow: 5px 5px 15px 5px #02142ee8;
+}
+
+.nav-active {
+    box-shadow: 5px 5px 15px 5px #02142ee8;
+    color: white;
+    background: #1f6bfc;
+}
+
+ion-icon {
+    margin-bottom: -3px;
+}
+
+.nav-home {
+    font-size: 23px;
+}
