@@ -105,3 +105,23 @@ button {
     transform: scale(1);
   }
 }
+
+.ngx-spinner {
+  border-color: #3279fd;
+  margin-left: 6px;
+  margin-top: 5px;
+}
+
+.ngx-spinner-icon {
+  width: 18px!important;
+  height: 18px!important;
+}
+
+.ngx-spinner-overlay {
+  left: 144px!important;
+  width: calc(100% - 144px)!important;
+}
+
+.ngx-spinner-overlay img {
+  width: 100px!important;
+}

@@ -13,6 +13,9 @@ import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.co
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { SoccerSpinerComponent } from './components/soccer-spinner/soccer-spinner.component';
 
 @NgModule({
   declarations: [
@@ -25,12 +28,15 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
     SidebarComponent,
     HomePageComponent,
     ProfilePageComponent,
+    SoccerSpinerComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LoadingBarModule,
+    NgxSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent],
