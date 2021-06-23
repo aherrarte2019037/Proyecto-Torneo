@@ -1,3 +1,42 @@
-<soccer-spinner></soccer-spinner>
+<div class="main-container bg-red-500 gap-x-5 h-full justify-center flex p-8">
+    <div class="flex left-container flex-col gap-y-5 w-3/4 max-w-4xl">
+        <div class="bg-white h-[600px]">
 
-<p>profile-page works!</p>
+           <div class="pattern-container"></div> 
+           <img class="profile-img" src="http://daisyui.com/tailwind-css-component-profile-1@94w.png">
+           
+           <section class="p-6 pl-32">
+               <button><ion-icon name="layers"></ion-icon> Detalles</button>
+               <h1>Mia Hernández</h1>
+               <h3>Zona 18, Guatemala</h3>
+               <span>Organizador De Torneo</span>
+               <span>Cliente</span>
+               <span>Jugador</span>
+           </section> 
+
+        </div>
+
+        <div class="bg-white h-full rounded-xl">d</div>
+    </div>
+
+    <div class="flex right-container flex-col gap-y-4 w-1/4 max-w-[210px]">
+        <div class="card-container">
+            <ion-icon #editAddress (click)="showEdit(editAddress, closeAddress, true)" class="btn-edit" name="pencil"></ion-icon>
+            <ion-icon #closeAddress (click)="showEdit(editAddress ,closeAddress, false)" class="btn-close" name="close"></ion-icon>
+            <ion-icon class="btn-save" name="checkmark-circle"></ion-icon>
+            <h1>Dirección</h1>
+            <ion-icon name="navigate-circle-outline"></ion-icon>
+            <input disabled type="text" value="Zona 18, Guatemala">
+        </div>
+
+        <div class="card-container">
+            <ion-icon #editRole class="btn-edit" name="pencil"></ion-icon>
+            <ion-icon #closeRole class="btn-close" name="close"></ion-icon>
+            <ion-icon class="btn-save" name="checkmark-circle"></ion-icon>
+            <h1>Rol</h1>
+            <ion-icon name="person-circle-outline"></ion-icon>
+            <input disabled type="text" value="Cliente">
+        </div>
+    </div>
+    
+</div>

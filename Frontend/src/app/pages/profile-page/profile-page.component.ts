@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -8,9 +8,21 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class ProfilePageComponent implements OnInit {
 
-  constructor( ) { }
+  constructor( private renderer: Renderer2 ) { }
 
   ngOnInit(){
+  }
+
+  showEdit( editAdress: HTMLElement, closeAddress: HTMLElement, action: boolean ) {
+    if( action ) {
+      this.renderer.setStyle( editAdress, 'display', 'none' )
+      this.renderer.setStyle( closeAddress, 'display', 'block' )
+
+    } else {
+      this.renderer.setStyle( editAdress, 'display', 'block' )
+      this.renderer.setStyle( closeAddress, 'display', 'none' )
+    }
+    
   }
 
 }
