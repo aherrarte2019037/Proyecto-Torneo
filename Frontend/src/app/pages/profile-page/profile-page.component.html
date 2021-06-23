@@ -20,7 +20,7 @@
     </div>
 
     <div class="flex right-container flex-col gap-y-4 w-1/4 max-w-[210px]">
-        <div class="card-container">
+        <div class="card-container" (mouseleave)="showEdit(editAddress ,closeAddress, false)">
             <ion-icon #editAddress (click)="showEdit(editAddress, closeAddress, true)" class="btn-edit" name="pencil"></ion-icon>
             <ion-icon #closeAddress (click)="showEdit(editAddress ,closeAddress, false)" class="btn-close" name="close"></ion-icon>
             <ion-icon class="btn-save" name="checkmark-circle"></ion-icon>
@@ -29,9 +29,9 @@
             <input disabled type="text" value="Zona 18, Guatemala">
         </div>
 
-        <div class="card-container">
-            <ion-icon #editRole class="btn-edit" name="pencil"></ion-icon>
-            <ion-icon #closeRole class="btn-close" name="close"></ion-icon>
+        <div class="card-container" (mouseleave)="showEdit(editRole ,closeRole, false)">
+            <ion-icon #editRole (click)="showEdit(editRole, closeRole, true)" class="btn-edit" name="pencil"></ion-icon>
+            <ion-icon #closeRole (click)="showEdit(editRole ,closeRole, false)" class="btn-close" name="close"></ion-icon>
             <ion-icon class="btn-save" name="checkmark-circle"></ion-icon>
             <h1>Rol</h1>
             <ion-icon name="person-circle-outline"></ion-icon>

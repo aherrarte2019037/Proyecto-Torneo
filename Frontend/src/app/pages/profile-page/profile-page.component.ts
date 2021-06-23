@@ -13,16 +13,20 @@ export class ProfilePageComponent implements OnInit {
   ngOnInit(){
   }
 
-  showEdit( editAdress: HTMLElement, closeAddress: HTMLElement, action: boolean ) {
+  showEdit( edit: HTMLElement, close: HTMLElement, action: boolean ) {
     if( action ) {
-      this.renderer.setStyle( editAdress, 'display', 'none' )
-      this.renderer.setStyle( closeAddress, 'display', 'block' )
+      this.renderer.setStyle( edit, 'display', 'none' )
+      this.renderer.setStyle( close, 'display', 'block' )
 
     } else {
-      this.renderer.setStyle( editAdress, 'display', 'block' )
-      this.renderer.setStyle( closeAddress, 'display', 'none' )
+      this.renderer.setStyle( edit, 'display', 'block' )
+      this.renderer.setStyle( close, 'display', 'none' )
     }
     
+  }
+
+  test(){
+    alert('dad')
   }
 
 }
