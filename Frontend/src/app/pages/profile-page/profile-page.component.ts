@@ -25,8 +25,4 @@ export class ProfilePageComponent implements OnInit {
     
   }
 
-  test(){
-    alert('dad')
-  }
-
 }

@@ -13,7 +13,7 @@ export class SoccerSpinerComponent implements OnInit {
   constructor() { }
 
   ngOnInit(){
-    setTimeout(() => this.show = false, 800);
+    setTimeout(() => this.show = false, 400);
   }
 
 }

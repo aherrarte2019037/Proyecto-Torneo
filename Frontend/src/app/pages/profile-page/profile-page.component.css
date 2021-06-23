@@ -23,6 +23,34 @@
     @apply rounded-full absolute ml-5 -mt-12;
 }
 
+.overlay-container {
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    bottom: -50px;
+    left: 22px;
+    background: rgba(0, 0, 0, 0.85);
+    width: 95px;
+    height: 96px;
+    transition: .5s ease;
+    opacity:0;
+    text-align: center;
+    color: white;
+    border-radius: 100px!important;
+}
+ 
+.overlay-container ion-icon {
+    cursor: pointer;
+    margin-top: 32px;
+    font-size: 33px!important;
+}
+
+.overlay-container:hover .overlay {
+    opacity: 1;
+}
+
 .left-container h1 {
     @apply text-2xl font-medium text-gray-900;
 }
