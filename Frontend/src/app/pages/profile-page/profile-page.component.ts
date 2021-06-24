@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-profile-page',
@@ -7,6 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./profile-page.component.css']
 })
 export class ProfilePageComponent implements OnInit {
+  showEditAlert: boolean = false;
 
   constructor( private renderer: Renderer2 ) { }
 

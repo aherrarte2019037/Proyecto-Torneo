@@ -2,7 +2,7 @@
     background: #f5f5f5;
 }
 
-.left-container div {
+.left-container .profile-container {
     box-shadow: 0 4px 4px -1px rgba(0, 0, 0, 0.05);
     @apply rounded-xl;
 }
@@ -15,6 +15,8 @@
     background-repeat: no-repeat;
     background-position: center;
     background-position-y: 20%;
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.18);
+    @apply rounded-xl;
 }
 
 .left-container img {
@@ -51,15 +53,15 @@
     opacity: 1;
 }
 
-.left-container h1 {
+.left-container .profile-container h1 {
     @apply text-2xl font-medium text-gray-900;
 }
 
-.left-container h3 {
+.left-container .profile-container h3 {
     @apply text-xs font-medium tracking-wide mb-2.5 text-gray-500;
 }
 
-.left-container span {
+.left-container .profile-container span {
     letter-spacing: 0.025rem;
     font-size: 11px;
     color: #2e2e31;
@@ -67,14 +69,14 @@
     @apply font-semibold rounded-lg mr-1.5 py-1 px-3;
 }
 
-.left-container button {
+.left-container .profile-container button {
     font-size: 13px;
     font-weight: 400;
     box-shadow: 0 4px 4px -1px rgba(0, 0, 0, 0.1);
     @apply float-right px-6 py-1.5 tracking-wide text-white rounded-full transform hover:bg-indigo-700 bg-indigo-600 transition duration-200;
 }
 
-.left-container ion-icon {
+.left-container .profile-container ion-icon {
     font-size: 17px;
     margin-bottom: -4px;
 }
