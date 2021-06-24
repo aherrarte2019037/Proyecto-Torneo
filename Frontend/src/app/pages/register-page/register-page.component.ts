@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -10,9 +11,10 @@ import { RouterLink } from '@angular/router';
 export class RegisterPageComponent implements OnInit {
   registerForm: FormGroup = this.buildForm();
 
-  constructor( private fmBuilder: FormBuilder ) { }
+  constructor( private fmBuilder: FormBuilder, private title: Title ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.title.setTitle( 'Crear Cuenta' )
   }
 
   buildForm(){
