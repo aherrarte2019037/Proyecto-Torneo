@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { fadeInDownOnEnterAnimation, fadeOutDownOnLeaveAnimation } from 'angular-animations';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-alert',
@@ -7,11 +8,12 @@ import { fadeInDownOnEnterAnimation, fadeOutDownOnLeaveAnimation } from 'angular
   styleUrls: ['./alert.component.css'],
   animations: [
     fadeInDownOnEnterAnimation(),
-    fadeOutDownOnLeaveAnimation()
+    fadeOutDownOnLeaveAnimation({ duration: 500 })
   ]
 })
 export class AlertComponent implements OnInit {
-  @Input() show: boolean = false;
+
+  show: boolean = false;
   @Input() duration: number = 3500;
   @Input() infinite: boolean = false;
   @Input() width: string = '90%';
@@ -21,7 +23,11 @@ export class AlertComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    if( !this.infinite ) setTimeout(() => this.show = false, this.duration);
+  }
+
+  showAlert() {
+    this.show = true;    
+    if( !this.infinite ) timer(this.duration).subscribe( () => this.show = false )
   }
 
 }

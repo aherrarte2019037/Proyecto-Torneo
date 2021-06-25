@@ -16,10 +16,10 @@
 }
 
 .btn-close {
-    background: rgba(55, 65, 81, 1);
-    @apply bg-opacity-25 text-gray-100 rounded-full my-[5px] px-[3px] transition duration-200 ease-in;
+    @apply bg-opacity-25 text-gray-500 rounded-full my-[5px] px-[3px] transition duration-200 ease-in;
 }
 
 .btn-close:hover {
-    background: rgb(250, 94, 94);
+    background: rgba(55, 65, 81, 1);
+    @apply text-gray-100;
 }

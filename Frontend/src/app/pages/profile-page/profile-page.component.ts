@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AlertComponent } from 'src/app/components/alert/alert.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -6,7 +7,7 @@ import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
   styleUrls: ['./profile-page.component.css']
 })
 export class ProfilePageComponent implements OnInit {
-  showEditAlert: boolean = false;
+  @ViewChild(AlertComponent) alert!: AlertComponent;
 
   constructor( private renderer: Renderer2 ) { }
 

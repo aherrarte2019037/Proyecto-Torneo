@@ -15,7 +15,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-position-y: 20%;
-    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.15);
     @apply rounded-xl;
 }
 
@@ -79,6 +79,12 @@
 .left-container .profile-container ion-icon {
     font-size: 17px;
     margin-bottom: -4px;
+}
+
+@media ( max-width: 910px ) {
+    .right-container {
+        display: none;
+    }
 }
 
 .card-container {
