@@ -1,4 +1,5 @@
 import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 import { AlertComponent } from 'src/app/components/alert/alert.component';
 
 @Component({
@@ -8,8 +9,9 @@ import { AlertComponent } from 'src/app/components/alert/alert.component';
 })
 export class ProfilePageComponent implements OnInit {
   @ViewChild(AlertComponent) alert!: AlertComponent;
+  loadingBar = this.loadingBarService.useRef('dashboardBar');
 
-  constructor( private renderer: Renderer2 ) { }
+  constructor( private renderer: Renderer2, private loadingBarService: LoadingBarService ) { }
 
   ngOnInit(){
   }
