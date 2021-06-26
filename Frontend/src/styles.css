@@ -125,3 +125,7 @@ button {
 .ngx-spinner-overlay img {
   width: 100px!important;
 }
+
+.modal {
+  left: 144px;
+}

@@ -156,3 +156,15 @@
     right: 13px;
     @apply absolute text-red-500 hidden transition-opacity duration-150 ease-in opacity-0;
 }
+
+.btn-modal {
+    @apply px-4 py-2 text-sm bg-white rounded-xl border transition-colors duration-150 ease-linear border-gray-200 text-gray-500 focus:ring-0 font-medium hover:bg-gray-100 cursor-pointer;
+}
+
+.btn-modal-close {
+    @apply px-4 py-2 text-sm bg-white rounded-xl border-2 transition-colors duration-150 ease-linear border-gray-200 text-gray-500 focus:ring-0 font-medium hover:bg-gray-100 cursor-pointer;
+}
+
+.search-container {
+    box-shadow: 0 4px 4px -1px rgba(0, 0, 0, 0.04);
+}
