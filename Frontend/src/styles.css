@@ -106,22 +106,18 @@ button {
   }
 }
 
-.ngx-spinner {
-  border-color: #3279fd;
-  margin-left: 6px;
-  margin-top: 5px;
-}
-
-.ngx-spinner-icon {
+#dashboard-bar .ngx-spinner-icon, #dashboard-bar .ngx-spinner {
+  border-top-color: #696bf2;
+  border-left-color: #696bf2;
+  border-left-color: #696bf2;
+  border-right-color: #e0e9fd;
   width: 18px!important;
   height: 18px!important;
+  margin-left: 4px;
+  margin-top: 3px;
+  color: red!important;
 }
 
-.ngx-spinner-overlay {
-  left: 144px!important;
-  width: calc(100% - 144px)!important;
-}
-
-.ngx-spinner-overlay img {
-  width: 100px!important;
+.modal {
+  left: 144px;
 }

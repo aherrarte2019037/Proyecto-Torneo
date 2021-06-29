@@ -16,6 +16,7 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SoccerSpinerComponent } from './components/soccer-spinner/soccer-spinner.component';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { SoccerSpinerComponent } from './components/soccer-spinner/soccer-spinne
     HomePageComponent,
     ProfilePageComponent,
     SoccerSpinerComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,

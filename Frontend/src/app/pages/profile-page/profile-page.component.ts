@@ -1,5 +1,6 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { LoadingBarService } from '@ngx-loading-bar/core';
+import { AlertComponent } from 'src/app/components/alert/alert.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -7,8 +8,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./profile-page.component.css']
 })
 export class ProfilePageComponent implements OnInit {
+  @ViewChild(AlertComponent) alert!: AlertComponent;
+  loadingBar = this.loadingBarService.useRef('dashboardBar');
 
-  constructor( private renderer: Renderer2 ) { }
+  constructor( private renderer: Renderer2, private loadingBarService: LoadingBarService ) { }
 
   ngOnInit(){
   }
