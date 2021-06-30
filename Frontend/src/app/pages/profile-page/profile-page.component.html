@@ -28,30 +28,57 @@
 
     <div class="bg-white h-full text-sm rounded-xl relative">
       <app-alert></app-alert>
-      <div data-theme="light" class="w-full flex px-24 justify-between">
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Nombre</span>
-          </label>
-          <div class="relative">
-            <input type="text" placeholder="Search" class="w-full input input-primary input-bordered">
-            <button class="absolute right-0 top-0 rounded-l-none btn btn-primary">go</button>
+
+      <h2 class="profile-title">Datos De Perfil</h2>
+
+      <form [formGroup]="profileForm" class="flex edit-form justify-center h-full w-full max-w-3xl -mt-6 mx-auto flex-col p-10">
+        <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+
+          <div class="relative h-32 rounded-lg col-span-2 border-dashed border-2 border-gray-300 bg-white flex justify-center items-center">
+            <div class="absolute">
+              <div class="flex flex-col items-center "> <ion-icon name="cloud-upload" class="text-gray-300 text-5xl"></ion-icon> <span
+                  class="block text-gray-400 font-normal">Foto De Perfil</span>
+                  <span class="block text-blue-400 font-normal">Buscar Imagen</span> </div>
+            </div>
+
+            <input *ngIf="!fileTitle" [disabled]="!formActivated" (change)="fileChange($event)" type="file" accept="image/*" class="cursor-pointer h-full w-full opacity-0">
+            <div *ngIf="fileTitle" class="h-full flex gap-y-1.5 flex-col justify-center items-center w-full bg-white z-50 mx-1 my-1">
+              <div class="w-16 h-16 rounded-full flex justify-center items-center">
+                <span *ngIf="previewImg === ''" class="text-white flex justify-center items-center w-16 h-16 bg-gray-800 rounded-full">
+                  <div class="img-spinner"></div>
+                </span>
+                <img *ngIf="previewImg && previewImg !== ''" [src]="previewImg" class="w-16 h-16 !m-0 !border-none">
+              </div>
+              <span class="text-gray-50 bg-gray-800 tracking-wide text-[11px] px-5 pl-[22px] pt-0.5 pb-1 rounded-full">{{ fileTitle }} <ion-icon (click)="deleteImg()" name="close" class="mb-[-5px] text-lg cursor-pointer"></ion-icon></span>
+            </div>
+
+          </div>
+
+          <div>
+            <label class="text-gray-600">Usuario</label>
+            <input formControlName="username" type="text" class="w-full px-4 py-2 mt-1 text-gray-700 rounded-md border-2 focus:border-blue-400">
+          </div>
+
+          <div>
+            <label class="text-gray-600">Correo</label>
+            <input formControlName="email" type="email" class="w-full px-4 py-2 mt-1 text-gray-700 rounded-md border-2 focus:border-blue-400">
+          </div>
+
+          <div>
+            <label class="text-gray-600">Nombre</label>
+            <input formControlName="firstname" type="text" class="w-full px-4 py-2 mt-1 text-gray-700 rounded-md border-2 focus:border-blue-400 ">
+          </div>
+
+          <div>
+            <label class="text-gray-600">Apellido</label>
+            <input formControlName="lastname" type="text" class="w-full px-4 py-2 mt-1 text-gray-700 rounded-md border-2 focus:border-blue-400">
           </div>
         </div>
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">connected</span>
-          </label>
-          <div class="relative">
-            <input type="text" placeholder="Search" class="w-full input input-primary input-bordered">
-            <button class="absolute right-0 top-0 rounded-l-none btn btn-primary">go</button>
-          </div>
-        </div>
-      </div>
-      <div class="w-full flex justify-center px-6 mx-2 my-8">
-        <button class="btn btn-info mx-8">GUARDAR</button>
-        <button class="btn btn-error mx-8">CANCELAR</button>
-      </div>
+      </form>
+
+      <button *ngIf="!formActivated" (click)="activateForm()" class="btn-edit-profile">Editar <ion-icon name="pencil"></ion-icon></button>
+      <button *ngIf="formActivated" (click)="editProfile()" class="btn-save-profile">Guardar <ion-icon name="checkmark"></ion-icon></button>
+      <button *ngIf="formActivated" (click)="deactivateForm()" class="btn-close-profile">Cancelar<ion-icon name="close"></ion-icon></button>
 
     </div>
 
@@ -79,7 +106,8 @@
     </div>
 
     <div class="relative w-full flex search-container">
-      <label for="search-modal" class="cursor-pointer px-5 text-gray-500 bg-white py-2.5 w-full rounded-[11px] text-sm">Buscar</label>
+      <label for="search-modal"
+        class="cursor-pointer px-5 text-gray-500 bg-white py-2.5 w-full rounded-[11px] text-sm">Buscar</label>
       <svg class="text-gray-600 absolute top-3 right-5 h-4 w-4 fill-current" version="1.1" id="Capa_1" x="0px" y="0px"
         viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" width="512px"
         height="512px">
@@ -102,8 +130,8 @@
         placeholder="Buscar">
       <button type="submit" class="absolute right-0 top-[18px] mt-5 mr-10">
         <svg class="text-gray-600 h-4 w-4 fill-current" version="1.1" id="Capa_1" x="0px" y="0px"
-          viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" width="512px"
-          height="512px">
+          viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve"
+          width="512px" height="512px">
           <path
             d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
         </svg>

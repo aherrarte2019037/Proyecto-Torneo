@@ -168,3 +168,83 @@
 .search-container {
     box-shadow: 0 4px 4px -1px rgba(0, 0, 0, 0.04);
 }
+
+.profile-title {
+    top: 33px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    @apply text-xl h-5 absolute font-semibold text-center text-gray-700;
+}
+
+.btn-edit-profile {
+    width: 115px;
+    box-shadow: 0 4px 4px -1px rgba(0, 0, 0, 0.2);
+    @apply py-2 pl-1.5 absolute bottom-10 right-10 leading-5 text-white transition-colors duration-200 transform bg-indigo-600 rounded-full hover:bg-indigo-700 focus:bg-indigo-700;
+}
+
+.btn-edit-profile ion-icon {
+    font-size: 15px;
+    margin-bottom: -2px;
+}
+
+.btn-close-profile {
+    width: 115px;
+    box-shadow: 0 4px 4px -1px rgba(0, 0, 0, 0.2);
+    background: rgb(253, 50, 50);
+    @apply py-2 pl-1.5 absolute bottom-10 right-[164px] leading-5 text-white transition-colors duration-200 transform rounded-full hover:bg-red-600 focus:bg-red-600;
+}
+
+.btn-close-profile ion-icon {
+    font-size: 18px;
+    margin-bottom: -4px;
+}
+
+.edit-form input {
+    border-color: rgb(241, 245, 249);
+    background: rgb(241, 245, 249);
+}
+
+.edit-form input:focus {
+    border-color: rgb(200, 221, 247)
+}
+
+.btn-save-profile {
+    width: 115px;
+    box-shadow: 0 4px 4px -1px rgba(0, 0, 0, 0.2);
+    @apply py-2 pl-1.5 absolute bottom-10 right-10 leading-5 text-white transition-colors duration-200 transform bg-indigo-600 rounded-full hover:bg-indigo-700 focus:bg-indigo-700;
+}
+
+.btn-save-profile ion-icon {
+    font-size: 18px;
+    margin-bottom: -3px;
+}
+
+.edit-form input:disabled {
+    cursor: default;
+}
+
+.img-spinner {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    animation: s10-1 0.8s infinite linear alternate, s10-2 1.6s infinite linear;
+}
+
+@keyframes s10-1{
+    0%    {clip-path: polygon(50% 50%,0       0,  50%   0%,  50%    0%, 50%    0%, 50%    0%, 50%    0% )}
+    12.5% {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100%   0%, 100%   0%, 100%   0% )}
+    25%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 100% 100%, 100% 100% )}
+    50%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
+    62.5% {clip-path: polygon(50% 50%,100%    0, 100%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
+    75%   {clip-path: polygon(50% 50%,100% 100%, 100% 100%,  100% 100%, 100% 100%, 50%  100%, 0%   100% )}
+    100%  {clip-path: polygon(50% 50%,50%  100%,  50% 100%,   50% 100%,  50% 100%, 50%  100%, 0%   100% )}
+}
+
+@keyframes s10-2{ 
+    0%    {transform:scaleY(1)  rotate(0deg)}
+    49.99%{transform:scaleY(1)  rotate(135deg)}
+    50%   {transform:scaleY(-1) rotate(0deg)}
+    100%  {transform:scaleY(-1) rotate(-135deg)}
+}
