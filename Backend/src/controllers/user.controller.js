@@ -92,17 +92,17 @@ function registerUser(req,res){
             if(err) res.status(500).send({ message: 'Error in the request' })
 
             if(userFound && userFound.length >= 1){
-                return res.status(500).send({ message: 'The user already exists' })
+                return res.status(500).send({ message: 'El usuario ya existe' })
             }else {
                 bcrypt.hash(params.password, null, null, (err, passEncrypted) => {
                     userModel.password = passEncrypted
                     userModel.save((err, userSaved) => {
-                        if(err) return res.status(500).send({ message: 'Error saving user' })
+                        if(err) return res.status(500).send({ message: 'Error al guardar el usuario' })
 
                         if(userSaved){
                             res.status(200).send(userSaved)
                         }else {
-                            res.status(404).send({ message: 'User couldn´t be registered' })
+                            res.status(404).send({ message: 'No se ha podido guardar el usuario' })
                         }
                     })
                 })
@@ -110,7 +110,7 @@ function registerUser(req,res){
         })
 
     }else {
-        return res.status(500).send({ message: 'Missing data to enter' })
+        return res.status(500).send({ message: 'Faltan datos por ingresar' })
     }
 
 }
@@ -126,15 +126,15 @@ function editUser(req,res){
         { username: params.username },
         { email: params.email }
     ] }).exec(( err, userFound ) => {
-        if(userFound.rol === 'ROL_ADMIN' ) return res.status(500).send({ message: 'Cant edit this account' })
+        if(userFound.rol === 'ROL_ADMIN' ) return res.status(500).send({ message: 'No puedes editar esta cuenta' })
         if(err) return res.status(500).send({ message: 'Error in the request' })
         if(userFound && userFound.length >= 1){
-            return res.status(500).send({ message: 'The user already exists' })
+            return res.status(500).send({ message: 'El usuario ya existe' })
 
         }else {
             User.findByIdAndUpdate(idUser, params, {new: true, useFindAndModify: false}, (err, editedUser) => {
                 if(err) return res.status(500).send({ message: 'Error in the request' })
-                if(!editedUser) return res.status(500).send({ message: 'The user couldnt not be found' })
+                if(!editedUser) return res.status(500).send({ message: 'No se ha podido encontrar el usuario' })
         
                 return res.status(200).send({ editedUser })
             })
@@ -147,7 +147,7 @@ function getUserID(req,res){
 
     User.findById(idUser, (err, userFound) => {
         if(err) return res.status(500).send({ message: 'Error in the request' })
-        if(!userFound) return res.status(500).send({ message: 'No user found' })
+        if(!userFound) return res.status(500).send({ message: 'No se encontró el usuario' })
         return res.status(200).send({ userFound })
     })
 }
@@ -156,9 +156,9 @@ function deleteUser(req,res){
     var idUser = req.params.idUser
 
     User.findByIdAndDelete(idUser, (err, userDeleted) => {
-        if(userDeleted.rol === 'ROL_ADMIN' ) return res.status(500).send({ message: 'Cant edit this account' })
+        if(userDeleted.rol === 'ROL_ADMIN' ) return res.status(500).send({ message: 'No puedes editar la cuenta' })
         if(err) return res.status(500).send({ message: 'Error in the request' })
-        if(!userDeleted) return res.status(500).send({ message: 'Failed to delete user' })
+        if(!userDeleted) return res.status(500).send({ message: 'Error al eliminar el usuario' })
 
         return res.status(200).send({ userDeleted })
     })
