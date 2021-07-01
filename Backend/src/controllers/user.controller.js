@@ -34,7 +34,7 @@ function createAdmin(req,res){
                     userModel.save((err, userSaved) =>{
                         if(err) return console.log('Error saving user')
                         if(userSaved){
-                            console.log(userSaved)
+                            //console.log(userSaved)
                         }else {
                             return console.log('Register failed')
                         }
