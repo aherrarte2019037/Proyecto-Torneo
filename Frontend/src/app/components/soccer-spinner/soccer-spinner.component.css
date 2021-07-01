@@ -5,6 +5,7 @@
   width: calc(100% - 144px);
   height: 100%;
   background: white;
+  z-index: 99999999;
 }
 
 .spinner-container .soccer-spinner {
