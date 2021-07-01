@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { fadeInDownOnEnterAnimation, fadeOutDownOnLeaveAnimation } from 'angular-animations';
+import { fadeOutDownOnLeaveAnimation, slideInDownOnEnterAnimation } from 'angular-animations';
 import { timer } from 'rxjs';
 
 @Component({
@@ -7,25 +7,26 @@ import { timer } from 'rxjs';
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.css'],
   animations: [
-    fadeInDownOnEnterAnimation(),
-    fadeOutDownOnLeaveAnimation({ duration: 500 })
+    fadeOutDownOnLeaveAnimation({ duration: 500 }),
+    slideInDownOnEnterAnimation()
   ]
 })
 export class AlertComponent implements OnInit {
-
   show: boolean = false;
   @Input() duration: number = 3500;
   @Input() infinite: boolean = false;
   @Input() width: string = '90%';
   @Input() maxWidth: string = '400px';
   @Input() type: string = 'success';
+  @Input() message: string = 'Alert Message';
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  showAlert() {
+  showAlert( type?: string ) {
+    this.type = type || 'success';
     this.show = true;    
     if( !this.infinite ) timer(this.duration).subscribe( () => this.show = false )
   }
