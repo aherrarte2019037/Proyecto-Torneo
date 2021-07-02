@@ -34,7 +34,7 @@ function createAdmin(req,res){
                     userModel.save((err, userSaved) =>{
                         if(err) return console.log('Error saving user')
                         if(userSaved){
-                            console.log(userSaved)
+                            //console.log(userSaved)
                         }else {
                             return console.log('Register failed')
                         }
@@ -49,23 +49,23 @@ function login(req,res){
     var params = req.body
 
     User.findOne( { username: params.username }, (err, userFound) => {
-        if(err) return res.status(500).send({ message: 'Error in the request' })
+        if(err) return res.status(500).send({ message: 'Error en la petición' })
         
         if(userFound){
             bcrypt.compare(params.password, userFound.password, (err, passCorrect) =>{
                 if(passCorrect){
-                    if(params.getToken === 'true'){
+                    if(params.getToken === true){
                         return res.status(200).send({ token: jwt.createToken(userFound) })
                     }else {
                         userFound.password = undefined
                         return res.status(200).send({ userFound })
                     }
                 }else {
-                    return res.status(404).send({ mensaje: 'The user couldnt be identified' })
+                    return res.status(404).send({ mensaje: 'Credenciales incorrectas' })
                 }
             })
         }else {
-            return res.status(404).send({ mensaje: 'The user couldnt be logged in' })
+            return res.status(404).send({ mensaje: 'Usuario no registrado' })
         }
     } )
 }

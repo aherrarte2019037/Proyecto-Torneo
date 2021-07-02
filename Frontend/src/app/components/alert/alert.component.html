@@ -1,4 +1,4 @@
-<div *ngIf="show" [@fadeInDownOnEnter] [@fadeOutDownOnLeave] class="alert-container" [style.width]="width" [style.maxWidth]="maxWidth" [class]="type">
+<div *ngIf="show" [@slideInDownOnEnter] [@fadeOutDownOnLeave] class="alert-container" [style.width]="width" [style.maxWidth]="maxWidth" [class]="type">
   
   <div class="flex items-baseline">
     <ng-container [ngSwitch]="type">
@@ -18,7 +18,7 @@
   </div>
 
   <div class="flex text-gray-700 flex-grow pl-1 items-center">
-    <p class="leading-tight font-normal text-[14px]">Perfil Editado</p>
+    <p class="leading-tight font-normal text-[14px]">{{ message }}</p>
   </div>
   
   <button (click)="show = false" class="btn-close">

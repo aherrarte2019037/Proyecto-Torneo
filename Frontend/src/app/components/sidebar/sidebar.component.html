@@ -15,8 +15,13 @@
         <a> <ion-icon name="color-filter-outline"></ion-icon> </a>
     </div>
 
-    <div class="avatar online">
-        <div class="rounded-full w-14 h-14">
+    <div data-theme="light" class="avatar online dropdown dropdown-top cursor-pointer">
+        <div class="rounded-full w-14 h-14" tabindex="0">
+            <ul class="shadow menu dropdown-content bg-red-500 text-white text-sm !bottom-[120%] rounded-box w-[138px]">
+                <li>
+                  <a class="active:!bg-red-600" (click)="logOut()">Cerrar Sesión</a>
+                </li> 
+              </ul>
              <img src="http://daisyui.com/tailwind-css-component-profile-1@94w.png">
         </div>
     </div>

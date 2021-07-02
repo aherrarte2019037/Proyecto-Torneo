@@ -49,6 +49,7 @@ export class ProfilePageComponent implements OnInit {
   }
 
   editProfile() {
+    this.alert.showAlert();
     this.deactivateForm()
   }
 
