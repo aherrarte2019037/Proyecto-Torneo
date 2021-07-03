@@ -201,6 +201,7 @@
 }
 
 .edit-form input {
+    color: rgb(114, 122, 145);
     border-color: rgb(241, 245, 249);
     background: rgb(241, 245, 249);
 }

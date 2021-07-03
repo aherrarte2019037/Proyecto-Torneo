@@ -22,9 +22,9 @@
                   <a class="active:!bg-red-600" (click)="logOut()">Cerrar Sesión</a>
                 </li> 
               </ul>
-             <img src="http://daisyui.com/tailwind-css-component-profile-1@94w.png">
+             <img [src]="imgUrl">
         </div>
     </div>
 
-    <h1 class="user-span">Mia Hz</h1>
+    <h1 class="user-span !tracking-wider">{{ user?.username | titlecase }}</h1>
 </div>

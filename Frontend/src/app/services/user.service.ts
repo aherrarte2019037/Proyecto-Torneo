@@ -1,30 +1,96 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import decode from "jwt-decode";
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl: string = 'http://localhost:3000/api'
+  private apiUrl: string = 'http://localhost:3000/api';
+  private userLogged = new BehaviorSubject<any>({});
+  private profileImg = new BehaviorSubject<any>('https://brillaaconmigo.files.wordpress.com/2021/04/tropical-grid-tropicalera.gif');
 
   constructor( private http: HttpClient ) { }
 
-  login( username: string, password: string) {
+  login( username: string, password: string, remember: boolean ) {
     return this.http.post<any>( `${this.apiUrl}/login`, { password, username, getToken: true } )
-      .pipe( tap( data => this.setToken(data.token) )  )
+      .pipe( tap( data => this.setToken(data.token, remember) )  )
   }
 
   logOut() {
     localStorage.removeItem('token');
+    sessionStorage.removeItem('token')
   }
 
-  setToken( token: string ) {
-    localStorage.setItem('token', token)
+  setToken( token: string, remember: boolean ) {
+    if( token ) {
+      if( !remember ) sessionStorage.setItem( 'token', token );
+      if( remember ) localStorage.setItem( 'token', token );
+    } 
   }
 
   isLogged() {
-    return localStorage.getItem('token')? true:false;
+    let logged;
+    logged = localStorage.getItem('token') || false;
+    if( !logged ) logged = sessionStorage.getItem('token') || false;
+    return logged? true:false; 
+  }
+
+  getToken() {
+    let logged;
+    logged = localStorage.getItem('token') || false;
+    if( !logged ) logged = sessionStorage.getItem('token') || false;
+    return logged;
+  }
+
+  setUserLogged() {
+    const id = (decode<any>( this.getToken().toString() )).sub;
+    const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
+
+    this.http.get<any>( `${this.apiUrl}/getUserID/${id}`, { headers } ).subscribe( data => this.userLogged.next(data) );
+  }
+
+  getUser() {
+    this.setUserLogged();
+    return this.userLogged
+  }
+
+  getUserLogged() {
+    const id = (decode<any>( this.getToken().toString() )).sub;
+    const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
+
+    return this.http.get<any>( `${this.apiUrl}/getUserID/${id}`, { headers } );
+  }
+
+  editUser( user: any, id: string ) {
+    const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
+
+    return this.http.put<any>( `${this.apiUrl}/editUser/${id}`, user, { headers } )
+  }
+
+  uploadImage( id: string, data: FormData ) {
+    const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
+
+    return this.http.post<any>( `${this.apiUrl}/uploads/profileImg/${id}`, data, { headers } );
+  }
+
+  setUserImage( image?: string ) {
+    if( !image ) {
+      const id = (decode<any>( this.getToken().toString() )).sub;
+      const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
+      this.http.get<any>( `${this.apiUrl}/getUserID/${id}`, { headers } ).subscribe( data => {
+        if( data?.image ) this.profileImg.next(`${this.apiUrl}/uploads/profileImg/${data.image}`)
+      })
+
+    } else {
+      this.profileImg.next(`${this.apiUrl}/uploads/profileImg/${image}?q=${Math.random}`)
+    }
+  }
+
+  getUserImage() {
+    return this.profileImg
   }
 
 }

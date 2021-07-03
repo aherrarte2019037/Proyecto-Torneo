@@ -8,10 +8,15 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
+  user: any;
+  imgUrl: string = 'https://brillaaconmigo.files.wordpress.com/2021/04/tropical-grid-tropicalera.gif';
 
   constructor( private router: Router, private userService: UserService ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.userService.getUser().subscribe( data => this.user = data );
+    this.userService.setUserImage();
+    this.userService.getUserImage().subscribe( data => this.imgUrl = data )
   }
 
   logOut() {

@@ -19,6 +19,8 @@ function createAdmin(req,res){
         userModel.rol = rol
         userModel.email = email
         userModel.image = null;
+        userModel.name = 'Angel';
+        userModel.lastname = 'Herrarte'
 
         User.find( { $or: [
             { username: userModel.username }
@@ -55,7 +57,9 @@ function login(req,res){
             bcrypt.compare(params.password, userFound.password, (err, passCorrect) =>{
                 if(passCorrect){
                     if(params.getToken === true){
-                        return res.status(200).send({ token: jwt.createToken(userFound) })
+                        userFound.password = undefined;
+                        userFound.__v = undefined;
+                        return res.status(200).send({ token: jwt.createToken(userFound), userFound: userFound })
                     }else {
                         userFound.password = undefined
                         return res.status(200).send({ userFound })
@@ -135,8 +139,9 @@ function editUser(req,res){
             User.findByIdAndUpdate(idUser, params, {new: true, useFindAndModify: false}, (err, editedUser) => {
                 if(err) return res.status(500).send({ message: 'Error in the request' })
                 if(!editedUser) return res.status(500).send({ message: 'No se ha podido encontrar el usuario' })
-        
-                return res.status(200).send({ editedUser })
+                editedUser.password = undefined;
+                editedUser.__v = undefined;
+                return res.status(200).send( editedUser )
             })
         }
     } )
@@ -148,7 +153,9 @@ function getUserID(req,res){
     User.findById(idUser, (err, userFound) => {
         if(err) return res.status(500).send({ message: 'Error in the request' })
         if(!userFound) return res.status(500).send({ message: 'No se encontró el usuario' })
-        return res.status(200).send({ userFound })
+        userFound.__v = undefined;
+        userFound.password = undefined;
+        return res.status(200).send( userFound )
     })
 }
 
@@ -165,11 +172,41 @@ function deleteUser(req,res){
 
 }
 
+async function uploadProfileImage( req, res ) {
+    const fileExtensions = ['png', 'jpg', 'gif', 'jpeg' ];
+    if( !req.files ) return res.status(400).send({ fileUploaded: false, error: 'No file found' });
+    if( !req.params.id ) return res.status(400).send({ fileUploaded: false, error: 'Missing data' });
+
+    const user = req.params.id;
+    const file = req.files?.files;
+    const type = file.mimetype.split('/')[1];
+    const filename = `profileImg${user}.${type}`
+    if( !fileExtensions.includes(type) ) return res.status(400).send({ fileUploaded: false, error: 'Invalid file extension', extension: type, availableExtensions: fileExtensions });
+
+    try {
+        await file.mv( `uploads/${filename}` );
+        await User.findByIdAndUpdate( user, { image: filename } );
+        res.status(200).send({ fileUploaded: true, filename: `${filename}` });
+
+    } catch (error) {
+        res.status(400).send({ fileUploaded: false, error: error });
+    }
+}
+
+async function getProfileImage( req, res ) {
+    const id = req.params.id;
+    res.download(`uploads/${id}`, (error) => {
+        if( error ) return res.status(404).send({ error: error });
+    })
+}
+
 module.exports = {
     createAdmin,
     login,
     registerUser,
     editUser,
     getUserID,
-    deleteUser
+    deleteUser,
+    uploadProfileImage,
+    getProfileImage
 }
