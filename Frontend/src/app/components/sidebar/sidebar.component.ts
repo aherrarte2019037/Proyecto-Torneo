@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -6,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
+  user: any;
+  imgUrl: string = '';
 
-  constructor() { }
+  constructor( private router: Router, private userService: UserService ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.userService.getUser().subscribe( data => this.user = data );
+    this.userService.setUserImage();
+    this.userService.getUserImage().subscribe( data => this.imgUrl = data )
+  }
+
+  logOut() {
+    this.router.navigateByUrl('/login')
+    this.userService.logOut();
   }
 
 }

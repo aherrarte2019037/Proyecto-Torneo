@@ -39,5 +39,6 @@ ion-icon {
 .user-span {
     font-size: 13px;
     font-family: 'Montserrat', sans-serif;
-    @apply mb-1 mt-1 font-medium text-gray-100;
+    color: rgb(221, 221, 221);
+    @apply mb-1 mt-1 font-medium;
 }

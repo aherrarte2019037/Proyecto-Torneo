@@ -17,6 +17,7 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SoccerSpinerComponent } from './components/soccer-spinner/soccer-spinner.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { AlertComponent } from './components/alert/alert.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     LoadingBarModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],
