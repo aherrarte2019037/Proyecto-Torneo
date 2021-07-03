@@ -1,0 +1,25 @@
+.alert-container {
+    background: rgb(239, 239, 240);
+    @apply flex max-w-xs inset-0 border-l-4 mx-auto mt-5 justify-between rounded-lg overflow-hidden p-2 pr-3.5 pl-3 space-x-1;
+}
+
+.success {
+    @apply border-green-400;
+}
+
+.success .type-icon {
+    @apply bg-green-200;
+}
+
+.danger {
+    @apply border-red-400;
+}
+
+.btn-close {
+    @apply bg-opacity-25 text-gray-500 rounded-full my-[5px] px-[3px] transition duration-200 ease-in;
+}
+
+.btn-close:hover {
+    background: rgba(55, 65, 81, 1);
+    @apply text-gray-100;
+}

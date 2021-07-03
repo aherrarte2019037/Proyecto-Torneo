@@ -1,0 +1,75 @@
+.spinner-container {
+  position: fixed;
+  top: 0;
+  left: 144px;
+  width: calc(100% - 144px);
+  height: 100%;
+  background: white;
+  z-index: 99999999;
+}
+
+.spinner-container .soccer-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.spinner-container .soccer-spinner svg {
+  height: 140px;
+  display: block;
+  margin: 0 auto;
+}
+
+.spinner-container .soccer-spinner svg path {
+  animation-duration: 1s;
+  animation-name: pulse;
+  animation-iteration-count: infinite;
+  color: #1f6bfc;
+}
+
+.spinner-container .soccer-spinner svg path.path-7 {
+  animation-delay: -1s;
+}
+
+.spinner-container .soccer-spinner svg path.path-6 {
+  animation-delay: -0.875s;
+}
+
+.spinner-container .soccer-spinner svg path.path-5 {
+  animation-delay: -0.75s;
+}
+
+.spinner-container .soccer-spinner svg path.path-4 {
+  animation-delay: -0.625s;
+}
+
+.spinner-container .soccer-spinner svg path.path-3 {
+  animation-delay: -0.5s;
+}
+
+.spinner-container .soccer-spinner svg path.path-2 {
+  animation-delay: -0.375s;
+}
+
+.spinner-container .soccer-spinner svg path.path-1 {
+  animation-delay: -0.25s;
+}
+
+.spinner-container .soccer-spinner svg path.path-0 {
+  animation-delay: -0.125s;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.1;
+  }
+
+  30% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0.1;
+  }
+}
