@@ -12,5 +12,6 @@ api.delete('/deleteLeague/:idLeague', md_authentication.ensureAuth, leagueContro
 api.get('/getLeagueID/:idLeague', md_authentication.ensureAuth, leagueController.getLeagueID)
 api.get('/getLeaguesIdCreator', md_authentication.ensureAuth, leagueController.getLeaguesIdCreator)
 api.put('/addTeam/:idLeague', md_authentication.ensureAuth, leagueController.addTeam)
+api.get('/getTeamsLeague/:idLeague', md_authentication.ensureAuth, leagueController.getTeamLeague)
 
 module.exports = api

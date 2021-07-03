@@ -101,18 +101,35 @@ function addTeam(req,res){
         if(err) return res.status(500).send({ message: 'Error en la petición'})
         if(!leagueFound) return res.status(500).send({ message: 'Error al encontrar la liga'})
 
+        if(leagueFound.teams.length === 10) return res.status(500).send({ message: 'Ya no puedes agregar mas equipos a la liga'})
 
-        League.findByIdAndUpdate(idLeague, {$push: { teams: params.idTeam } }, { new:true, useFindAndModify: false}, (err, addedTeam) => {
+        Team.findByIdAndUpdate(params.idTeam, { idLeague: leagueFound._id }, { new: true, useFindAndModify: false}, (err, editedTeam) => {
             if(err) return res.status(500).send({ message: 'Error en la petición'})
-            if(!addedTeam) return res.status(500).send({ message: 'Error al agregar equipo a la liga'})
-            
-            Team.findByIdAndUpdate(params.idTeam, { idLeague: leagueFound._id }, { new: true, useFindAndModify: false}, (err, editedTeam) => {
+            if(!editedTeam) return res.status(500).send({ message: 'Error al actualizar el team'})
+
+            League.findByIdAndUpdate(idLeague, {$push: { teams: params.idTeam } }, { new:true, useFindAndModify: false}, (err, addedTeam) => {
                 if(err) return res.status(500).send({ message: 'Error en la petición'})
-                if(!editedTeam) return res.status(500).send({ message: 'Error al actualizar el team'})
+                if(!addedTeam) return res.status(500).send({ message: 'Error al agregar equipo a la liga'})
+                
+                
+                return res.status(200).send({ addedTeam })
             })
-            return res.status(200).send({ addTeam })
         })
+
     })
+}
+
+function getTeamLeague(req,res){
+    var idLeague = req.params.idLeague
+
+    if(req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para ver los equipos de esta liga.'})
+
+    League.findById(idLeague).populate('teams', 'name emblem players').exec((err, leagueFound) => {
+        if(err) return res.status(500).send({ message: 'Error en la petición'})
+        if(!leagueFound) return res.status(500).send({ message: 'Error al encontrar la liga'})
+        return res.status(200).send({ leagueFound })
+    })
+
 }
 
 module.exports = {
@@ -121,5 +138,6 @@ module.exports = {
     deleteLeague,
     getLeagueID,
     getLeaguesIdCreator,
-    addTeam
+    addTeam,
+    getTeamLeague
 }
