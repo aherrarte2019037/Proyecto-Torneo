@@ -10,7 +10,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 export class UserService {
   private apiUrl: string = 'http://localhost:3000/api';
   private userLogged = new BehaviorSubject<any>({});
-  private profileImg = new BehaviorSubject<any>('https://brillaaconmigo.files.wordpress.com/2021/04/tropical-grid-tropicalera.gif');
+  private profileImg = new Subject<any>();
 
   constructor( private http: HttpClient ) { }
 
@@ -80,8 +80,9 @@ export class UserService {
     if( !image ) {
       const id = (decode<any>( this.getToken().toString() )).sub;
       const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
+
       this.http.get<any>( `${this.apiUrl}/getUserID/${id}`, { headers } ).subscribe( data => {
-        if( data?.image ) this.profileImg.next(`${this.apiUrl}/uploads/profileImg/${data.image}`)
+        this.profileImg.next(`${this.apiUrl}/uploads/profileImg/${data.image}`)
       })
 
     } else {
@@ -93,4 +94,10 @@ export class UserService {
     return this.profileImg
   }
 
+  deletedProfileImg( id: string ) {
+    const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
+
+    return this.http.delete<any>( `${this.apiUrl}/uploads/profileImg/${id}`, { headers } )
+  }
+  
 }

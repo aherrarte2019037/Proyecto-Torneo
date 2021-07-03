@@ -9,7 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class SidebarComponent implements OnInit {
   user: any;
-  imgUrl: string = 'https://brillaaconmigo.files.wordpress.com/2021/04/tropical-grid-tropicalera.gif';
+  imgUrl: string = '';
 
   constructor( private router: Router, private userService: UserService ) { }
 

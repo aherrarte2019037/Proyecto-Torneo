@@ -19,7 +19,7 @@ export class ProfilePageComponent implements OnInit {
   previewImg: string = '';
   userLogged: any;
   formChanges: any = {};
-  imgUrl: string = 'https://brillaaconmigo.files.wordpress.com/2021/04/tropical-grid-tropicalera.gif';
+  imgUrl: string = '';
 
   constructor( private renderer: Renderer2, private userService: UserService, private loadingBarService: LoadingBarService, private formBuilder: FormBuilder ) { }
 
@@ -113,6 +113,10 @@ export class ProfilePageComponent implements OnInit {
     this.previewImg = '';
     this.fileData.delete('files');
     this.fileTitle = '';
+  }
+
+  deleteProfileImg() {
+    this.userService.deletedProfileImg( this.userLogged._id ).subscribe( data => this.userService.setUserImage() )
   }
   
 }
