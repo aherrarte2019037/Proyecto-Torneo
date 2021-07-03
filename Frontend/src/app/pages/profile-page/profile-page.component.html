@@ -8,7 +8,7 @@
       <div class="pattern-container"></div>
       <div class="overlay-container">
         <img class="profile-img w-[100px] h-[100px]" [src]="imgUrl">
-        <div *ngIf="imgUrl !== 'http://localhost:3000/api/uploads/profileImg/defaultProfile.gif'" (click)="deleteProfileImg()" class="overlay">
+        <div *ngIf="!imgUrl.includes('null')" (click)="deleteProfileImg()" class="overlay">
           <ion-icon name="trash-outline"></ion-icon>
         </div>
       </div>
