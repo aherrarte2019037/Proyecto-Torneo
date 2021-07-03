@@ -13,7 +13,7 @@ import { timer } from 'rxjs';
 })
 export class AlertComponent implements OnInit {
   show: boolean = false;
-  @Input() duration: number = 3500;
+  @Input() duration: number = 3000;
   @Input() infinite: boolean = false;
   @Input() width: string = '90%';
   @Input() maxWidth: string = '400px';

@@ -26,7 +26,8 @@ export class LoginPageComponent implements OnInit {
   buildForm() {
     return this.fmBuilder.group({
       username: ['', [Validators.required]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      remember: [false]
     })
   }
 
@@ -48,9 +49,9 @@ export class LoginPageComponent implements OnInit {
   login() {
     if( this.loginForm.invalid ) return;
 
-    const { username, password } = this.loginForm.value;
+    const { username, password, remember } = this.loginForm.value;
 
-    this.userService.login( username, password ).subscribe(
+    this.userService.login( username, password, remember ).subscribe(
       data => data.token? this.router.navigateByUrl('/dashboard'):null,
       error => {
         this.showModal = true;
