@@ -7,7 +7,10 @@ var LeagueSchema = Schema({
     name: String,
     emblem: String,
     teams:[{
-        type: Schema.Types.ObjectId, ref: 'Teams'
+        name: String,
+        coach: String,
+        emblem: String,
+        idLeague: String
     }],
     idCreator: { type: Schema.Types.ObjectId, ref: 'Users' }
 })
