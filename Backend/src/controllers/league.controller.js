@@ -3,7 +3,6 @@
 const leagueModel = require('../models/league.model')
 
 const League = require('../models/league.model')
-const Team = require('../models/team.model')
 
 function createLeague(req,res){
     var leagueModel = new League();
@@ -101,36 +100,110 @@ function addTeam(req,res){
         if(err) return res.status(500).send({ message: 'Error en la petición'})
         if(!leagueFound) return res.status(500).send({ message: 'Error al encontrar la liga'})
 
+        if(req.user.sub != leagueFound.idCreator) return res.status(500).send({ message: 'No tienes los permisos para agregar equipos a esta liga.'})
+
         if(leagueFound.teams.length === 10) return res.status(500).send({ message: 'Ya no puedes agregar mas equipos a la liga'})
 
-        Team.findByIdAndUpdate(params.idTeam, { idLeague: leagueFound._id }, { new: true, useFindAndModify: false}, (err, editedTeam) => {
+        League.findByIdAndUpdate(idLeague, { $push: { teams: { name: params.name, coach: params.coach, emblem: params.emblem, idLeague: idLeague } } }, { new: true, useFindAndModify: false}, (err, addedTeam) => {
             if(err) return res.status(500).send({ message: 'Error en la petición'})
-            if(!editedTeam) return res.status(500).send({ message: 'Error al actualizar el team'})
+            if(!addedTeam) return res.status(500).send({ message: 'No se ha podido agregar el equipo' })
 
-            League.findByIdAndUpdate(idLeague, {$push: { teams: params.idTeam } }, { new:true, useFindAndModify: false}, (err, addedTeam) => {
-                if(err) return res.status(500).send({ message: 'Error en la petición'})
-                if(!addedTeam) return res.status(500).send({ message: 'Error al agregar equipo a la liga'})
-                
-                
-                return res.status(200).send({ addedTeam })
-            })
-        })
+            return res.status(200).send({ addedTeam })
+        } )
 
     })
 }
 
-function getTeamLeague(req,res){
+function getTeamsLeague(req,res){
     var idLeague = req.params.idLeague
 
     if(req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para ver los equipos de esta liga.'})
 
-    League.findById(idLeague).populate('teams', 'name emblem players').exec((err, leagueFound) => {
-        if(err) return res.status(500).send({ message: 'Error en la petición'})
+    League.findById(idLeague, (err, leagueFound) => {
+        if(err) return res.status(500).send({ message: 'Error en la petición' })
         if(!leagueFound) return res.status(500).send({ message: 'Error al encontrar la liga'})
-        return res.status(200).send({ leagueFound })
+        
+        return res.status(200).send({ TeamsFound: leagueFound.teams })
     })
 
 }
+
+function editTeam(req,res){
+    var idLeague = req.params.idLeague
+    var idTeam = req.params.idTeam
+    var params = req.body
+
+    if(req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para editar los equipos de esta liga.'})
+
+    League.findById(idLeague, (err, leagueFound) => {
+        if(err) return res.status(500).send({ message: 'Erron en la petición'})
+        if(!leagueFound) return res.status(500).send({ message: 'Error al encontrar la liga'})
+
+        if(req.user.sub != leagueFound.idCreator) return res.status(500).send({ message: 'No tienes los permisos para eliminar un equipo de esta liga.'})
+
+        League.findOneAndUpdate({ _id: idLeague, "teams._id": idTeam }, {"teams.$.name": params.name, "teams.$.coach": params.coach}, {new: true, useFindAndModify: false}, (err, editedTeam) =>{
+            if(err) return res.status(500).send({ message: 'Error en la petición'})
+            if(!editedTeam) return res.status(500).send({ message: 'Error al editar el equipo.'})
+            return res.status(200).send({ editedTeam })
+        })
+    })
+
+}
+
+function deleteTeam(req,res){
+    var idLeague = req.params.idLeague
+    var idTeam = req.params.idTeam
+
+    if(req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para eliminar un equipo de esta liga.'})
+
+    League.findById(idLeague, (err, leagueFound) => {
+        if(err) return res.status(500).send({ message: 'Erron en la petición'})
+        if(!leagueFound) return res.status(500).send({ message: 'Error al encontrar la liga'})
+
+        if(req.user.sub != leagueFound.idCreator) return res.status(500).send({ message: 'No tienes los permisos para eliminar un equipo de esta liga.'})
+
+        League.findOneAndUpdate({'teams._id': idTeam}, { $pull: { teams: { _id: idTeam } } }, { new: true, useFindAndModify: false}, (err, deletedTeam) =>{
+            if(err) return res.status(500).send({ message: 'Erron en la petición'})
+            if(!deletedTeam) return res.status(500).send({ message: 'Error al eliminar el equipo'})
+            return res.status(200).send({ deletedTeam })
+        })
+    })
+
+}
+
+function getTeamID(req,res){
+    var idLeague = req.params.idLeague
+    var idTeam = req.params.idTeam
+
+    League.findOne({ _id: idLeague, "teams._id": idTeam }, {"teams.$":1}, (err, teamFound) => {
+        if(err) return res.status(500).send({ message: 'Erron en la petición'})
+        if(!teamFound) return res.status(500).send({ message: 'Error al encontrar el equipo'})
+
+        return res.status(200).send({ teamFound })
+    })
+}
+
+/*function addPlayerToTeam(req,res){
+    var idLeague = req.params.idLeague
+    var idTeam = req.params.idTeam
+    var params = req.body
+
+    if(req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para eliminar un equipo de esta liga.'})
+
+    League.findById(idLeague, (err, leagueFound) => {
+        if(err) return res.status(500).send({ message: 'Erron en la petición'})
+        if(!leagueFound) return res.status(500).send({ message: 'Error al encontrar la liga'})
+
+        if(req.user.sub != leagueFound.idCreator) return res.status(500).send({ message: 'No tienes los permisos para eliminar un equipo de esta liga.'})
+
+        League.findOneAndUpdate({idLeague, "teams._id": idTeam}, {$push: { teams: { players: { name: params.name, lastname: params.lastname, number: params.number } } } }, { new: true, useFindAndModify: false}, (err, addedPlayer) =>{
+            if(err) return res.status(err).send({ message: 'Error en la petición'})
+            if(!addedPlayer) return res.status(500).send({ message: 'Error al agregar el jugador' })
+            return res.status(200).send({ addedPlayer })
+        })
+    })
+
+}*/
 
 module.exports = {
     createLeague,
@@ -139,5 +212,8 @@ module.exports = {
     getLeagueID,
     getLeaguesIdCreator,
     addTeam,
-    getTeamLeague
+    getTeamsLeague,
+    deleteTeam,
+    editTeam,
+    getTeamID
 }
