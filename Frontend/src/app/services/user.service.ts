@@ -85,7 +85,7 @@ export class UserService {
       })
 
     } else {
-      this.profileImg.next(`${this.apiUrl}/uploads/profileImg/${image}?q=${Math.random}`)
+      this.profileImg.next(`${this.apiUrl}/uploads/profileImg/${image}?q=${Math.random()}`)
     }
   }
 
