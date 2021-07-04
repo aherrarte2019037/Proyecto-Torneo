@@ -12,6 +12,10 @@ api.delete('/deleteLeague/:idLeague', md_authentication.ensureAuth, leagueContro
 api.get('/getLeagueID/:idLeague', md_authentication.ensureAuth, leagueController.getLeagueID)
 api.get('/getLeaguesIdCreator', md_authentication.ensureAuth, leagueController.getLeaguesIdCreator)
 api.put('/addTeam/:idLeague', md_authentication.ensureAuth, leagueController.addTeam)
-api.get('/getTeamsLeague/:idLeague', md_authentication.ensureAuth, leagueController.getTeamLeague)
+api.get('/getTeamsLeague/:idLeague', md_authentication.ensureAuth, leagueController.getTeamsLeague)
+api.put('/deleteTeamOfLeague/:idLeague/:idTeam', md_authentication.ensureAuth, leagueController.deleteTeam)
+api.put('/editTeam/:idLeague/:idTeam', md_authentication.ensureAuth, leagueController.editTeam)
+api.get('/getTeamID/:idLeague/:idTeam', md_authentication.ensureAuth, leagueController.getTeamID)
+//api.put('/addPlayerToTeam/:idLeague/:idTeam', md_authentication.ensureAuth, leagueController.addPlayerToTeam)
 
 module.exports = api
