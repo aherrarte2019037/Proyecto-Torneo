@@ -136,7 +136,7 @@ function editTeam(req,res){
     if(req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para editar los equipos de esta liga.'})
 
     League.findById(idLeague, (err, leagueFound) => {
-        if(err) return res.status(500).send({ message: 'Erron en la petición'})
+        if(err) return res.status(500).send({ message: 'Error en la petición'})
         if(!leagueFound) return res.status(500).send({ message: 'Error al encontrar la liga'})
 
         if(req.user.sub != leagueFound.idCreator) return res.status(500).send({ message: 'No tienes los permisos para eliminar un equipo de esta liga.'})
@@ -157,13 +157,13 @@ function deleteTeam(req,res){
     if(req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para eliminar un equipo de esta liga.'})
 
     League.findById(idLeague, (err, leagueFound) => {
-        if(err) return res.status(500).send({ message: 'Erron en la petición'})
+        if(err) return res.status(500).send({ message: 'Error en la petición'})
         if(!leagueFound) return res.status(500).send({ message: 'Error al encontrar la liga'})
 
         if(req.user.sub != leagueFound.idCreator) return res.status(500).send({ message: 'No tienes los permisos para eliminar un equipo de esta liga.'})
 
         League.findOneAndUpdate({'teams._id': idTeam}, { $pull: { teams: { _id: idTeam } } }, { new: true, useFindAndModify: false}, (err, deletedTeam) =>{
-            if(err) return res.status(500).send({ message: 'Erron en la petición'})
+            if(err) return res.status(500).send({ message: 'Error en la petición'})
             if(!deletedTeam) return res.status(500).send({ message: 'Error al eliminar el equipo'})
             return res.status(200).send({ deletedTeam })
         })
@@ -176,7 +176,7 @@ function getTeamID(req,res){
     var idTeam = req.params.idTeam
 
     League.findOne({ _id: idLeague, "teams._id": idTeam }, {"teams.$":1}, (err, teamFound) => {
-        if(err) return res.status(500).send({ message: 'Erron en la petición'})
+        if(err) return res.status(500).send({ message: 'Error en la petición'})
         if(!teamFound) return res.status(500).send({ message: 'Error al encontrar el equipo'})
 
         return res.status(200).send({ teamFound })
