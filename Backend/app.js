@@ -9,7 +9,7 @@ const userController = require('./src/controllers/user.controller')
 
 const user_routes = require('./src/routes/user.routes')
 const league_routes = require('./src/routes/league.routes')
-const team_routes = require('./src/routes/team.routes')
+const matchDay_routes = require('./src/routes/match-day.routes');
 
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
@@ -24,7 +24,7 @@ app.use(cors())
 
 app.use('/api', user_routes)
 app.use('/api', league_routes)
-app.use('/api', team_routes)
+app.use('/api', matchDay_routes)
 
 userController.createAdmin()
 
