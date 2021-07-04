@@ -2,7 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
 import decode from "jwt-decode";
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { User } from '../model/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,14 +29,14 @@ export class UserService {
     if( token ) {
       if( !remember ) sessionStorage.setItem( 'token', token );
       if( remember ) localStorage.setItem( 'token', token );
-    } 
+    }
   }
 
   isLogged() {
     let logged;
     logged = localStorage.getItem('token') || false;
     if( !logged ) logged = sessionStorage.getItem('token') || false;
-    return logged? true:false; 
+    return logged? true:false;
   }
 
   getToken() {
@@ -99,5 +100,14 @@ export class UserService {
 
     return this.http.delete<any>( `${this.apiUrl}/uploads/profileImg/${id}`, { headers } )
   }
-  
+
+  register(user: User): Observable<any>{
+
+    let params = JSON.stringify(user);
+    let headers = new HttpHeaders().set('Content-Type','application/json')
+
+    return this.http.post(this.apiUrl+'/registerUser',params,{ headers});
+
+  }
+
 }
