@@ -14,20 +14,23 @@ function createMatchDay(req, res) {//Crea la jornada
         
         var quantity = foundLeague.teams.length;
         var x = 1;
-        
+        var matchDayArray = [MatchDay()];
+
         for (let i = 0; i < quantity-1; i++) {
-            modelMatchDay[i].number = x;
-            modelMatchDay[i].leagueId = LeagueId;
-            modelMatchDay[i].match = [];
-            modelMatchDay[i].date = "";
-            modelMatchDay[i].save((err, saveMatchDay)=>{
-                if(err) return res.status(500).send({ message: 'Error en la petición' });
-                if(!saveMatchDay) return res.status(500).send({message: `Error al guardar la Jornada: ${x}`});
-            })
+            modelMatchDay.number = x;
+            modelMatchDay.leagueId = LeagueId;
+            modelMatchDay.match = [];
+            modelMatchDay.date = null;
+            matchDayArray += modelMatchDay;
             x++;
         }
+        console.log(matchDayArray);
+        MatchDay.insertMany(matchDayArray,(err, saveMatchDay)=>{
+            if(err) return res.status(500).send({ message: 'Error en la petición', err });
+            if(!saveMatchDay) return res.status(500).send({message: `Error al guardar la Jornada: ${x}`});
+            return res.status(200).send({message: 'Se crearon las Jornadas.'});
+        })
         console.log(quantity, x);
-        return res.status(200).send({message: 'Se crearon las Jornadas.'});
     })
 
 }

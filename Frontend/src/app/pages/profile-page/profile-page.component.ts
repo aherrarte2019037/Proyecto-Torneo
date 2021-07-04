@@ -21,7 +21,7 @@ export class ProfilePageComponent implements OnInit {
   formChanges: any = {};
   imgUrl: string = '';
 
-  constructor( private renderer: Renderer2, private userService: UserService, private loadingBarService: LoadingBarService, private formBuilder: FormBuilder ) { }
+  constructor( private renderer: Renderer2, public userService: UserService, private loadingBarService: LoadingBarService, private formBuilder: FormBuilder ) { }
 
   ngOnInit(){
     this.userService.getUser().subscribe( data => { this.userLogged = data; this.setFormValues() });

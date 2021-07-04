@@ -18,6 +18,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { SoccerSpinerComponent } from './components/soccer-spinner/soccer-spinner.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { HttpClientModule } from '@angular/common/http';
+import { UserPageComponent } from './pages/user-page/user-page.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
     ProfilePageComponent,
     SoccerSpinerComponent,
     AlertComponent,
+    UserPageComponent
   ],
   imports: [
     BrowserModule,

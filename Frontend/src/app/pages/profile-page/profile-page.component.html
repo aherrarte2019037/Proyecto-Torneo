@@ -1,13 +1,13 @@
 <soccer-spinner></soccer-spinner>
 
-<div class="main-container bg-red-500 gap-x-5 h-screen justify-center flex p-8">
+<div class="main-container gap-x-5 h-screen justify-center flex p-8">
   <div class="flex left-container flex-col gap-y-5 w-3/4 max-w-4xl">
 
     <div class="profile-container bg-white h-[600px]">
 
       <div class="pattern-container"></div>
       <div class="overlay-container">
-        <img class="profile-img w-[100px] h-[100px]" [src]="imgUrl">
+        <img class="profile-img w-[100px] h-[100px]" [src]="userService.getUserImage() | async">
         <div *ngIf="!imgUrl.includes('null')" (click)="deleteProfileImg()" class="overlay">
           <ion-icon name="trash-outline"></ion-icon>
         </div>

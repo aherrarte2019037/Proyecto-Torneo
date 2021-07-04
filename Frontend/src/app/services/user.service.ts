@@ -10,7 +10,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 export class UserService {
   private apiUrl: string = 'http://localhost:3000/api';
   private userLogged = new BehaviorSubject<any>({});
-  private profileImg = new Subject<any>();
+  private profileImg = new BehaviorSubject<any>(`${this.apiUrl}/uploads/profileImg/defaultProfile.gif`);
 
   constructor( private http: HttpClient ) { }
 
