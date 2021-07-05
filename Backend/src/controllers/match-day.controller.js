@@ -235,10 +235,6 @@ function getResults(req, res) {
     
 }
 
-function createPDF(req,res){
-
-}
-
 module.exports = {
     createMatchDay,
     changeDate,
