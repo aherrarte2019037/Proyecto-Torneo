@@ -207,10 +207,6 @@ function getTeamID(req,res){
 
 }*/
 
-
-
-
-
 module.exports = {
     createLeague,
     editLeague,

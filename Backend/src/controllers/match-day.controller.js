@@ -1,6 +1,7 @@
 'use strict'
 const MatchDay = require('../models/match-day.model');
 const League = require('../models/league.model');
+const pdf = require("html-pdf")
 
 function createMatchDay(req, res) {//Crea la jornada
     var LeagueId = req.params.LeagueId;
@@ -234,10 +235,13 @@ function getResults(req, res) {
     
 }
 
+function createPDF(req,res){
+
+}
+
 module.exports = {
     createMatchDay,
     changeDate,
     assignTeams,
-
     getResults
 }
