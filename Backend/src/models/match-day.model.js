@@ -11,7 +11,7 @@ var MatchDaySchema = Schema({
         teamIdTwo   : {type: Schema.Types.ObjectId, ref: 'Leagues.teams._id'},
         goalsTeamTwo: {type: Number, required: true},
         hour        : {type: Date, required: true},
-        winner      : {type: Schema.Types.ObjectId, ref: 'Leagues.teams._id'}
+        winner      : {type: String, required: true}
     }],
     date    :{type: Date, required: true}
 })
