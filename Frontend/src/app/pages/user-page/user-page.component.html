@@ -1,0 +1,231 @@
+<soccer-spinner></soccer-spinner>
+
+<div class="main-container gap-x-5 h-screen justify-center flex p-8">
+  <div class="flex left-container flex-col gap-y-5 w-3/4 max-w-4xl">
+
+    <div class="stats-wrapper">
+      <div class="stats">
+        <ion-icon
+          class="text-gray-400 cursor-pointer transition duration-300 hover:text-gray-700 text-md absolute right-2 top-3"
+          name="ellipsis-vertical"></ion-icon>
+        <ion-icon class="text-3xl absolute left-4 top-3.5 p-1.5 rounded-lg text-purple-400" name="people"></ion-icon>
+        <h1 class="mt-[50px] ml-5 text-gray-700 text-sm font-medium">
+          Usuarios
+          <br>
+          <span class="text-2xl text-gray-700 -mt-0.5 absolute font-semibold">85</span>
+          <div class="progress-bar mt-8 bg-purple-300">
+            <div class="bg-purple-400 w-3/5"></div>
+          </div>
+        </h1>
+      </div>
+
+      <div class="stats">
+        <ion-icon
+          class="text-gray-400 cursor-pointer transition duration-300 hover:text-gray-700 text-md absolute right-2 top-3"
+          name="ellipsis-vertical"></ion-icon>
+        <ion-icon class="text-3xl absolute left-4 top-3.5 p-1.5 rounded-lg text-green-400" name="key"></ion-icon>
+        <h1 class="mt-[50px] ml-5 text-gray-700 text-sm font-medium">
+          Administradores
+          <br>
+          <span class="text-2xl text-gray-700 -mt-0.5 absolute font-semibold">2</span>
+          <div class="progress-bar mt-8 bg-green-300">
+            <div class="bg-green-400 w-1/4"></div>
+          </div>
+        </h1>
+      </div>
+
+      <div class="stats">
+        <ion-icon
+          class="text-gray-400 cursor-pointer transition duration-300 hover:text-gray-700 text-md absolute right-2 top-3"
+          name="ellipsis-vertical"></ion-icon>
+        <ion-icon class="text-3xl absolute left-4 top-3.5 p-1.5 rounded-lg text-blue-400" name="cloud-done"></ion-icon>
+        <h1 class="mt-[50px] ml-5 text-gray-700 text-sm font-medium">
+          Activos
+          <br>
+          <span class="text-2xl text-gray-700 -mt-0.5 absolute font-semibold">19</span>
+          <div class="progress-bar mt-8 bg-blue-300">
+            <div class="bg-blue-400 w-1/2"></div>
+          </div>
+        </h1>
+      </div>
+    </div>
+
+    <div
+      class="bg-white flex flex-col overflow-y-hidden justify-center items-center h-full text-sm rounded-xl relative">
+
+      <h1 class="absolute text-gray-700 text-lg left-9 top-[72px]">Usuarios</h1>
+
+      <svg class="absolute right-8 top-8 cursor-pointer" width="18" height="4" viewBox="0 0 14 4" fill="none">
+        <g opacity="0.4">
+          <circle cx="2.19796" cy="1.80139" r="1.38611" fill="#222222" />
+          <circle cx="11.9013" cy="1.80115" r="1.38611" fill="#222222" />
+          <circle cx="7.04991" cy="1.80115" r="1.38611" fill="#222222" />
+        </g>
+      </svg>
+
+      <div class="absolute top-16 right-8">
+        <div class="w-full sm:w-64 inline-block relative ">
+          <input type="text"
+            class="leading-snug placeholder-gray-500 block w-full appearance-none bg-gray-100 text-gray-600 py-2.5 px-4 pl-10 rounded-lg"
+            placeholder="Buscar" />
+          <div class="pointer-events-none absolute pl-4 inset-y-0 left-0 flex items-center px-2 text-gray-300">
+            <svg class="h-4 w-4" fill="#7e7e7e" viewBox="0 0 511.999 511.999">
+              <path
+                d="M508.874 478.708L360.142 329.976c28.21-34.827 45.191-79.103 45.191-127.309C405.333 90.917 314.416 0 202.666 0S0 90.917 0 202.667s90.917 202.667 202.667 202.667c48.206 0 92.482-16.982 127.309-45.191l148.732 148.732c4.167 4.165 10.919 4.165 15.086 0l15.081-15.082c4.165-4.166 4.165-10.92-.001-15.085zM202.667 362.667c-88.229 0-160-71.771-160-160s71.771-160 160-160 160 71.771 160 160-71.771 160-160 160z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div data-simplebar class="mt-12 h-[65%] bg-gray-100 overflow-y-auto scroll-container mx-auto rounded-xl w-[90%]">
+        <div class="h-full bg-gray-100">
+          <div class="flex bg-gray-100 items-center justify-center flex-wrap p-6 gap-y-5">
+
+            <!-- USUARIOS CON NGFOR -->
+            <div class="rounded-xl shadow-md py-4 pr-8 h-28 pl-14 xl:w-[48%] w-full bg-white">
+              <div class="flex relative items-center justify-between">
+  
+                <div class="flex items-center -left-9 top-8 absolute">
+                  <div class="bg-white rounded-full w-[17px] h-[17px] flex flex-shrink-0 justify-center items-center relative">
+                    <input (click)="selectUser('fdfd')" type="radio" name="radio" class="checkbox opacity-100 appearance-none border-2 rounded-full border-gray-400 absolute cursor-pointer w-full h-full checked:border-none" />
+                    <div class="check-icon hidden border-4 border-blue-500 rounded-full w-full h-full z-1"></div>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <div class="w-2 h-2 rounded-full bg-purple-400"></div>
+                  <span class="focus:outline-none text-purple-400 text-xs font-normal pl-1">Id
+                    507f1f77bcf86cd799439011</span>
+                </div>
+  
+                <!-- URL DE PERFIL -->
+                <img class="w-14 h-14 absolute right-0 top-2.5 rounded-full" src="http://localhost:3000/api/uploads/profileImg/null">
+  
+              </div>
+              <p class="text-gray-600 text-sm leading-none pt-1">AngelAHL30</p>
+              <p class="focus:outline-none text-xs italic pt-1 leading-3 text-gray-400">angelherrarte3@gmail.com</p>
+              <div class="flex items-center justify-left">
+                <div class="focus:outline-none text-green-700 bg-green-100 py-1 px-2 rounded text-xs leading-3 mt-2">
+                  Activo</div>
+              </div>
+            </div>
+
+            <div class="rounded-xl shadow-md py-4 pr-8 h-28 pl-14 xl:w-[48%] w-full bg-white">
+              <div class="flex relative items-center justify-between">
+  
+                <div class="flex items-center -left-9 top-8 absolute">
+                  <div class="bg-white rounded-full w-[17px] h-[17px] flex flex-shrink-0 justify-center items-center relative">
+                    <input (click)="selectUser('fdfd')" type="radio" name="radio" class="checkbox opacity-100 appearance-none border-2 rounded-full border-gray-400 absolute cursor-pointer w-full h-full checked:border-none" />
+                    <div class="check-icon hidden border-4 border-blue-500 rounded-full w-full h-full z-1"></div>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <div class="w-2 h-2 rounded-full bg-purple-400"></div>
+                  <span class="focus:outline-none text-purple-400 text-xs font-normal pl-1">Id
+                    507f1f77bcf86cd799439011</span>
+                </div>
+  
+                <!-- URL DE PERFIL -->
+                <img class="w-14 h-14 absolute right-0 top-2.5 rounded-full" src="http://localhost:3000/api/uploads/profileImg/null">
+  
+              </div>
+              <p class="text-gray-600 text-sm leading-none pt-1">AngelAHL30</p>
+              <p class="focus:outline-none text-xs italic pt-1 leading-3 text-gray-400">angelherrarte3@gmail.com</p>
+              <div class="flex items-center justify-left">
+                <div class="focus:outline-none text-green-700 bg-green-100 py-1 px-2 rounded text-xs leading-3 mt-2">
+                  Activo</div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="absolute bottom-10 -ml-4 mx-auto w-full">
+        <div class="w-full flex justify-center border-gray-100 items-center">
+
+          <svg class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M9 12C9 12.2652 9.10536 12.5196 9.29289 12.7071L13.2929 16.7072C13.6834 17.0977 14.3166 17.0977 14.7071 16.7072C15.0977 16.3167 15.0977 15.6835 14.7071 15.293L11.4142 12L14.7071 8.70712C15.0977 8.31659 15.0977 7.68343 14.7071 7.29289C14.3166 6.90237 13.6834 6.90237 13.2929 7.29289L9.29289 11.2929C9.10536 11.4804 9 11.7348 9 12Z"
+              fill="#4d4d4d" />
+          </svg>
+
+          <p class="leading-relaxed cursor-pointer mx-2 text-gray-700 hover:text-blue-600 text-sm">1</p>
+          <p class="leading-relaxed cursor-pointer mx-2 text-gray-500 text-sm hover:text-blue-600">2</p>
+          <p class="leading-relaxed cursor-pointer mx-2 text-gray-500 text-sm hover:text-blue-600">3</p>
+          <svg class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M15 12C15 11.7348 14.8946 11.4804 14.7071 11.2929L10.7071 7.2929C10.3166 6.9024 9.6834 6.9024 9.2929 7.2929C8.9024 7.6834 8.9024 8.3166 9.2929 8.7071L12.5858 12L9.2929 15.2929C8.9024 15.6834 8.9024 16.3166 9.2929 16.7071C9.6834 17.0976 10.3166 17.0976 10.7071 16.7071L14.7071 12.7071C14.8946 12.5196 15 12.2652 15 12Z"
+              fill="#4d4d4d" />
+          </svg>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="flex flex-col gap-y-8 w-full max-w-[210px]">
+    <div class="flex right-container items-center justify-center h-52 p-5 px-6 bg-white rounded-xl flex-col gap-y-4 ">
+
+      <div class="w-full h-11 rounded-xl gap-x-1.5 flex justify-evenly items-center text-white py-3 shadow-md">
+        <ion-icon class="text-2xl -ml-1" name="add-circle"></ion-icon>
+        <h1 class="text-[14px] text-white text-center">Añadir</h1>
+      </div>
+
+      <div (click)="showDeleteModal = true" class="w-full h-11 bg-red-500 rounded-xl gap-x-1.5 flex justify-evenly items-center text-white py-3 shadow-md">
+        <ion-icon class="text-[23px]" name="trash"></ion-icon>
+        <h1 class="text-[14px] text-white text-center">Eliminar</h1>
+      </div>
+
+      <div
+        class="w-full h-11 bg-green-500 rounded-xl gap-x-1.5 flex justify-evenly items-center text-white py-3 shadow-md">
+        <ion-icon class="text-[23px] -ml-1 -mt-0.5" name="create"></ion-icon>
+        <h1 class="text-[14px] text-white text-center">Editar</h1>
+      </div>
+
+    </div>
+
+    <!-- USUARIO SELECCIONADO -->
+    <div *ngIf="userSelected" [@fadeInUpOnEnter] [@fadeOutDownOnLeave] class="user-detail-container h-[246px] bg-white shadow-sm rounded-2xl">
+      <div class="w-full h-full rounded-2xl max-w-sm p-4 mx-autorounded-xl shadow-sm">
+        <div class="flex items-center justify-end">
+          <span class="px-3 py-1 text-xs text-indigo-800 uppercase bg-indigo-200 rounded-full">Activo</span>
+        </div>
+
+        <div class="text-center">
+          <!-- URL DE PERFIL -->
+          <img class="w-16 mt-4 rounded-full h-16 mx-auto" src="http://localhost:3000/api/uploads/profileImg/null">
+          <h1 class="mt-1 text-lg font-medium text-gray-800">AngelAHL30</h1>
+          <p class="mt-2 text-xs font-medium text-gray-500">Angel Herrarte</p>
+          <p class="mt-0 text-xs font-medium text-gray-700">angelherrarte3@gmail.com</p>
+        </div>
+
+        <p
+          class="px-1 w-full mx-auto mt-3 py-1 text-xs text-center text-indigo-800 uppercase bg-indigo-200 rounded-full">
+          ID 123fvbg5ads2</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showDeleteModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <div class="flex px-5 gap-x-1 items-center justify-center">
+        <img src="../../../assets/failedModal.svg" class="w-40 -ml-10">
+        <div>
+          <h1 class="font-medium text-2xl text-red-400">Eliminar Usuario</h1>
+          <h2  class="text-gray-600 text-sm">¿Estas Seguro?</h2>
+        </div>
+      </div>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button class="btn-modal-close !font-medium mr-1.5">Eliminar</button>
+        <label (click)="showDeleteModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>

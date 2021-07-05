@@ -1,0 +1,91 @@
+<div class="absolute z-50 flex w-full items-center py-5 bg-pattern bg-gray-800 md:bg-transparent justify-between">
+  <img src="../../../assets/logo.png" width="160px" class="rounded-full -mt-1 ml-8 logo-icon shadow-2xl">
+
+  <span class="register-span mr-8">
+    No tienes cuenta? &nbsp;<button class="wobble" routerLink="/register" [state]="{ ignoreLoadingBar: true }">Crear Cuenta</button>
+  </span>
+</div>
+
+<div class="main-container fade-in-left">
+
+  <div class="login-container">
+    <div class="login-wrapper">
+
+      <form class="form" [formGroup]="loginForm" (ngSubmit)="login()">
+        <div>
+          <span class="form-title pb-8 text-center xl:text-left">Iniciar Sesión</span>
+
+        <div class="input-wrap">
+          <input inputClass formControlName="username" class="input-field" type="text">
+          <span class="focus-input"></span>
+          <span class="label-input">Usuario</span>
+          <span *ngIf="getFormError('username')" [@fadeInDownOnEnter] [@fadeOutOnLeave] class="absolute w-full text-right top-[50px] text-xs text-red-400">{{ getFormError('username') }}</span>
+        </div>
+
+        <div class="input-wrap">
+          <input inputClass formControlName="password" class="input-field" type="password">
+          <span class="focus-input"></span>
+          <span class="label-input">Contraseña</span>
+          <span *ngIf="getFormError('password')" [@fadeInDownOnEnter] [@fadeOutOnLeave] class="absolute w-full text-right top-[50px] text-xs text-red-400">{{ getFormError('password') }}</span>
+        </div>
+
+        <div class="-mt-1 align-middle items-center flex justify-between">
+          <input formControlName="remember" class="input-checkbox hidden" id="cbx" type="checkbox"/>
+          <label class="checkbox-label" for="cbx">
+            <span>
+              <svg width="12px" height="9px" viewbox="0 0 12 9">
+                <polyline points="1 5 4 8 11 1"></polyline>
+              </svg>
+            </span>
+            
+            <span>Recordarme</span>
+          </label>
+
+          <span class="text-gray-500 span-forget mt-1 hover:text-indigo-500 hover:underline cursor-pointer">¿Olvidaste tu contraseña?</span>
+        </div>
+        
+        <div class="btn-login">
+          <button type="submit" class="form-btn">Iniciar Sesión</button>
+        </div>
+
+        <div class="text-center pt-7 pb-7 flex items-center">
+          <hr class="w-full">
+          <span class="login-span px-2">Ingresa con</span>
+          <hr class="w-full">
+
+        </div>
+
+        <div class="flex gap-y-5 flex-col justify-center text-sm">
+          <button class="btn-login-alternative"><img src="../../../assets/iconGoogle.svg"> Continuar con Google</button>
+          <button class="btn-login-alternative"><img class="fix" src="../../../assets/iconFacebook.svg"> Continuar con Facebook</button>
+        </div>
+        </div>
+      </form>
+
+      <div class="background-img">
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-black !left-0">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <div class="flex px-5 gap-x-1 items-center justify-center">
+        <img src="../../../assets/failedModal.svg" class="w-40 -ml-10">
+        <div>
+          <h1 class="font-medium text-2xl text-red-400">Ingreso Fallido</h1>
+          <h2  class="text-gray-600 text-sm">{{ modalMessage }}</h2>
+        </div>
+      </div>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button (click)="goToRegister()" class="btn-modal-close !font-medium mr-1.5">Crear Cuenta</button>
+        <label (click)="showModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="sidebar h-screen w-36 flex flex-col justify-start items-center py-10">
+    <div class="-ml-2">
+        <img src="../../../assets/logoSidebar.png" width="80px">
+    </div>
+
+    <div class="mt-2 -ml-2">
+        <img src="../../../assets/logoLetters.png" width="80px">
+    </div>
+
+    <div class="nav-container flex flex-col h-full gap-y-3.5 justify-center text-2xl">
+        <a routerLink="/dashboard/home" routerLinkActive="nav-active" class="nav-home"><ion-icon name="home"></ion-icon></a>
+        <a><ion-icon name="football"></ion-icon></a>
+        <a routerLink="/dashboard/profile" routerLinkActive="nav-active"> <ion-icon name="person-circle-outline"></ion-icon> </a>
+        <a *ngIf="user?.rol ===  'ROL_ADMIN'" routerLink="/dashboard/user" routerLinkActive="nav-active"><ion-icon name="people-circle-outline"></ion-icon></a>
+        <a><ion-icon name="color-filter-outline"></ion-icon></a>
+    </div>
+
+    <div data-theme="light" class="avatar online dropdown dropdown-top cursor-pointer">
+        <div class="rounded-full w-14 h-14" tabindex="0">
+            <ul class="shadow menu dropdown-content bg-red-500 text-white text-sm !bottom-[120%] rounded-box w-[138px]">
+                <li>
+                  <a class="active:!bg-red-600" (click)="logOut()">Cerrar Sesión</a>
+                </li> 
+              </ul>
+             <img [src]="imgUrl">
+        </div>
+    </div>
+
+    <h1 class="user-span !tracking-wider">{{ user?.username | titlecase }}</h1>
+</div>
