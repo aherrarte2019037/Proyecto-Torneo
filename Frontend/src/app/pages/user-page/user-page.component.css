@@ -6,4 +6,81 @@
     .right-container {
         display: none;
     }
+
+    .user-detail-container {
+        display: none;
+    }
+}
+
+.stats-wrapper {
+    background: linear-gradient(to right, #be9ff8, #4ad8ab);
+    @apply h-[200px] rounded-xl p-5 gap-x-5 flex justify-between items-center;
+}
+
+.stats {
+    backdrop-filter: blur(16px);
+    background-color: rgba(255, 255, 255, 0.6);
+    @apply h-full max-w-[200px] w-full rounded-xl relative;
+}
+
+.progress-bar {
+    border-radius: 0px;
+    padding: 0px;
+    margin-right: 23px;
+    border-radius: 40px;
+}
+  
+.progress-bar > div {
+    height: 5px;
+    border-radius: 0px;
+    border-radius: 40px;
+    margin-left: -1px;
+}
+
+.right-container > div {
+    @apply cursor-pointer transform transition duration-200 hover:scale-105;
+}
+
+.right-container div:nth-child(1) {
+    background-color: rgb(80, 146, 255);
+}
+
+.right-container div:nth-child(2) {
+    background-color: rgb(255, 87, 87);
+}
+
+.right-container div:nth-child(3) {
+    background-color: rgb(45, 208, 154);
+}
+
+thead tr th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+  thead tr th:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+  tbody tr td:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 0px;
+}
+
+tbody tr td:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 0px;
+}
+
+.checkbox:checked {
+    border: none;
+}
+
+.checkbox:checked + .check-icon {
+    display: flex;
+}
+
+.btn-modal-close {
+    @apply px-4 py-2 text-sm bg-white rounded-xl border-2 transition-colors duration-150 ease-linear border-gray-200 text-gray-500 focus:ring-0 font-medium hover:bg-gray-100 cursor-pointer;
 }
