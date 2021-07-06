@@ -14,7 +14,9 @@ export class UserPageComponent implements OnInit {
   userSelected: any = null;
   showDeleteModal: boolean = false;
   showEditModal: boolean = false;
+  showCreateModal: boolean = false;
   editForm: FormGroup = this.buildEditForm();
+  createForm: FormGroup = this.buildCreateForm();
   formEditChanges: any = {};
 
   constructor(private _userService: UserService, private fmBuilder: FormBuilder) {
@@ -70,6 +72,15 @@ export class UserPageComponent implements OnInit {
   }
 
   buildEditForm() {
+    return this.fmBuilder.group({
+      username: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      name: ['', [Validators.required]],
+      lastname: ['', [Validators.required]],
+    })
+  }
+
+  buildCreateForm(){
     return this.fmBuilder.group({
       username: ['', [Validators.required]],
       email: ['', [Validators.required]],

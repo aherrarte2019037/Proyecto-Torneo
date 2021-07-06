@@ -124,4 +124,12 @@ export class UserService {
 
   }
 
+  createUser(user: User): Observable<any> {
+
+    const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
+
+    return this.http.delete(`${this.apiUrl}/deleteUser/`,{ headers })
+
+  }
+
 }
