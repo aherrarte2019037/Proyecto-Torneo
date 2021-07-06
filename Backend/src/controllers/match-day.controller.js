@@ -313,10 +313,10 @@ function createPDF(req, res) {
             }
         }
         </style>    
-            <h1>Listado de Empleados</h1><br>
-            <p>Empresa: <strong>${leagueFound.name}</strong></p>
-            <p>Teléfono: <strong>${leagueFound.idCreator.name} ${leagueFound.idCreator.lastname}</strong><br></p>
-            <img style="border-radius: 5px;"  width="500"  src="${leagueFound.emblem}">
+            <h1>Resultados de la liga</h1><br>
+            <p>Nombre: <strong>${leagueFound.name}</strong></p>
+            <p>Dueño: <strong>${leagueFound.idCreator.name} ${leagueFound.idCreator.lastname}</strong><br></p>
+            <img style="border-radius: 5px;"  width="250"  src="${leagueFound.emblem}">
             <table>
                 <tr style="background-color: #FF5733;">
                     <th>Emblema</th>
@@ -439,7 +439,7 @@ function createPDF(req, res) {
             for (var i = 0; i < resultsArray.length; i++) {
                 arrayG[i] = `
                     <tr>
-                        <td><img style="border-radius: 5px;"  width="500"  src="${resultsArray[i].emblem}"></td>
+                        <td><img style="border-radius: 5px;"  width="10"  src="${resultsArray[i].emblem}"></td>
                         <td>${resultsArray[i].team}</td>
                         <td>${resultsArray[i].goalsFavor}</td>
                         <td>${resultsArray[i].goalsAgainst}</td>
