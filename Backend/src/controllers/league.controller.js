@@ -4,6 +4,8 @@ const leagueModel = require('../models/league.model')
 
 const League = require('../models/league.model')
 
+const MatchDay = require('../models/match-day.model')
+
 function createLeague(req,res){
     var leagueModel = new League();
     var params = req.body

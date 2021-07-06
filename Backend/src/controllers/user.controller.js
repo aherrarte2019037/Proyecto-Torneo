@@ -120,6 +120,57 @@ function registerUser(req,res){
 
 }
 
+function registerUserAdmin(req,res){
+    var userModel = new User()
+    var params = req.body
+
+    if(req.user.rol === 'ROL_ADMIN' && req.user.username === 'ADMIN') {
+
+        delete params.rol
+
+        if(params.name && params.lastname && params.username && params.email && params.password){
+            userModel.name = params.name
+            userModel.lastname = params.lastname
+            userModel.username = params.username
+            userModel.email = params.email
+            userModel.password = params.password
+            userModel.rol = 'ROL_ADMIN'
+            userModel.image = params.img
+
+            User.find({ $or: [
+                { username: userModel.username },
+                { email: userModel.email }
+            ] }).exec((err, userFound) => {
+                if(err) return res.status(500).send({ message: 'Error en la petición' })
+
+                if(userFound && userFound.length >= 1 ){
+                    return res.status(500).send({ message: 'El usuario ya existe' })
+                }else {
+                    bcrypt.hash(params.password, null, null, (err, passEncrypted) =>{
+                        userModel.password = passEncrypted
+                        userModel.save((err, userSaved) =>{
+                            if(err) return res.status(500).send({ message: 'Error al guardar el usuario' })
+
+                            if(userSaved){
+                                res.status(200).send(userSaved)
+                            }else {
+                                res.status(404).send({ message: 'No se ha podido registrar el usuario' })
+                            }
+                        })
+                    })
+                }
+            })
+        }else {
+            return res.status(500).send({ message: 'Faltan datos por ingresar' })
+        }
+
+    }else {
+        return res.status(500).send({ message: 'No tienes los permisos para crear un usuario ADMIN'})
+    }
+
+    
+}
+
 function editUser(req,res){
     var idUser = req.params.idUser
     var params = req.body
@@ -230,14 +281,26 @@ async function deleteProfileImage( req, res ) {
     }
 }
 
+function getRegisteredUsers(req,res){
+    if(req.user.rol != 'ROL_ADMIN') return res.status(500).send({ message: 'You dont have the permissions' })
+
+    User.find({rol: 'ROL_USER'},(err, usersFounds) => {
+        if(err) return res.status(500).send({ message: 'Error en la petición' })
+        if(!usersFounds) return res.status(500).send({ message: 'No se encontraron usuarios' })
+        return res.status(200).send(usersFounds)
+    })
+}
+
 module.exports = {
     createAdmin,
     login,
     registerUser,
+    registerUserAdmin,
     editUser,
     getUserID,
     deleteUser,
     uploadProfileImage,
     getProfileImage,
-    deleteProfileImage
+    deleteProfileImage,
+    getRegisteredUsers
 }
