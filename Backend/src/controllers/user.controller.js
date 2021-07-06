@@ -236,7 +236,7 @@ function getRegisteredUsers(req,res){
     User.find({rol: 'ROL_USER'},(err, usersFounds) => {
         if(err) return res.status(500).send({ message: 'Error en la petición' })
         if(!usersFounds) return res.status(500).send({ message: 'No se encontraron usuarios' })
-        return res.status(200).send({ usersFounds })
+        return res.status(200).send(usersFounds)
     })
 }
 

@@ -82,85 +82,37 @@
           <div class="flex bg-gray-100 items-center justify-center flex-wrap p-6 gap-y-5">
 
             <!-- USUARIOS CON NGFOR -->
-            <div class="rounded-xl shadow-md py-4 pr-8 h-28 pl-14 xl:w-[48%] w-full bg-white">
+            <div class="rounded-xl shadow-md py-4 pr-8 h-28 pl-14 xl:w-[48%] w-full bg-white" *ngFor="let usua of users">
               <div class="flex relative items-center justify-between">
-  
+
                 <div class="flex items-center -left-9 top-8 absolute">
                   <div class="bg-white rounded-full w-[17px] h-[17px] flex flex-shrink-0 justify-center items-center relative">
-                    <input (click)="selectUser('fdfd')" type="radio" name="radio" class="checkbox opacity-100 appearance-none border-2 rounded-full border-gray-400 absolute cursor-pointer w-full h-full checked:border-none" />
+                    <input (click)="selectUser(usua)" type="radio" name="radio" class="checkbox opacity-100 appearance-none border-2 rounded-full border-gray-400 absolute cursor-pointer w-full h-full checked:border-none" />
                     <div class="check-icon hidden border-4 border-blue-500 rounded-full w-full h-full z-1"></div>
                   </div>
                 </div>
                 <div class="flex items-center">
                   <div class="w-2 h-2 rounded-full bg-purple-400"></div>
                   <span class="focus:outline-none text-purple-400 text-xs font-normal pl-1">Id
-                    507f1f77bcf86cd799439011</span>
+                    {{usua._id}}</span>
                 </div>
-  
+
                 <!-- URL DE PERFIL -->
-                <img class="w-14 h-14 absolute right-0 top-2.5 rounded-full" src="http://localhost:3000/api/uploads/profileImg/null">
-  
+                <img *ngIf="usua.image" class="w-14 h-14 absolute right-0 top-2.5 rounded-full" [src]="'http://localhost:3000/api/uploads/profileImg/'+usua.image">
+                <img *ngIf="!usua.image" class="w-14 h-14 absolute right-0 top-2.5 rounded-full" [src]="'http://localhost:3000/api/uploads/profileImg/defaultProfile.gif'">
+
               </div>
-              <p class="text-gray-600 text-sm leading-none pt-1">AngelAHL30</p>
-              <p class="focus:outline-none text-xs italic pt-1 leading-3 text-gray-400">angelherrarte3@gmail.com</p>
+              <p class="text-gray-600 text-sm leading-none pt-1">{{usua.username}}</p>
+              <p class="focus:outline-none text-xs italic pt-1 leading-3 text-gray-400">{{usua.email}}</p>
               <div class="flex items-center justify-left">
                 <div class="focus:outline-none text-green-700 bg-green-100 py-1 px-2 rounded text-xs leading-3 mt-2">
                   Activo</div>
               </div>
             </div>
 
-            <div class="rounded-xl shadow-md py-4 pr-8 h-28 pl-14 xl:w-[48%] w-full bg-white">
-              <div class="flex relative items-center justify-between">
-  
-                <div class="flex items-center -left-9 top-8 absolute">
-                  <div class="bg-white rounded-full w-[17px] h-[17px] flex flex-shrink-0 justify-center items-center relative">
-                    <input (click)="selectUser('fdfd')" type="radio" name="radio" class="checkbox opacity-100 appearance-none border-2 rounded-full border-gray-400 absolute cursor-pointer w-full h-full checked:border-none" />
-                    <div class="check-icon hidden border-4 border-blue-500 rounded-full w-full h-full z-1"></div>
-                  </div>
-                </div>
-                <div class="flex items-center">
-                  <div class="w-2 h-2 rounded-full bg-purple-400"></div>
-                  <span class="focus:outline-none text-purple-400 text-xs font-normal pl-1">Id
-                    507f1f77bcf86cd799439011</span>
-                </div>
-  
-                <!-- URL DE PERFIL -->
-                <img class="w-14 h-14 absolute right-0 top-2.5 rounded-full" src="http://localhost:3000/api/uploads/profileImg/null">
-  
-              </div>
-              <p class="text-gray-600 text-sm leading-none pt-1">AngelAHL30</p>
-              <p class="focus:outline-none text-xs italic pt-1 leading-3 text-gray-400">angelherrarte3@gmail.com</p>
-              <div class="flex items-center justify-left">
-                <div class="focus:outline-none text-green-700 bg-green-100 py-1 px-2 rounded text-xs leading-3 mt-2">
-                  Activo</div>
-              </div>
-            </div>
-            
           </div>
         </div>
       </div>
-
-      <div class="absolute bottom-10 -ml-4 mx-auto w-full">
-        <div class="w-full flex justify-center border-gray-100 items-center">
-
-          <svg class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-              d="M9 12C9 12.2652 9.10536 12.5196 9.29289 12.7071L13.2929 16.7072C13.6834 17.0977 14.3166 17.0977 14.7071 16.7072C15.0977 16.3167 15.0977 15.6835 14.7071 15.293L11.4142 12L14.7071 8.70712C15.0977 8.31659 15.0977 7.68343 14.7071 7.29289C14.3166 6.90237 13.6834 6.90237 13.2929 7.29289L9.29289 11.2929C9.10536 11.4804 9 11.7348 9 12Z"
-              fill="#4d4d4d" />
-          </svg>
-
-          <p class="leading-relaxed cursor-pointer mx-2 text-gray-700 hover:text-blue-600 text-sm">1</p>
-          <p class="leading-relaxed cursor-pointer mx-2 text-gray-500 text-sm hover:text-blue-600">2</p>
-          <p class="leading-relaxed cursor-pointer mx-2 text-gray-500 text-sm hover:text-blue-600">3</p>
-          <svg class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-              d="M15 12C15 11.7348 14.8946 11.4804 14.7071 11.2929L10.7071 7.2929C10.3166 6.9024 9.6834 6.9024 9.2929 7.2929C8.9024 7.6834 8.9024 8.3166 9.2929 8.7071L12.5858 12L9.2929 15.2929C8.9024 15.6834 8.9024 16.3166 9.2929 16.7071C9.6834 17.0976 10.3166 17.0976 10.7071 16.7071L14.7071 12.7071C14.8946 12.5196 15 12.2652 15 12Z"
-              fill="#4d4d4d" />
-          </svg>
-
-        </div>
-      </div>
-
     </div>
 
   </div>
@@ -170,7 +122,7 @@
 
       <div class="w-full h-11 rounded-xl gap-x-1.5 flex justify-evenly items-center text-white py-3 shadow-md">
         <ion-icon class="text-2xl -ml-1" name="add-circle"></ion-icon>
-        <h1 class="text-[14px] text-white text-center">Añadir</h1>
+        <h1 class="text-[14px] text-white text-center">Añadir Admin</h1>
       </div>
 
       <div (click)="showDeleteModal = true" class="w-full h-11 bg-red-500 rounded-xl gap-x-1.5 flex justify-evenly items-center text-white py-3 shadow-md">
@@ -178,7 +130,7 @@
         <h1 class="text-[14px] text-white text-center">Eliminar</h1>
       </div>
 
-      <div
+      <div (click)="showEditModal = true; setEditFormValue()"
         class="w-full h-11 bg-green-500 rounded-xl gap-x-1.5 flex justify-evenly items-center text-white py-3 shadow-md">
         <ion-icon class="text-[23px] -ml-1 -mt-0.5" name="create"></ion-icon>
         <h1 class="text-[14px] text-white text-center">Editar</h1>
@@ -195,15 +147,16 @@
 
         <div class="text-center">
           <!-- URL DE PERFIL -->
-          <img class="w-16 mt-4 rounded-full h-16 mx-auto" src="http://localhost:3000/api/uploads/profileImg/null">
-          <h1 class="mt-1 text-lg font-medium text-gray-800">AngelAHL30</h1>
-          <p class="mt-2 text-xs font-medium text-gray-500">Angel Herrarte</p>
-          <p class="mt-0 text-xs font-medium text-gray-700">angelherrarte3@gmail.com</p>
+          <img *ngIf="userSelected.image" class="w-16 mt-4 rounded-full h-16 mx-auto" [src]="'http://localhost:3000/api/uploads/profileImg/'+userSelected.image">
+          <img *ngIf="!userSelected.image" class="w-16 mt-4 rounded-full h-16 mx-auto" [src]="'http://localhost:3000/api/uploads/profileImg/defaultProfile.gif'">
+          <h1 class="mt-1 text-lg font-medium text-gray-800">{{userSelected.username}}</h1>
+          <p class="mt-2 text-xs font-medium text-gray-500">{{userSelected.name}} {{userSelected.lastname}}</p>
+          <p class="mt-0 text-xs font-medium text-gray-700">{{userSelected.email}}</p>
         </div>
 
         <p
           class="px-1 w-full mx-auto mt-3 py-1 text-xs text-center text-indigo-800 uppercase bg-indigo-200 rounded-full">
-          ID 123fvbg5ads2</p>
+        {{userSelected._id}}</p>
       </div>
     </div>
   </div>
@@ -223,7 +176,7 @@
       </div>
 
       <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
-        <button class="btn-modal-close !font-medium mr-1.5">Eliminar</button>
+        <button (click)="deleteUser(userSelected._id)" class="btn-modal-close !font-medium mr-1.5">Eliminar</button>
         <label (click)="showDeleteModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
       </div>
     </div>

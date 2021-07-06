@@ -113,7 +113,15 @@ export class UserService {
   getAllUsers() {
     const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
 
-    return this.http.delete<any>( `${this.apiUrl}/`, { headers } )
+    return this.http.get<any>( `${this.apiUrl}/getRegisteredUsers`, { headers } )
+  }
+
+  deleteUser(id: String):Observable<any> {
+
+    const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
+
+    return this.http.delete(`${this.apiUrl}/deleteUser/`+id, { headers })
+
   }
 
 }
