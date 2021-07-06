@@ -28,7 +28,7 @@ export class LeagueService {
   getLeagues(){
     const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
 
-    return this.http.get( `${this.apiUrl}/getRegisteredUsers`, { headers })
+    return this.http.get( `${this.apiUrl}/getLeaguesIdCreator`, { headers })
 
   }
 

@@ -83,13 +83,24 @@ function getLeagueID(req,res){
 function getLeaguesIdCreator(req,res){
     var idCreator = req.user.sub
 
-    //if(req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para ver las ligas.'})
+    if(req.user.rol==="ROL_ADMIN"){
 
-    League.find({idCreator: idCreator}, (err, leaguesFound) => {
-        if(err) return res.status(500).send({ message: 'Error en la petición'})
-        if(!leaguesFound) return res.status(500).send({ message: 'Error al encontrar las ligas'})
-        return res.status(200).send({ leaguesFound })
-    })
+        League.find((err,leaguesFound)=>{
+            if(err) return res.status(500).send({ message: 'Error en la petición'})
+            if(!leaguesFound) return res.status(500).send({ message: 'Error al encontrar las ligas'})
+            return res.status(200).send( leaguesFound )
+        })
+
+    }else{
+
+        League.find({idCreator: idCreator}, (err, leaguesFound) => {
+            if(err) return res.status(500).send({ message: 'Error en la petición'})
+            if(!leaguesFound) return res.status(500).send({ message: 'Error al encontrar las ligas'})
+            return res.status(200).send( leaguesFound )
+        })
+
+    }
+
 }
 
 function addTeam(req,res){

@@ -1,3 +1,26 @@
 .blur {
   filter: blur(2px);
 }
+
+.checkbox:checked {
+  border: none;
+}
+
+.checkbox:checked + .check-icon {
+  display: flex;
+}
+
+@media ( max-width: 910px ) {
+  .right-container {
+      display: none;
+  }
+
+  .user-detail-container {
+      display: none;
+  }
+
+}
+
+.btn-modal-close {
+  @apply px-4 py-2 text-sm bg-white rounded-xl border-2 transition-colors duration-150 ease-linear border-gray-200 text-gray-500 focus:ring-0 font-medium hover:bg-gray-100 cursor-pointer;
+}
