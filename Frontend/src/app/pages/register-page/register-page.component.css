@@ -25,7 +25,6 @@ hr {
   .logo-icon {
     margin-top: 6px;
     width: 180px;
-    animation: pulse 1s ease-in-out infinite both;
   }
 
   .bg-pattern {
