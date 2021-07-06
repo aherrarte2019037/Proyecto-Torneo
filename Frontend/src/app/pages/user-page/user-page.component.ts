@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { fadeInUpOnEnterAnimation, fadeOutDownOnLeaveAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
-import { User } from 'src/app/model/user.model';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
