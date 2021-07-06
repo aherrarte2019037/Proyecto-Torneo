@@ -10,5 +10,6 @@ api.post('/createMatchDay/:LeagueId', md_authentication.ensureAuth, matchDayCont
 api.put('/changeDate/:idMatchDay', md_authentication.ensureAuth, matchDayController.changeDate)
 api.post('/assignTeams/:idMatchDay', md_authentication.ensureAuth, matchDayController.assignTeams)
 api.get('/getResults/:LeagueId', md_authentication.ensureAuth, matchDayController.getResults);
+api.get('/createPDF/:idLeague', md_authentication.ensureAuth, matchDayController.createPDF)
 
 module.exports = api;
