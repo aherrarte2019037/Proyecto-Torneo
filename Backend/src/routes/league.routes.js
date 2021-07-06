@@ -17,4 +17,5 @@ api.put('/deleteTeamOfLeague/:idLeague/:idTeam', md_authentication.ensureAuth, l
 api.put('/editTeam/:idLeague/:idTeam', md_authentication.ensureAuth, leagueController.editTeam)
 api.get('/getTeamID/:idLeague/:idTeam', md_authentication.ensureAuth, leagueController.getTeamID)
 //api.put('/addPlayerToTeam/:idLeague/:idTeam', md_authentication.ensureAuth, leagueController.addPlayerToTeam)
+
 module.exports = api
