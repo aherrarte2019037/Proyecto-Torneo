@@ -23,7 +23,7 @@
           <ul class="pt-1 pb-2 px-3 overflow-y-auto">
 
             <li class="mt-2">
-              <a *ngFor="let leag of leagues" class="p-5 flex flex-col justify-between bg-gray-100 dark:bg-gray-200 rounded-lg">
+              <a *ngFor="let leag of leagues" class="p-5 flex flex-col justify-between bg-gray-100 dark:bg-gray-200 rounded-lg mt-4">
 
                 <div class="flex items-center font-semibold capitalize dark:text-gray-700">
                   <!-- Top section -->
@@ -105,7 +105,7 @@
 
     <span class="text-3xl text-gray-800 font-semibold mt-6 mb-1.5">Ligas</span>
 
-    <button (click)="showCreateModal = true" class="mt-8 justify-center flex items-center py-3 px-3 text-white rounded-lg bg-green-400 shadow">
+    <button (click)="showCreateModal = true" *ngIf="userLogged.rol =='ROL_USER' " class="mt-8 justify-center flex items-center py-3 px-3 text-white rounded-lg bg-green-400 shadow">
 
       <svg class="h-6 w-6 fill-current mr-0.5" viewBox="0 0 24 24">
         <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
@@ -114,7 +114,7 @@
       <span>Crear Liga</span>
 
     </button>
-    <button class="mt-4 justify-center flex items-center py-3 px-3 text-white rounded-lg bg-blue-400 shadow">
+    <button (click)="showEditModal = true" class="mt-4 justify-center flex items-center py-3 px-3 text-white rounded-lg bg-blue-400 shadow">
       <!-- Action -->
 
       <svg class="h-5 w-5 fill-current mr-1.5" viewBox="0 0 24 24">
@@ -125,7 +125,7 @@
       <span>Editar Liga</span>
 
     </button>
-    <button class="mt-4 justify-center flex items-center py-3 px-3 text-white rounded-lg bg-red-400 shadow">
+    <button (click)="showDeleteModal = true" class="mt-4 justify-center flex items-center py-3 px-3 text-white rounded-lg bg-red-400 shadow">
       <!-- Action -->
 
       <ion-icon name="trash-outline" class="h-5 w-5 fill-current mr-2"></ion-icon>
@@ -161,47 +161,64 @@
     <div class="modal-box p-0 pt-6 text-left">
 
       <form class="space-y-4 text-gray-700 p-8" [formGroup]="createForm">
-        <div class="flex flex-wrap -mx-2 space-y-4 md:space-y-0">
-          <div class="w-full px-2 md:w-1/2">
-            <label class="block mb-1">Correo</label>
-            <input formControlName="email"
-              class="w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500"
-              type="text">
-          </div>
-          <div class="w-full px-2 md:w-1/2">
-            <label class="block mb-1">Usuario</label>
-            <input formControlName="username"
-              class="w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500"
-              type="text" />
-          </div>
-        </div>
         <div class="flex flex-wrap">
           <div class="w-full">
-            <label class="block mb-1" for="formGridCode_card">Contraseña</label>
-            <input formControlName="password"
-              class="w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500"
-              type="text" id="formGridCode_card" />
-          </div>
-        </div>
-        <div class="flex flex-wrap -mx-2 space-y-4 md:space-y-0">
-          <div class="w-full px-2 md:w-1/2">
-            <label class="block mb-1">Nombre</label>
+            <label class="block mb-1" for="formGridCode_card">Nombre</label>
             <input formControlName="name"
               class="w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500"
-              type="text" />
-          </div>
-          <div class="w-full px-2 md:w-1/2">
-            <label class="block mb-1">Apellido</label>
-            <input formControlName="lastname"
-              class="w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500"
-              type="text" />
+              type="text" id="formGridCode_card" />
           </div>
         </div>
       </form>
 
       <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
-        <button class="btn-modal-close !font-medium mr-1.5">Crear Liga</button>
+        <button (click)="createLeague()" class="btn-modal-close !font-medium mr-1.5">Crear Liga</button>
         <label (click)="showCreateModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showEditModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <form class="space-y-4 text-gray-700 p-8" [formGroup]="editForm">
+        <div class="flex flex-wrap">
+          <div class="w-full">
+            <label class="block mb-1" for="formGridCode_card">Nombre</label>
+            <input formControlName="name"
+              class="w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500"
+              type="text"/>
+          </div>
+        </div>
+      </form>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button (click)="editLeague()" class="btn-modal-close !font-medium mr-1.5">Editar Liga</button>
+        <label (click)="showEditModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showDeleteModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <div class="flex px-5 gap-x-1 items-center justify-center">
+        <img src="../../../assets/failedModal.svg" class="w-40 -ml-10">
+        <div>
+          <h1 class="font-medium text-2xl text-red-400">Eliminar Usuario</h1>
+          <h2  class="text-gray-600 text-sm">¿Estas Seguro?</h2>
+        </div>
+      </div>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button (click)="deleteLeague(leagueSelected._id)" class="btn-modal-close !font-medium mr-1.5">Eliminar</button>
+        <label (click)="showDeleteModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
       </div>
     </div>
   </div>

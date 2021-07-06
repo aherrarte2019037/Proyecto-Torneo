@@ -104,7 +104,7 @@ export class UserPageComponent implements OnInit {
   }
 
   setEditFormValue(){
-    this.editForm.patchValue(this.userSelected)
+    this.editForm.patchValue(this.userSelected);
   }
 
 }

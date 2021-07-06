@@ -16,13 +16,21 @@ export class HomePageComponent implements OnInit {
   leagues: any;
   leagueSelected: any = null;
   showCreateModal: boolean = false;
+  showEditModal: boolean = false;
+  showDeleteModal: boolean = false;
+  editForm: FormGroup = this.buildEditForm();
   createForm: FormGroup = this.buildCreateForm();
+  formEditChanges: any = {};
 
   constructor( private _leagueService: LeagueService, private fmBuilder: FormBuilder, private userService: UserService ) { }
 
   ngOnInit():void {
     this.userService.getUserLogged().subscribe( data  => this.userLogged = data );
     this._leagueService.getLeagues().subscribe(data=> this.leagues = data);
+
+    this.editForm.valueChanges.subscribe(value=>{
+      if(value.name !== this.leagueSelected.name) this.formEditChanges.name = value.name
+    })
   }
 
   selectLeague( league: any ) {
@@ -35,14 +43,64 @@ export class HomePageComponent implements OnInit {
     this.leagueSelected = league;
   }
 
+  createLeague(){
+      this._leagueService.createLeague(this.createForm.value).subscribe(
+        data=>{
+          this._leagueService.getLeagues().subscribe(data=> this.leagues = data);
+          console.log(data);
+          this.showCreateModal = false;
+
+        },
+        error=>{
+          console.log(<any>error);
+
+        }
+      )
+  }
+
+  editLeague(){
+    this._leagueService.editLeague(this.formEditChanges,this.leagueSelected._id).subscribe(
+      data=>{
+        this._leagueService.getLeagues().subscribe(data=> this.leagues = data);
+        this.showEditModal = false;
+        this.leagueSelected = null;
+      }
+    )
+  }
+
+  deleteLeague(id: String){
+
+    this._leagueService.deleteLeague(id).subscribe(
+      response=>{
+        console.log(response);
+        this._leagueService.getLeagues().subscribe(data=> this.leagues = data);
+        this.showDeleteModal = false;
+        this.leagueSelected = null;
+      },
+      error=>{
+        console.log(<any>error);
+
+      }
+    )
+
+  }
+
   buildCreateForm(){
     return this.fmBuilder.group({
-      username: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      name: ['', [Validators.required]],
-      lastname: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      name: ['', [Validators.required]]
     })
+  }
+
+  buildEditForm(){
+
+    return this.fmBuilder.group({
+      name: ['', [Validators.required]]
+    })
+
+  }
+
+  setEditFormValue(){
+    this.editForm.patchValue(this.leagueSelected);
   }
 
 }
