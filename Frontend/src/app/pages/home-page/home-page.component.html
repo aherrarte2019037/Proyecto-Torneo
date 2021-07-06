@@ -3,10 +3,9 @@
 <div class="h-screen w-full flex overflow-hidden bg-gray-100 select-none">
   <main class="my-10 ml-10 pt-2 pb-2 px-10 flex-1 bg-white rounded-l-lg
 		transition duration-500 ease-in-out overflow-y-auto">
-    <div class="flex flex-col capitalize text-3xl">
-      <span class="font-semibold">hello,</span>
-      <span>tempest!</span>
-
+    <div class="flex flex-col capitalize text-3xl mt-8 ml-3.5">
+      <span class="font-semibold text-gray-800">Hola,</span>
+      <span class="text-indigo-400 -mt-1 text-[27px]">{{ userLogged?.name }} {{ userLogged?.lastname }}</span>
     </div>
     <div class="flex">
       <div class="mr-6 w-1/2 mt-8 py-2 flex-shrink-0 flex flex-col bg-white rounded-xl">
@@ -41,27 +40,17 @@
 
                   <div class="flex items-center ml-6">
                     <ion-icon class="text-xl text-gray-700" name="football"></ion-icon>
-                    <span class="font-normal text-sm text-gray-800">{{leag.coach}}</span>
                   </div>
 
                 </div>
 
-                <p class="text-sm font-medium leading-snug text-gray-700 my-3">
-                  <!-- Middle section -->
-                  Lorem ipsum, dolor sit amet consectetur
-                  adipisicing elit.
-                </p>
-
                 <div class="flex justify-between">
-                  <!-- Bottom section -->
-
                   <div class="flex">
                     <span class="text-xs tracking-wide">
                       <span class="text-blue-500 text-sm font-normal">Id Creador</span>
                       {{leag.idCreator}}
                     </span>
                   </div>
-
                 </div>
 
               </a>
@@ -116,7 +105,7 @@
 
     <span class="text-3xl text-gray-800 font-semibold mt-6 mb-1.5">Ligas</span>
 
-    <button (click)="showCreateModal = true" class="mt-8 justify-center flex items-center py-4 px-3 text-white rounded-lg bg-green-400 shadow">
+    <button (click)="showCreateModal = true" class="mt-8 justify-center flex items-center py-3 px-3 text-white rounded-lg bg-green-400 shadow">
 
       <svg class="h-6 w-6 fill-current mr-0.5" viewBox="0 0 24 24">
         <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
@@ -125,7 +114,7 @@
       <span>Crear Liga</span>
 
     </button>
-    <button class="mt-4 justify-center flex items-center py-4 px-3 text-white rounded-lg bg-blue-400 shadow">
+    <button class="mt-4 justify-center flex items-center py-3 px-3 text-white rounded-lg bg-blue-400 shadow">
       <!-- Action -->
 
       <svg class="h-5 w-5 fill-current mr-1.5" viewBox="0 0 24 24">
@@ -136,7 +125,7 @@
       <span>Editar Liga</span>
 
     </button>
-    <button class="mt-4 justify-center flex items-center py-4 px-3 text-white rounded-lg bg-red-400 shadow">
+    <button class="mt-4 justify-center flex items-center py-3 px-3 text-white rounded-lg bg-red-400 shadow">
       <!-- Action -->
 
       <ion-icon name="trash-outline" class="h-5 w-5 fill-current mr-2"></ion-icon>
@@ -145,21 +134,17 @@
     </button>
 
     <div *ngIf="leagueSelected" class="mt-12 flex items-center">
-      <span>Liga Seleccionada</span>
+      <span class="text-gray-800">Liga Seleccionada</span>
     </div>
-    <a *ngIf="leagueSelected" [@fadeInUpOnEnter] [@fadeOutDownOnLeave] class="user-detail-container mt-2 p-4 flex justify-between bg-indigo-500 rounded-lg
+    <a *ngIf="leagueSelected" [@fadeInUpOnEnter] [@fadeOutDownOnLeave] class="user-detail-container mt-3 p-4 flex justify-center bg-gray-200 rounded-lg
 			font-semibold capitalize">
       <!-- link -->
 
-      <div class="flex">
+      <div class="flex justify-center">
 
-        <img src="https://s03.s3c.es/imag/_v0/770x420/e/0/6/600x400_balon-de-futbol.jpg" class="h-10 w-10 rounded-full object-cover"/>
-
-        <div class="flex flex-col ml-4">
-
-          <span class="text-white font-normal">{{leagueSelected.name}}</span>
-          <span class="text-sm font-normal text-gray-900">{{leagueSelected.coach}}</span>
-
+        <div class="flex justify-center text-white gap-x-2 items-center">
+			<ion-icon class="text-lg p-2 rounded-full bg-gray-800"name="trophy"></ion-icon>
+          <span class="font-semibold text-gray-700">{{leagueSelected.name}}</span>
         </div>
 
       </div>

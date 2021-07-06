@@ -3,6 +3,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { fadeInUpOnEnterAnimation, fadeOutDownOnLeaveAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 import { LeagueService } from 'src/app/services/league.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-home-page',
@@ -11,18 +12,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   animations: [ fadeInUpOnEnterAnimation({ translate: '30%', duration: 700 }), fadeOutDownOnLeaveAnimation({ duration: 200, translate: '10%' }) ],
 })
 export class HomePageComponent implements OnInit {
-
+  userLogged: any = {};
   leagues: any;
   leagueSelected: any = null;
   showCreateModal: boolean = false;
   createForm: FormGroup = this.buildCreateForm();
 
-  constructor( private _leagueService: LeagueService, private fmBuilder: FormBuilder ) { }
+  constructor( private _leagueService: LeagueService, private fmBuilder: FormBuilder, private userService: UserService ) { }
 
   ngOnInit():void {
-
+    this.userService.getUserLogged().subscribe( data  => this.userLogged = data );
     this._leagueService.getLeagues().subscribe(data=> this.leagues = data);
-
   }
 
   selectLeague( league: any ) {
