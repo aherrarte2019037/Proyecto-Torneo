@@ -8,6 +8,7 @@ var api = express.Router()
 
 api.post('/login', userController.login)
 api.post('/registerUser', userController.registerUser)
+api.post('/registerUserAdmin', md_authentication.ensureAuth, userController.registerUserAdmin)
 api.post('/uploads/profileImg/:id', md_authentication.ensureAuth, userController.uploadProfileImage)
 api.put('/editUser/:idUser', md_authentication.ensureAuth, userController.editUser)
 api.get('/getUserID/:idUser', md_authentication.ensureAuth, userController.getUserID)
