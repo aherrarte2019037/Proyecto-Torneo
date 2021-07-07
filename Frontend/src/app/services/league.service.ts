@@ -67,4 +67,10 @@ export class LeagueService {
 
   }
 
+  addMatchDay( league: string ) {
+    const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
+    
+    return this.http.post( `${this.apiUrl}/createMatchDay/${league}`, {}, { headers });
+  }
+
 }
