@@ -10,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css'],
   animations: [
-    fadeInUpOnEnterAnimation({ translate: '30%', duration: 700 }),
+    fadeInUpOnEnterAnimation({ translate: '15%', duration: 700 }),
     fadeOutDownOnLeaveAnimation({ duration: 200, translate: '10%' }),
     fadeInOnEnterAnimation(),
     fadeOutOnLeaveAnimation({ duration: 200 })
@@ -20,6 +20,7 @@ export class HomePageComponent implements OnInit {
   userLogged: any = {};
   leagues: any;
   leagueSelected: any = null;
+  teamsSelected: any = null;
   showCreateModal: boolean = false;
   showEditModal: boolean = false;
   showDeleteModal: boolean = false;
@@ -27,14 +28,18 @@ export class HomePageComponent implements OnInit {
   showErrorTeamModal: boolean = false;
   showCreateTeamModal: boolean = false;
   showEditTeamModal: boolean = false;
+  addMatchDayForm: FormGroup = this.buildMatchDayForm();
   editForm: FormGroup = this.buildEditForm();
   createForm: FormGroup = this.buildCreateForm();
   createTeamForm: FormGroup = this.buildCreateTeamForm();
   editTeamForm: FormGroup = this.buildEditTeamForm();
   formEditChanges: any = {};
+  formEditTeamChanges: any ={};
   fileTitle: string = '';
   createTeamData: FormData = new FormData();
   previewImg: string = '';
+  matchDays: [] = [];
+  selectedMatchDay: any = null;
 
 
   constructor( private _leagueService: LeagueService, private fmBuilder: FormBuilder, private userService: UserService ) { }
@@ -46,17 +51,33 @@ export class HomePageComponent implements OnInit {
     this.editForm.valueChanges.subscribe(value=>{
       if(value.name !== this.leagueSelected.name) this.formEditChanges.name = value.name
     })
+
+    this.editTeamForm.valueChanges.subscribe(value=>{
+      if(value.name!== this.teamsSelected.name) this.formEditTeamChanges.name = value.name;
+      if(value.coach !== this.teamsSelected.coach) this.formEditTeamChanges.coach = value.coach;
+    })
   }
 
   selectLeague( league: any ) {
-    if( this.leagueSelected && this.leagueSelected !== league ) {
-      this.leagueSelected = null;
-      setTimeout(() => this.leagueSelected = league, 200);
-      return;
-    }
     this.leagueSelected = league;
   }
 
+  selectTeam(team: any) {
+    this.teamsSelected = team;
+
+  }
+
+  buildMatchDayForm(){
+    return this.fmBuilder.group({
+      teamOne:    [''],
+      teamTwo:    [''],
+      idTeamOne   : ['', Validators.required],
+      idTeamTwo   : ['', Validators.required],
+      goalsTeamOne: ['', Validators.required],
+      goalsTeamTwo: ['', Validators.required]
+    })
+  }
+  
   createLeague(){
       this._leagueService.createLeague(this.createForm.value).subscribe(
         data=>{
@@ -72,7 +93,7 @@ export class HomePageComponent implements OnInit {
     this.createTeamData.append( 'coach', this.createTeamForm.value.coach );
 
     this._leagueService.addTeam( this.createTeamData, this.leagueSelected._id).subscribe(
-      data => { 
+      data => {
         this.showCreateTeamModal = false;
         this.leagueSelected.teams = data?.addedTeam.teams;
         this.createTeamForm.reset();
@@ -97,11 +118,25 @@ export class HomePageComponent implements OnInit {
     )
   }
 
+  editTeam(){
+    this._leagueService.editTeam(this.formEditTeamChanges,this.leagueSelected._id,this.teamsSelected._id).subscribe(
+      data=>{
+        this.leagueSelected.teams = data?.editedTeam.teams;
+
+        this.showEditTeamModal = false;
+        this.teamsSelected = null;
+      },
+      error=>{
+        console.log(<any>error);
+
+      }
+    )
+  }
+
   deleteLeague(id: String){
 
     this._leagueService.deleteLeague(id).subscribe(
       response=>{
-        console.log(response);
         this._leagueService.getLeagues().subscribe(data=> this.leagues = data);
         this.showDeleteModal = false;
         this.leagueSelected = null;
@@ -110,6 +145,25 @@ export class HomePageComponent implements OnInit {
         console.log(<any>error);
 
       }
+    )
+
+  }
+
+  deleteTeam(idTeam:String,idLeague:String){
+
+    this._leagueService.deleteTeam(this.teamsSelected,idLeague,idTeam).subscribe(
+
+      data=>{
+        this.leagueSelected.teams = data?.deletedTeam.teams;
+        this.showDeleteTeamModal = false;
+        this.teamsSelected = null;
+
+      },
+      error=>{
+        console.log(<any>error);
+
+      }
+
     )
 
   }
@@ -142,8 +196,9 @@ export class HomePageComponent implements OnInit {
     })
   }
 
-  setEditFormValue(){
-    this.editForm.patchValue(this.leagueSelected);
+  setEditTeamFormValue(){
+    this.editTeamForm.patchValue(this.teamsSelected);
+
   }
 
   trackByLeagueId( index: number, item: any ) {
@@ -166,6 +221,19 @@ export class HomePageComponent implements OnInit {
     this.previewImg = '';
     this.createTeamData.delete('files');
     this.fileTitle = '';
+  }
+
+  addMatchDay() {
+    this._leagueService.addMatchDay( this.selectedMatchDay.selectedMatch._id, this.addMatchDayForm.value ).subscribe( data => console.log(data) )
+  }
+
+  setMatchDays() {
+    if( this.matchDays.length > 0 ) return
+    this._leagueService.createMatchDays( this.leagueSelected._id ).subscribe( (data: any) => this.matchDays = data );
+  }
+
+  setMatchDay( selectedMatch: any, index: number ) {
+    this.selectedMatchDay = { selectedMatch, index: index+1 }
   }
 
 }
