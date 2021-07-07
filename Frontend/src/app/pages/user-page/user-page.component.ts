@@ -36,7 +36,7 @@ export class UserPageComponent implements OnInit {
   }
 
   selectUser( user: any ) {
-    if( this.userSelected ) {
+    if( this.userSelected && this.userSelected !== user ) {
       this.userSelected = null;
       setTimeout(() => this.userSelected = user, 200);
       return;

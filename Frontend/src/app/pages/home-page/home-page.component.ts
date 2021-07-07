@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { fadeInUpOnEnterAnimation, fadeOutDownOnLeaveAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
+import { fadeInOnEnterAnimation, fadeInUpOnEnterAnimation, fadeOutDownOnLeaveAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 import { LeagueService } from 'src/app/services/league.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
@@ -9,7 +9,12 @@ import { UserService } from 'src/app/services/user.service';
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css'],
-  animations: [ fadeInUpOnEnterAnimation({ translate: '30%', duration: 700 }), fadeOutDownOnLeaveAnimation({ duration: 200, translate: '10%' }) ],
+  animations: [
+    fadeInUpOnEnterAnimation({ translate: '30%', duration: 700 }),
+    fadeOutDownOnLeaveAnimation({ duration: 200, translate: '10%' }),
+    fadeInOnEnterAnimation(),
+    fadeOutOnLeaveAnimation()
+  ]
 })
 export class HomePageComponent implements OnInit {
   userLogged: any = {};
@@ -34,7 +39,7 @@ export class HomePageComponent implements OnInit {
   }
 
   selectLeague( league: any ) {
-    if( this.leagueSelected ) {
+    if( this.leagueSelected && this.leagueSelected !== league ) {
       this.leagueSelected = null;
       setTimeout(() => this.leagueSelected = league, 200);
       return;
@@ -47,20 +52,14 @@ export class HomePageComponent implements OnInit {
       this._leagueService.createLeague(this.createForm.value).subscribe(
         data=>{
           this._leagueService.getLeagues().subscribe(data=> this.leagues = data);
-          console.log(data);
           this.showCreateModal = false;
-
-        },
-        error=>{
-          console.log(<any>error);
-
         }
       )
   }
 
   editLeague(){
     this._leagueService.editLeague(this.formEditChanges,this.leagueSelected._id).subscribe(
-      data=>{
+      data=> {
         this._leagueService.getLeagues().subscribe(data=> this.leagues = data);
         this.showEditModal = false;
         this.leagueSelected = null;

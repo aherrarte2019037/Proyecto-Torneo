@@ -41,15 +41,15 @@
     @apply cursor-pointer transform transition duration-200 hover:scale-105;
 }
 
-.right-container div:nth-child(1) {
+.right-container button:nth-child(1) {
     background-color: rgb(80, 146, 255);
 }
 
-.right-container div:nth-child(2) {
+.right-container button:nth-child(2) {
     background-color: rgb(255, 87, 87);
 }
 
-.right-container div:nth-child(3) {
+.right-container button:nth-child(3) {
     background-color: rgb(45, 208, 154);
 }
 

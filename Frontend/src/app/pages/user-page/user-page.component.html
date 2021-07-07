@@ -120,21 +120,21 @@
   <div class="flex flex-col gap-y-8 w-full max-w-[210px]">
     <div class="flex right-container items-center justify-center h-52 p-5 px-6 bg-white rounded-xl flex-col gap-y-4 ">
 
-      <div (click)="showCreateModal = true" class="w-full h-11 rounded-xl gap-x-1.5 flex justify-evenly items-center text-white py-3 shadow-md">
+      <button [disabled]="!userSelected" (click)="showCreateModal = true" class="w-full h-11 rounded-xl gap-x-1.5 flex justify-evenly items-center text-white py-3 shadow-md">
         <ion-icon class="text-2xl -ml-1" name="add-circle"></ion-icon>
-        <h1 class="text-[14px] text-white text-center">Añadir Admin</h1>
-      </div>
+        <h1 class="text-[14px] text-white text-center">Añadir</h1>
+      </button>
 
-      <div (click)="showDeleteModal = true" class="w-full h-11 bg-red-500 rounded-xl gap-x-1.5 flex justify-evenly items-center text-white py-3 shadow-md">
+      <button [disabled]="!userSelected" (click)="showDeleteModal = true" class="w-full h-11 bg-red-500 rounded-xl gap-x-1.5 flex justify-evenly items-center text-white py-3 shadow-md">
         <ion-icon class="text-[23px]" name="trash"></ion-icon>
         <h1 class="text-[14px] text-white text-center">Eliminar</h1>
-      </div>
+      </button>
 
-      <div (click)="showEditModal = true; setEditFormValue()"
+      <button [disabled]="!userSelected" (click)="showEditModal = true; setEditFormValue()"
         class="w-full h-11 bg-green-500 rounded-xl gap-x-1.5 flex justify-evenly items-center text-white py-3 shadow-md">
         <ion-icon class="text-[23px] -ml-1 -mt-0.5" name="create"></ion-icon>
         <h1 class="text-[14px] text-white text-center">Editar</h1>
-      </div>
+      </button>
 
     </div>
 
@@ -188,7 +188,7 @@
   <div class="modal bg-opacity-50 bg-blacks">
     <div class="modal-box p-0 pt-6 text-left">
 
-      <form class="space-y-4 text-gray-700 p-5" [formGroup]="editForm">
+      <form class="space-y-4 text-gray-700 p-9" [formGroup]="editForm">
         <div class="flex flex-wrap -mx-2 space-y-4 md:space-y-0">
           <div class="w-full px-2 md:w-1/2">
             <label class="block mb-1">Correo</label>
@@ -224,7 +224,7 @@
   <div class="modal bg-opacity-50 bg-blacks">
     <div class="modal-box p-0 pt-6 text-left">
 
-      <form class="space-y-4 text-gray-700 p-5" [formGroup]="createForm">
+      <form class="space-y-4 text-gray-700 p-9" [formGroup]="createForm">
         <div class="flex flex-wrap -mx-2 space-y-4 md:space-y-0">
           <div class="w-full px-2 md:w-1/2">
             <label class="block mb-1">Correo</label>

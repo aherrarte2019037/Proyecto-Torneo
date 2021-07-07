@@ -3,8 +3,7 @@
 const leagueModel = require('../models/league.model')
 
 const League = require('../models/league.model')
-
-const MatchDay = require('../models/match-day.model')
+const User = require('../models/user.model')
 
 function createLeague(req,res){
     var leagueModel = new League();
@@ -28,17 +27,15 @@ function createLeague(req,res){
     }
 }
 
-function editLeague(req,res){
+async function editLeague(req,res){
     var idLeague = req.params.idLeague
     var params = req.body
-
-    //if(req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para editar una liga.'})
-
+    const userFound = await User.findById( req.user?.sub )
     League.findById(idLeague, (err, leagueFound) => {
         if(err) return res.status(500).send({ message: 'Error en la petición'})
         if(!leagueFound) return res.status(500).send({ message: 'Liga no encontrada'})
 
-        if(req.user.sub != leagueFound.idCreator) return res.status(500).send({ message: 'No tienes permisos para editar esta liga.'})
+        if(req.user.sub != leagueFound.idCreator && userFound.rol !== 'ROL_ADMIN') return res.status(500).send({ message: 'No tienes permisos para editar esta liga.'})
 
         League.findByIdAndUpdate(idLeague, params, { new: true, useFindAndModify: false}, (err, editedLeague) => {
             if(err) return res.status(500).send({ message: 'Error en la petición'})
