@@ -23,8 +23,14 @@ export class HomePageComponent implements OnInit {
   showCreateModal: boolean = false;
   showEditModal: boolean = false;
   showDeleteModal: boolean = false;
+  showDeleteTeamModal: boolean = false;
+  showErrorTeamModal: boolean = false;
+  showCreateTeamModal: boolean = false;
+  showEditTeamModal: boolean = false;
   editForm: FormGroup = this.buildEditForm();
   createForm: FormGroup = this.buildCreateForm();
+  createTeamForm: FormGroup = this.buildCreateTeamForm();
+  editTeamForm: FormGroup = this.buildEditTeamForm();
   formEditChanges: any = {};
 
   constructor( private _leagueService: LeagueService, private fmBuilder: FormBuilder, private userService: UserService ) { }
@@ -55,6 +61,21 @@ export class HomePageComponent implements OnInit {
           this.showCreateModal = false;
         }
       )
+  }
+
+  addTeam(){
+    this._leagueService.addTeam(this.createTeamForm.value,this.leagueSelected._id).subscribe(
+      data=>{
+        this._leagueService.getLeagues().subscribe(data=> this.leagues = data);
+        this.showCreateTeamModal = false;
+      },
+      error=>{
+        console.log(<any>error);
+        this.showCreateTeamModal = false;
+        this.showErrorTeamModal = true;
+
+      }
+    )
   }
 
   editLeague(){
@@ -96,6 +117,20 @@ export class HomePageComponent implements OnInit {
       name: ['', [Validators.required]]
     })
 
+  }
+
+  buildCreateTeamForm(){
+    return this.fmBuilder.group({
+      name: ['', [Validators.required]],
+      coach: ['', [Validators.required]]
+    })
+  }
+
+  buildEditTeamForm(){
+    return this.fmBuilder.group({
+      name: ['', [Validators.required]],
+      coach: ['', [Validators.required]]
+    })
   }
 
   setEditFormValue(){
