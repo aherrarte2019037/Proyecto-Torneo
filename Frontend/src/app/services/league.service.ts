@@ -53,10 +53,10 @@ export class LeagueService {
 
   }
 
-  addTeam(team: any,id:String): Observable<any> {
+  addTeam( data: FormData, id:String ): Observable<any> {
 
     const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
-    return this.http.put( `${this.apiUrl}/addTeam/${id}`,team, { headers });
+    return this.http.put( `${this.apiUrl}/addTeam/${id}`, data, { headers });
 
   }
 

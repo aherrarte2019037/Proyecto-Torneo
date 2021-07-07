@@ -16,6 +16,7 @@ api.get('/getTeamsLeague/:idLeague', md_authentication.ensureAuth, leagueControl
 api.put('/deleteTeamOfLeague/:idLeague/:idTeam', md_authentication.ensureAuth, leagueController.deleteTeam)
 api.put('/editTeam/:idLeague/:idTeam', md_authentication.ensureAuth, leagueController.editTeam)
 api.get('/getTeamID/:idLeague/:idTeam', md_authentication.ensureAuth, leagueController.getTeamID)
+api.get('/uploads/teamImg/:file', leagueController.getTeamImage);
 //api.put('/addPlayerToTeam/:idLeague/:idTeam', md_authentication.ensureAuth, leagueController.addPlayerToTeam)
 
 module.exports = api
