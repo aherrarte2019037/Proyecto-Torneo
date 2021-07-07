@@ -3,8 +3,7 @@
 const leagueModel = require('../models/league.model')
 
 const League = require('../models/league.model')
-
-const MatchDay = require('../models/match-day.model')
+const User = require('../models/user.model')
 
 function createLeague(req,res){
     var leagueModel = new League();
@@ -28,17 +27,15 @@ function createLeague(req,res){
     }
 }
 
-function editLeague(req,res){
+async function editLeague(req,res){
     var idLeague = req.params.idLeague
     var params = req.body
-
-    //if(req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para editar una liga.'})
-
+    const userFound = await User.findById( req.user?.sub )
     League.findById(idLeague, (err, leagueFound) => {
         if(err) return res.status(500).send({ message: 'Error en la petición'})
         if(!leagueFound) return res.status(500).send({ message: 'Liga no encontrada'})
 
-        if(req.user.sub != leagueFound.idCreator) return res.status(500).send({ message: 'No tienes permisos para editar esta liga.'})
+        if(req.user.sub != leagueFound.idCreator && userFound.rol !== 'ROL_ADMIN') return res.status(500).send({ message: 'No tienes permisos para editar esta liga.'})
 
         League.findByIdAndUpdate(idLeague, params, { new: true, useFindAndModify: false}, (err, editedLeague) => {
             if(err) return res.status(500).send({ message: 'Error en la petición'})
@@ -83,18 +80,35 @@ function getLeagueID(req,res){
 function getLeaguesIdCreator(req,res){
     var idCreator = req.user.sub
 
-    //if(req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para ver las ligas.'})
+    if(req.user.rol==="ROL_ADMIN"){
 
-    League.find({idCreator: idCreator}, (err, leaguesFound) => {
-        if(err) return res.status(500).send({ message: 'Error en la petición'})
-        if(!leaguesFound) return res.status(500).send({ message: 'Error al encontrar las ligas'})
-        return res.status(200).send({ leaguesFound })
-    })
+        League.find((err,leaguesFound)=>{
+            if(err) return res.status(500).send({ message: 'Error en la petición'})
+            if(!leaguesFound) return res.status(500).send({ message: 'Error al encontrar las ligas'})
+            return res.status(200).send( leaguesFound )
+        })
+
+    }else{
+
+        League.find({idCreator: idCreator}, (err, leaguesFound) => {
+            if(err) return res.status(500).send({ message: 'Error en la petición'})
+            if(!leaguesFound) return res.status(500).send({ message: 'Error al encontrar las ligas'})
+            return res.status(200).send( leaguesFound )
+        })
+
+    }
+
 }
 
-function addTeam(req,res){
+async function addTeam(req,res){
     var idLeague = req.params.idLeague
-    var params = req.body
+    var params = req.body;
+
+    const file = req.files?.files;
+    const type = file?.mimetype.split('/')[1] || '';
+    const filename = `teamImg${new Date().getMilliseconds()}.${type}`;
+    
+    if( file ) await file.mv( `uploads/${filename}` );
 
     if(req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para agregar equipos a esta liga.'})
 
@@ -106,7 +120,11 @@ function addTeam(req,res){
 
         if(leagueFound.teams.length === 10) return res.status(500).send({ message: 'Ya no puedes agregar mas equipos a la liga'})
 
-        League.findByIdAndUpdate(idLeague, { $push: { teams: { name: params.name, coach: params.coach, emblem: params.emblem, idLeague: idLeague } } }, { new: true, useFindAndModify: false}, (err, addedTeam) => {
+        let teamFile;
+        if( file ) teamFile = filename;
+        if( !file ) teamFile = 'defaultTeam.jpg';
+
+        League.findByIdAndUpdate(idLeague, { $push: { teams: { name: params.name, coach: params.coach, emblem: teamFile, idLeague: idLeague } } }, { new: true, useFindAndModify: false}, (err, addedTeam) => {
             if(err) return res.status(500).send({ message: 'Error en la petición'})
             if(!addedTeam) return res.status(500).send({ message: 'No se ha podido agregar el equipo' })
 

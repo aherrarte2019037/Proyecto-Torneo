@@ -128,7 +128,7 @@ export class UserService {
 
     const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
 
-    return this.http.delete(`${this.apiUrl}/deleteUser/`,{ headers })
+    return this.http.post(`${this.apiUrl}/registerUserAdmin`,user,{ headers })
 
   }
 

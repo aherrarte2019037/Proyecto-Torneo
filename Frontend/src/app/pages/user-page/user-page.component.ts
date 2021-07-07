@@ -36,7 +36,7 @@ export class UserPageComponent implements OnInit {
   }
 
   selectUser( user: any ) {
-    if( this.userSelected ) {
+    if( this.userSelected && this.userSelected !== user ) {
       this.userSelected = null;
       setTimeout(() => this.userSelected = user, 200);
       return;
@@ -71,6 +71,19 @@ export class UserPageComponent implements OnInit {
     )
   }
 
+  createUser(){
+    this._userService.createUser(this.createForm.value).subscribe(
+      data=>{
+        console.log(data);
+        this.showCreateModal = false;
+      },
+      error=>{
+        console.log(<any>error);
+
+      }
+    )
+  }
+
   buildEditForm() {
     return this.fmBuilder.group({
       username: ['', [Validators.required]],
@@ -86,11 +99,12 @@ export class UserPageComponent implements OnInit {
       email: ['', [Validators.required]],
       name: ['', [Validators.required]],
       lastname: ['', [Validators.required]],
+      password: ['', [Validators.required]]
     })
   }
 
   setEditFormValue(){
-    this.editForm.patchValue(this.userSelected)
+    this.editForm.patchValue(this.userSelected);
   }
 
 }

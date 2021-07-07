@@ -1,3 +1,265 @@
 <soccer-spinner></soccer-spinner>
 
-<p>home-page works!</p>
+<div class="h-screen w-full flex overflow-hidden bg-gray-100 select-none">
+  <main class="my-10 ml-10 pt-2 pb-2 px-5 flex-1 rounded-l-lg transition duration-500 ease-in-out overflow-y-auto">
+
+    <div class="flex flex-col bg-white rounded-t-xl p-8 capitalize text-3xl mt-8">
+      <span class="font-semibold text-gray-800">Hola,</span>
+      <span class="text-indigo-400 -mt-1 text-[27px]">{{ userLogged?.name }} {{ userLogged?.lastname }}</span>
+    </div>
+
+    <div class="flex h-3/4 bg-white px-5 pb-4">
+
+      <div class="w-1/2 mt-0 py-2 flex-shrink-0 flex flex-col rounded-xl">
+
+        <h3 class="flex items-center pt-1 pb-1 ml-3 text-gray-800 text-lg font-semibold
+					capitalize dark:text-gray-300">
+          <span>Tus Ligas</span>
+        </h3>
+
+        <div>
+          <ul class="pt-1 -mt-2.5 pb-2 px-3 overflow-y-auto">
+
+            <li class="mt-2">
+              <a *ngFor="let leag of leagues" class="p-5 flex flex-col justify-between bg-gray-100 rounded-lg mt-4">
+
+                <div class="flex items-center font-semibold capitalize dark:text-gray-700">
+                  <div (click)="selectLeague(leag)"
+                    class="bg-white rounded-full w-[17px] h-[17px] flex flex-shrink-0 justify-center relative mr-2">
+                    <input type="radio" name="radio"
+                      class="checkbox opacity-100 appearance-none border-2 rounded-full border-gray-400 absolute cursor-pointer w-full h-full checked:border-none" />
+                    <div class="check-icon hidden border-4 border-blue-500 rounded-full w-full h-full z-1"></div>
+                  </div>
+
+
+                  <span class="text-gray-800">{{leag.name}}</span>
+
+                  <div class="flex items-center ml-2">
+                    <ion-icon class="text-xl text-gray-700" name="football"></ion-icon>
+                  </div>
+
+                </div>
+
+                <div class="flex justify-between">
+                  <div class="flex">
+                    <span class="text-xs tracking-wide">
+                      <span class="text-blue-500 text-sm font-normal">Id Creador</span>
+                      {{leag.idCreator}}
+                    </span>
+                  </div>
+                </div>
+
+              </a>
+            </li>
+          </ul>
+
+        </div>
+
+      </div>
+
+      <div class="w-1/2 mt-0 py-2 flex-shrink-0 flex flex-col rounded-xl">
+
+        <h3 class="flex justify-between items-center pt-1 pb-1 ml-3 mb-1.5 text-gray-800 text-lg font-semibold">
+          <span>Equipos</span>
+        </h3>
+
+        <div *ngIf="leagueSelected" [@fadeInOnEnter] class="rounded-lg text-sm cursor-pointer">
+          <div class="flex transition duration-300 justify-center items-center text-gray-700 bg-blue-500 hover:bg-blue-600 rounded-md py-2.5 my-1 mr-3.5">
+              <div class="-ml-4 mb-0.5 text-center font-light text-white mt-0.5">Agregar <ion-icon class="text-xl absolute ml-1.5 mt-[1px]" name="add-circle"></ion-icon></div>
+          </div>
+        </div>
+
+        <div *ngIf="!leagueSelected" [@fadeInOnEnter] class="rounded-lg text-sm">
+          <div class="flex justify-start text-gray-700 bg-gray-700 rounded-md px-3 py-3 my-1 mr-3.5">
+              <div class="flex-grow text-center font-light text-white px-2">Selecciona una liga ...</div>
+          </div>
+        </div>
+
+        <div [@fadeInOnEnter] *ngIf="leagueSelected && leagueSelected?.teams.length === 0" class="rounded-lg text-sm">
+          <div class="flex justify-start text-gray-700 bg-gray-700 rounded-md px-3 py-3 my-1 mr-3.5">
+              <div class="flex-grow text-center font-light text-white px-2">No hay equipos...</div>
+          </div>
+        </div>
+
+        <!-- Array de equipos -->
+        <div *ngIf="leagueSelected && leagueSelected?.teams.length !== 0">
+          <div *ngFor="let team of leagueSelected?.teams" class="rounded-lg text-sm">
+            <div class="flex justify-start text-gray-700 bg-blue-200 rounded-md px-3 py-3 my-1 mr-3.5">
+                <span class="bg-blue-500 h-2 w-2 m-2 rounded-full"></span>
+                <div class="flex-grow text-blue-500 mt-0.5 px-2">Tighten Co.</div>
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" class="badge py-1 badge-info cursor-pointer hover:text-white !bg-blue-300 hover:!bg-blue-400"><ion-icon name="ellipsis-horizontal"></ion-icon></div>
+                  <ul class="shadow menu dropdown-content mt-1 bg-base-100 rounded-box w-52">
+                    <li class="hover:text-blue-400">
+                      <a>Editar <ion-icon class="ml-1.5" name="pencil-outline"></ion-icon></a>
+                    </li> 
+                    <li class="hover:text-red-400">
+                      <a>Eliminar <ion-icon class="ml-1.5" name="trash"></ion-icon></a>
+                    </li> 
+                  </ul>
+                </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <aside class="w-1/4 max-w-[280px] mr-10 mt-16 px-4 py-4 flex flex-col rounded-r-xl overflow-y-auto">
+
+    <div class="relative w-full flex search-container shadow-sm">
+      <label class="cursor-pointer px-5 text-gray-500 bg-white py-3 w-full rounded-[11px] text-sm">Buscar</label>
+      <svg class="text-gray-600 absolute top-3.5 right-5 h-4 w-4 fill-current" version="1.1" id="Capa_1" x="0px" y="0px"
+        viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" width="512px"
+        height="512px">
+        <path
+          d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+      </svg>
+    </div>
+
+    <div class="card-container mt-5">
+      <ion-icon class="btn-edit" name="pencil">
+      </ion-icon>
+      <ion-icon class="btn-close" name="close">
+      </ion-icon>
+      <ion-icon class="btn-save" name="checkmark-circle"></ion-icon>
+      <h1>Dirección</h1>
+      <ion-icon class="text-green-500" name="navigate-circle-outline"></ion-icon>
+      <input class="text-green-500" disabled type="text" value="Ciudad De Guatemala">
+    </div>
+
+    <div class="card-container mt-5">
+      <ion-icon class="btn-edit" name="pencil">
+      </ion-icon>
+      <ion-icon class="btn-close" name="close">
+      </ion-icon>
+      <ion-icon class="btn-save" name="checkmark-circle"></ion-icon>
+      <h1>Rol</h1>
+      <ion-icon class="text-indigo-500" name="navigate-circle-outline"></ion-icon>
+      <input class="text-indigo-500" disabled type="text" [value]="userLogged.rol">
+    </div>
+
+    <div class="bg-white shadow-sm mt-5 rounded-xl py-4 px-3 flex justify-center items-center flex-col">
+      <h1 class="ml-1.5 text-[#646470] self-start">Acciones</h1>
+
+      <button [disabled]="!leagueSelected" (click)="showCreateModal = true" *ngIf="userLogged.rol === 'ROL_USER' "
+        class="w-full mt-2.5 justify-center flex items-center py-2 px-3 text-white rounded-lg bg-green-400 shadow">
+
+        <svg class="h-6 w-6 fill-current mr-0.5" viewBox="0 0 24 24">
+          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
+        </svg>
+
+        <span>Añadir</span>
+
+      </button>
+
+      <button [disabled]="!leagueSelected" (click)="showEditModal = true; editForm.patchValue( leagueSelected )"
+        class="mt-2.5 w-full justify-center flex items-center py-2 px-3 text-white rounded-lg bg-blue-500 transition duration-300 hover:bg-blue-600 shadow">
+        <svg class="h-5 w-5 fill-current mr-1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+        </svg>
+
+        <span>Editar</span>
+
+      </button>
+
+      <button [disabled]="!leagueSelected" (click)="showDeleteModal = true"
+        class="mt-2.5 w-full justify-center flex items-center py-2 px-3 text-white rounded-lg bg-red-500 transition duration-300 hover:bg-red-600 shadow">
+        <ion-icon name="trash-outline" class="h-5 w-5 fill-current mr-2"></ion-icon>
+        <span>Eliminar</span>
+      </button>
+    </div>
+
+    <div *ngIf="leagueSelected" class="mt-8 flex items-center">
+      <span class="text-gray-800">Liga Seleccionada</span>
+    </div>
+
+    <a *ngIf="leagueSelected" [@fadeInUpOnEnter] [@fadeOutDownOnLeave] class="user-detail-container mt-3 p-4 flex justify-center shadow-sm bg-white rounded-lg
+			font-semibold capitalize">
+      <div class="flex justify-center">
+
+        <div class="flex justify-center text-white gap-x-2 items-center">
+          <ion-icon class="text-lg p-2 rounded-full bg-gray-800" name="trophy"></ion-icon>
+          <span class="font-semibold text-gray-700">{{leagueSelected.name}}</span>
+        </div>
+
+      </div>
+    </a>
+
+
+  </aside>
+
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showCreateModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <form class="space-y-4 text-gray-700 p-10" [formGroup]="createForm">
+        <div class="flex flex-wrap">
+          <div class="w-full">
+            <label class="block mb-1" for="formGridCode_card">Nombre</label>
+            <input formControlName="name"
+              class="w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500"
+              type="text" id="formGridCode_card" />
+          </div>
+        </div>
+      </form>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button (click)="createLeague()" class="btn-modal-close !font-medium mr-1.5">Crear Liga</button>
+        <label (click)="showCreateModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showEditModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <form class="space-y-4 text-gray-700 p-8" [formGroup]="editForm">
+        <div class="flex flex-wrap">
+          <div class="w-full">
+            <label class="block mb-1" for="formGridCode_card">Nombre</label>
+            <input formControlName="name"
+              class="w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500"
+              type="text" />
+          </div>
+        </div>
+      </form>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button (click)="editLeague()" class="btn-modal-close !font-medium mr-1.5">Editar Liga</button>
+        <label (click)="showEditModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showDeleteModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <div class="flex px-5 gap-x-1 items-center justify-center">
+        <img src="../../../assets/failedModal.svg" class="w-40 -ml-10">
+        <div>
+          <h1 class="font-medium text-2xl text-red-400">Eliminar Liga</h1>
+          <h2 class="text-gray-600 text-sm">¿Estás Seguro?</h2>
+        </div>
+      </div>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button (click)="deleteLeague(leagueSelected._id)" class="btn-modal-close !font-medium mr-1.5">Eliminar</button>
+        <label (click)="showDeleteModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
