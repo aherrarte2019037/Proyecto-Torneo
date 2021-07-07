@@ -41,8 +41,8 @@ export class LeagueService {
   }
 
   editLeague(league: any, id: String): Observable<any>{
-
     const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
+    
     return this.http.put( `${this.apiUrl}/editLeague/${id}`,league, { headers });
   }
 
