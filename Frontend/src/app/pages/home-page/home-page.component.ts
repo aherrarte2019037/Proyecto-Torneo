@@ -63,18 +63,21 @@ export class HomePageComponent implements OnInit {
   }
 
   selectTeam(team: any) {
-
-    /*if(this.teamsSelected && this.teamsSelected!==team){
-      this.teamsSelected = team;
-      //setTimeout(() => this.teamsSelected = team,200);
-      return;
-    }*/
     this.teamsSelected = team;
 
   }
 
-
-
+  buildMatchDayForm(){
+    return this.fmBuilder.group({
+      teamOne:    [''],
+      teamTwo:    [''],
+      idTeamOne   : ['', Validators.required],
+      idTeamTwo   : ['', Validators.required],
+      goalsTeamOne: ['', Validators.required],
+      goalsTeamTwo: ['', Validators.required]
+    })
+  }
+  
   createLeague(){
       this._leagueService.createLeague(this.createForm.value).subscribe(
         data=>{
@@ -146,17 +149,6 @@ export class HomePageComponent implements OnInit {
 
   }
 
-<<<<<<< Updated upstream
-  buildMatchDayForm(){
-    return this.fmBuilder.group({
-      teamOne:    [''],
-      teamTwo:    [''],
-      idTeamOne   : ['', Validators.required],
-      idTeamTwo   : ['', Validators.required],
-      goalsTeamOne: ['', Validators.required],
-      goalsTeamTwo: ['', Validators.required]
-    })
-=======
   deleteTeam(idTeam:String,idLeague:String){
 
     this._leagueService.deleteTeam(this.teamsSelected,idLeague,idTeam).subscribe(
@@ -174,7 +166,6 @@ export class HomePageComponent implements OnInit {
 
     )
 
->>>>>>> Stashed changes
   }
 
   buildCreateForm(){

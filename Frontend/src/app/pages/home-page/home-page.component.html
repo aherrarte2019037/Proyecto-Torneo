@@ -105,15 +105,9 @@
         <div [@fadeInOnEnter] [@fadeOutOnLeave] *ngIf="leagueSelected && leagueSelected?.teams.length !== 0">
           <div *ngFor="let team of leagueSelected?.teams;" class="rounded-lg text-sm">
             <div class="flex justify-start text-gray-700 bg-blue-200 rounded-md px-3 py-3 my-1 mr-3.5">
-<<<<<<< Updated upstream
                 <img class="w-7 h-7 rounded-full ml-1" [src]="'http://localhost:3000/api/uploads/teamImg/' + team.emblem">
                 
                 <div class="flex-grow text-blue-500 ml-1.5 mt-0.5">{{team.name}}</div>
-=======
-                <img class="w-7 h-7 rounded-full ml-1.5 -mt-0.5 absolute" [src]="'http://localhost:3000/api/uploads/teamImg/' + team.emblem">
-
-                <div class="flex-grow text-blue-500 ml-[34px] mt-0.5 px-2">{{team.name}}</div>
->>>>>>> Stashed changes
                 <div class="dropdown dropdown-end">
                   <div (click)="selectTeam(team)" tabindex="0" class="badge py-1 badge-info cursor-pointer hover:text-white !bg-blue-300 hover:!bg-blue-400"><ion-icon name="ellipsis-horizontal"></ion-icon></div>
                   <ul class="shadow menu dropdown-content mt-1 bg-base-100 rounded-box w-52">

@@ -3,7 +3,7 @@ const MatchDay = require('../models/match-day.model');
 const League = require('../models/league.model');
 const pdf = require("html-pdf")
 
-function createMatchDay(req, res) {//Crea la jornada
+function createMatchDay(req, res) {
     var LeagueId = req.params.LeagueId;
 
     if (req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para generar las jornadas' })
