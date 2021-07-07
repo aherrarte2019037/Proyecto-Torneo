@@ -69,7 +69,7 @@ function getLeagueID(req,res){
 
     //if(req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para ver una liga.'})
 
-    League.findById(idLeague).exec((err, leagueFound) => {
+    League.findById(idLeague).populate('idCreator', 'name lastname username').exec((err, leagueFound) => {
         if(err) return res.status(500).send({ message: 'Error en la petición'})
         if(!leagueFound) return res.status(500).send({ message: 'Error al encontrar la liga'})
         if(req.user.sub != leagueFound.idCreator) return res.status(500).send({ message: 'No tienes los permisos para ver esta liga.'})
@@ -82,7 +82,7 @@ function getLeaguesIdCreator(req,res){
 
     if(req.user.rol==="ROL_ADMIN"){
 
-        League.find((err,leaguesFound)=>{
+        League.find().populate('idCreator', 'name lastname username').exec((err,leaguesFound)=>{
             if(err) return res.status(500).send({ message: 'Error en la petición'})
             if(!leaguesFound) return res.status(500).send({ message: 'Error al encontrar las ligas'})
             return res.status(200).send( leaguesFound )
@@ -90,7 +90,7 @@ function getLeaguesIdCreator(req,res){
 
     }else{
 
-        League.find({idCreator: idCreator}, (err, leaguesFound) => {
+        League.find({idCreator: idCreator}).populate('idCreator', 'name lastname username').exec((err,leaguesFound) => {
             if(err) return res.status(500).send({ message: 'Error en la petición'})
             if(!leaguesFound) return res.status(500).send({ message: 'Error al encontrar las ligas'})
             return res.status(200).send( leaguesFound )
