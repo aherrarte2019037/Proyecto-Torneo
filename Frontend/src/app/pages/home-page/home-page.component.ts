@@ -10,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css'],
   animations: [
-    fadeInUpOnEnterAnimation({ translate: '30%', duration: 700 }),
+    fadeInUpOnEnterAnimation({ translate: '15%', duration: 700 }),
     fadeOutDownOnLeaveAnimation({ duration: 200, translate: '10%' }),
     fadeInOnEnterAnimation(),
     fadeOutOnLeaveAnimation({ duration: 200 })
@@ -27,6 +27,7 @@ export class HomePageComponent implements OnInit {
   showErrorTeamModal: boolean = false;
   showCreateTeamModal: boolean = false;
   showEditTeamModal: boolean = false;
+  addMatchDayForm: FormGroup = this.buildMatchDayForm();
   editForm: FormGroup = this.buildEditForm();
   createForm: FormGroup = this.buildCreateForm();
   createTeamForm: FormGroup = this.buildCreateTeamForm();
@@ -114,6 +115,17 @@ export class HomePageComponent implements OnInit {
 
   }
 
+  buildMatchDayForm(){
+    return this.fmBuilder.group({
+      teamOne:    [''],
+      teamTwo:    [''],
+      idTeamOne   : ['', Validators.required],
+      idTeamTwo   : ['', Validators.required],
+      goalsTeamOne: ['', Validators.required],
+      goalsTeamTwo: ['', Validators.required]
+    })
+  }
+
   buildCreateForm(){
     return this.fmBuilder.group({
       name: ['', [Validators.required]]
@@ -166,6 +178,12 @@ export class HomePageComponent implements OnInit {
     this.previewImg = '';
     this.createTeamData.delete('files');
     this.fileTitle = '';
+  }
+
+  addMatchDay() {
+    this._leagueService.addMatchDay( this.leagueSelected._id ).subscribe(
+      data => console.log(data)
+    );
   }
 
 }

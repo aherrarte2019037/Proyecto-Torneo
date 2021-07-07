@@ -86,3 +86,9 @@
   right: 13px;
   @apply absolute text-red-500 hidden transition-opacity duration-150 ease-in opacity-0;
 }
+
+.dropdown-class:focus-within .dropdown-menu {
+  opacity:1;
+  transform: translate(0) scale(1);
+  visibility: visible;
+}
