@@ -96,14 +96,20 @@
         <div [@fadeInOnEnter] [@fadeOutOnLeave] *ngIf="leagueSelected && leagueSelected?.teams.length !== 0">
           <div *ngFor="let team of leagueSelected?.teams;" class="rounded-lg text-sm">
             <div class="flex justify-start text-gray-700 bg-blue-200 rounded-md px-3 py-3 my-1 mr-3.5">
+<<<<<<< Updated upstream
                 <img class="w-7 h-7 rounded-full ml-1" [src]="'http://localhost:3000/api/uploads/teamImg/' + team.emblem">
                 
                 <div class="flex-grow text-blue-500 ml-1.5 mt-0.5">{{team.name}}</div>
+=======
+                <img class="w-7 h-7 rounded-full ml-1.5 -mt-0.5 absolute" [src]="'http://localhost:3000/api/uploads/teamImg/' + team.emblem">
+
+                <div class="flex-grow text-blue-500 ml-[34px] mt-0.5 px-2">{{team.name}}</div>
+>>>>>>> Stashed changes
                 <div class="dropdown dropdown-end">
-                  <div tabindex="0" class="badge py-1 badge-info cursor-pointer hover:text-white !bg-blue-300 hover:!bg-blue-400"><ion-icon name="ellipsis-horizontal"></ion-icon></div>
+                  <div (click)="selectTeam(team)" tabindex="0" class="badge py-1 badge-info cursor-pointer hover:text-white !bg-blue-300 hover:!bg-blue-400"><ion-icon name="ellipsis-horizontal"></ion-icon></div>
                   <ul class="shadow menu dropdown-content mt-1 bg-base-100 rounded-box w-52">
                     <li class="text-blue-400" >
-                      <button (click)="showEditTeamModal = true" class="hover:bg-gray-200 p-2">Editar <ion-icon class="ml-1.5" name="pencil-outline"></ion-icon></button>
+                      <button (click)="showEditTeamModal = true; setEditTeamFormValue()" class="hover:bg-gray-200 p-2">Editar <ion-icon class="ml-1.5" name="pencil-outline"></ion-icon></button>
                     </li>
                     <li class="text-red-400">
                       <button (click)="showDeleteTeamModal = true" class="hover:bg-gray-200 p-2">Eliminar <ion-icon class="ml-1.5" name="trash"></ion-icon></button>
@@ -317,7 +323,7 @@
       </div>
 
       <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
-        <button class="btn-modal-close !font-medium mr-1.5">Eliminar</button>
+        <button (click)="deleteTeam(teamsSelected._id,leagueSelected._id)" class="btn-modal-close !font-medium mr-1.5">Eliminar</button>
         <label (click)="showDeleteTeamModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
       </div>
     </div>
@@ -351,7 +357,7 @@
 
       <form class="space-y-4 text-gray-700 p-10" [formGroup]="createTeamForm">
         <div class="flex flex-wrap -mx-2 space-y-4 md:space-y-0">
-          
+
           <div class="w-full px-2 md:w-1/2">
             <label class="block mb-1 text-sm">Nombre</label>
             <input formControlName="name" class="w-full text-indigo-500 h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500" type="text">
@@ -393,7 +399,7 @@
 </div>
 
 <div data-theme="light" class="modal-container">
-  <input type="checkbox" id="search-modal" [checked]="showEditTeamModal" class="modal-toggle">
+  <input type="checkbox" id="search-modal" [checked]="showEditTeamModal" class="modal-toggle" >
   <div class="modal bg-opacity-50 bg-blacks">
     <div class="modal-box p-0 pt-6 text-left">
 
@@ -411,7 +417,7 @@
       </form>
 
       <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
-        <button (click)="addTeam()" class="btn-modal-close !font-medium mr-1.5">Agregar equipo</button>
+        <button (click)="editTeam()" class="btn-modal-close !font-medium mr-1.5">Agregar equipo</button>
         <label (click)="showEditTeamModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
       </div>
     </div>

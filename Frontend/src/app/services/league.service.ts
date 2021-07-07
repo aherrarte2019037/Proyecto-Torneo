@@ -63,7 +63,14 @@ export class LeagueService {
   editTeam(team:any, idLeague:string,idTeam:string): Observable<any>{
 
     const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
-    return this.http.put( `${this.apiUrl}/addTeam/${idLeague}/${idTeam}`,team, { headers });
+    return this.http.put( `${this.apiUrl}/editTeam/${idLeague}/${idTeam}`,team, { headers });
+
+  }
+
+  deleteTeam(x:any,idLeague:String,idTeam:String):Observable<any> {
+
+    const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
+    return this.http.put( `${this.apiUrl}/deleteTeamOfLeague/${idLeague}/${idTeam}`,x,{ headers });
 
   }
 
