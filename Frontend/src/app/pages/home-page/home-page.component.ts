@@ -38,6 +38,8 @@ export class HomePageComponent implements OnInit {
   fileTitle: string = '';
   createTeamData: FormData = new FormData();
   previewImg: string = '';
+  matchDays: [] = [];
+  selectedMatchDay: any = null;
 
 
   constructor( private _leagueService: LeagueService, private fmBuilder: FormBuilder, private userService: UserService ) { }
@@ -57,27 +59,25 @@ export class HomePageComponent implements OnInit {
   }
 
   selectLeague( league: any ) {
-    if( this.leagueSelected && this.leagueSelected !== league ) {
-      this.leagueSelected = null;
-      setTimeout(() => this.leagueSelected = league, 200);
-      return;
-    }
     this.leagueSelected = league;
   }
 
   selectTeam(team: any) {
-
-    /*if(this.teamsSelected && this.teamsSelected!==team){
-      this.teamsSelected = team;
-      //setTimeout(() => this.teamsSelected = team,200);
-      return;
-    }*/
     this.teamsSelected = team;
 
   }
 
-
-
+  buildMatchDayForm(){
+    return this.fmBuilder.group({
+      teamOne:    [''],
+      teamTwo:    [''],
+      idTeamOne   : ['', Validators.required],
+      idTeamTwo   : ['', Validators.required],
+      goalsTeamOne: ['', Validators.required],
+      goalsTeamTwo: ['', Validators.required]
+    })
+  }
+  
   createLeague(){
       this._leagueService.createLeague(this.createForm.value).subscribe(
         data=>{
@@ -149,17 +149,6 @@ export class HomePageComponent implements OnInit {
 
   }
 
-<<<<<<< Updated upstream
-  buildMatchDayForm(){
-    return this.fmBuilder.group({
-      teamOne:    [''],
-      teamTwo:    [''],
-      idTeamOne   : ['', Validators.required],
-      idTeamTwo   : ['', Validators.required],
-      goalsTeamOne: ['', Validators.required],
-      goalsTeamTwo: ['', Validators.required]
-    })
-=======
   deleteTeam(idTeam:String,idLeague:String){
 
     this._leagueService.deleteTeam(this.teamsSelected,idLeague,idTeam).subscribe(
@@ -177,7 +166,6 @@ export class HomePageComponent implements OnInit {
 
     )
 
->>>>>>> Stashed changes
   }
 
   buildCreateForm(){
@@ -236,9 +224,16 @@ export class HomePageComponent implements OnInit {
   }
 
   addMatchDay() {
-    this._leagueService.addMatchDay( this.leagueSelected._id ).subscribe(
-      data => console.log(data)
-    );
+    this._leagueService.addMatchDay( this.selectedMatchDay.selectedMatch._id, this.addMatchDayForm.value ).subscribe( data => console.log(data) )
+  }
+
+  setMatchDays() {
+    if( this.matchDays.length > 0 ) return
+    this._leagueService.createMatchDays( this.leagueSelected._id ).subscribe( (data: any) => this.matchDays = data );
+  }
+
+  setMatchDay( selectedMatch: any, index: number ) {
+    this.selectedMatchDay = { selectedMatch, index: index+1 }
   }
 
 }
