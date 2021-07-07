@@ -34,7 +34,7 @@ function createMatchDay(req, res) {//Crea la jornada
         MatchDay.insertMany(matchDayArray, (err, saveMatchDay) => {
             if (err) return res.status(500).send({ message: 'Error en la petición', err });
             if (!saveMatchDay) return res.status(500).send({ message: `Error al guardar la Jornada: ${x}` });
-            return res.status(200).send({ message: 'Se crearon las Jornadas.' });
+            return res.status(200).send(saveMatchDay);
         })
     })
 

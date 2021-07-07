@@ -8,7 +8,7 @@
       <span class="text-indigo-400 -mt-1 text-[27px]">{{ userLogged?.name }} {{ userLogged?.lastname }}</span>
     </div>
 
-    <div class="flex h-3/4 bg-white px-5 pb-4">
+    <div class="flex h-3/4 bg-white px-5 pb-4 rounded-xl">
 
       <div class="w-1/2 mt-0 py-2 flex-shrink-0 flex flex-col rounded-xl">
 
@@ -34,13 +34,22 @@
         </div>
 
         <div>
-          <ul class="pt-1 -mt-2.5 pb-2 px-3 overflow-y-auto">
+          <ul class="pt-1 h-[60vh] -mt-2.5 pb-2 px-3 overflow-y-hidden">
 
             <li class="mt-2">
-              <a *ngFor="let leag of leagues" class="px-5 py-3 flex flex-col justify-between bg-gray-100 rounded-lg mt-4">
+              <a *ngFor="let leag of leagues" class="px-5 py-3 relative flex flex-col justify-between bg-gray-100 rounded-lg mt-4">
+
+                <div class="dropdown dropdown-end w-12 absolute right-2">
+                  <div tabindex="0" class="badge flex justify-between items-center px-4 py-1 w-full badge-info cursor-pointer !text-gray-600 !bg-gray-300 hover:!bg-gray-400"><ion-icon name="ellipsis-horizontal"></ion-icon></div>
+                  <ul class="shadow menu dropdown-content mb-1.5 bg-base-100 rounded-box w-32">
+                    <li *ngFor="let matchDay of matchDays; let i = index" class="text-blue-400" >
+                      <button (click)="setMatchDay( matchDay, i )" type="button" class="hover:bg-gray-200 p-2">Jornada {{ i + 1 }}</button>
+                    </li>
+                  </ul>
+                </div>
 
                 <div class="flex items-center font-semibold capitalize dark:text-gray-700">
-                  <div (click)="selectLeague(leag)"
+                  <div (click)="selectLeague(leag); setMatchDays()"
                     class="bg-white rounded-full w-[17px] h-[17px] flex flex-shrink-0 justify-center relative mr-2">
                     <input type="radio" name="radio"
                       class="checkbox opacity-100 appearance-none border-2 rounded-full border-gray-400 absolute cursor-pointer w-full h-full checked:border-none" />
@@ -192,11 +201,15 @@
       </div>
     </a>
 
-    <div *ngIf="leagueSelected" [@fadeInUpOnEnter] [@fadeOutDownOnLeave] class="mt-7 flex items-center">
+    <div *ngIf="selectedMatchDay" [@fadeInUpOnEnter] [@fadeOutDownOnLeave] class="mt-7 flex items-center">
       <span class="text-gray-700">Añadir Marcador</span>
     </div>
 
-    <form [formGroup]="addMatchDayForm" *ngIf="leagueSelected" class="mt-3.5">
+    <form [formGroup]="addMatchDayForm" *ngIf="selectedMatchDay" class="mt-3.5">
+
+      <div class="class flex justify-center mb-2 font-semibold text-gray-700 text-sm items-center">
+        <h1>Jornada {{ selectedMatchDay?.index }}</h1>
+      </div>
 
       <div class="flex w-full space-x-2 items-center justify-between">
         <div class="dropdown dropdown-top w-full">
