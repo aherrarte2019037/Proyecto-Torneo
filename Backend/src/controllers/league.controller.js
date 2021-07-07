@@ -77,11 +77,10 @@ function getLeagueID(req,res){
     })
 }
 
-function getLeaguesIdCreator(req,res){
+async function getLeaguesIdCreator(req,res){
     var idCreator = req.user.sub
 
     if(req.user.rol==="ROL_ADMIN"){
-
         League.find().populate('idCreator', 'name lastname username').exec((err,leaguesFound)=>{
             if(err) return res.status(500).send({ message: 'Error en la petición'})
             if(!leaguesFound) return res.status(500).send({ message: 'Error al encontrar las ligas'})
@@ -89,7 +88,6 @@ function getLeaguesIdCreator(req,res){
         })
 
     }else{
-
         League.find({idCreator: idCreator}).populate('idCreator', 'name lastname username').exec((err,leaguesFound) => {
             if(err) return res.status(500).send({ message: 'Error en la petición'})
             if(!leaguesFound) return res.status(500).send({ message: 'Error al encontrar las ligas'})
@@ -109,7 +107,6 @@ async function addTeam(req,res){
     const filename = `teamImg${new Date().getMilliseconds()}.${type}`;
     
     if( file ) await file.mv( `uploads/${filename}` );
-
     if(req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para agregar equipos a esta liga.'})
 
     League.findById(idLeague, (err, leagueFound) => {
@@ -203,6 +200,22 @@ function getTeamID(req,res){
     })
 }
 
+async function getTeamImage( req, res ) {
+    const file = req.params.file;
+
+    try {
+        await fs.access(`uploads/${file}`);
+        res.download(`uploads/${file}`, (error) => {
+            if( error ) return res.status(404).send({ error: error });
+        })
+    }catch (error) {
+        res.download(`uploads/defaultTeam.png`, (error) => {
+            if( error ) return res.status(404).send({ error: error });
+        })
+    }
+    
+}
+
 /*function addPlayerToTeam(req,res){
     var idLeague = req.params.idLeague
     var idTeam = req.params.idTeam
@@ -235,5 +248,6 @@ module.exports = {
     getTeamsLeague,
     deleteTeam,
     editTeam,
-    getTeamID
+    getTeamID,
+    getTeamImage
 }

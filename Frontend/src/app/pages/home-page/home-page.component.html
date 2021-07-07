@@ -17,11 +17,27 @@
           <span>Tus Ligas</span>
         </h3>
 
+        <div *ngIf="leagues?.length === 0">
+          <ul class="pt-1 -mt-2.5 pb-2 px-3 overflow-y-auto">
+
+            <li class="mt-2 shadow-sm">
+              <a class="px-5 py-[13px] flex flex-col justify-between bg-gray-200 rounded-lg mt-4">
+
+                <div class="flex items-center">
+                  <span class="text-gray-800 text-sm">No tienes ligas...</span>
+                </div>
+
+              </a>
+            </li>
+          </ul>
+
+        </div>
+
         <div>
           <ul class="pt-1 -mt-2.5 pb-2 px-3 overflow-y-auto">
 
             <li class="mt-2">
-              <a *ngFor="let leag of leagues" class="p-5 flex flex-col justify-between bg-gray-100 rounded-lg mt-4">
+              <a *ngFor="let leag of leagues" class="px-5 py-3 flex flex-col justify-between bg-gray-100 rounded-lg mt-4">
 
                 <div class="flex items-center font-semibold capitalize dark:text-gray-700">
                   <div (click)="selectLeague(leag)"
@@ -31,20 +47,15 @@
                     <div class="check-icon hidden border-4 border-blue-500 rounded-full w-full h-full z-1"></div>
                   </div>
 
-
-                  <span class="text-gray-800">{{leag.name}}</span>
-
-                  <div class="flex items-center ml-2">
-                    <ion-icon class="text-xl text-gray-700" name="football"></ion-icon>
-                  </div>
+                  <span class="text-gray-700 text-sm font-normal">{{leag.name}}</span>
 
                 </div>
 
                 <div class="flex justify-between">
                   <div class="flex">
-                    <span class="text-xs tracking-wide">
-                      <span class="text-blue-500 text-sm font-normal">Id Creador</span>
-                      {{leag.idCreator}}
+                    <span class="text-[13px] text-gray-800 tracking-wide">
+                      <span class="text-blue-500 text-[13px] font-normal">Creador</span>
+                      {{leag?.idCreator.name}} {{leag?.idCreator.lastname}}
                     </span>
                   </div>
                 </div>
@@ -63,41 +74,43 @@
           <span>Equipos</span>
         </h3>
 
-        <div *ngIf="leagueSelected" (click)="showCreateTeamModal = true" [@fadeInOnEnter] class="rounded-lg text-sm cursor-pointer">
+        <div *ngIf="leagueSelected && leagueSelected?.teams.length !== 10 && userLogged.rol !== 'ROL_ADMIN'" (click)="showCreateTeamModal = true" class="rounded-lg text-sm cursor-pointer">
           <div class="flex transition duration-300 justify-center items-center text-gray-700 bg-blue-500 hover:bg-blue-600 rounded-md py-2.5 my-1 mr-3.5">
-              <div  class="-ml-4 mb-0.5 text-center font-light text-white mt-0.5">Agregar <!--<ion-icon class="text-xl absolute ml-1.5 mt-[1px]" name="add-circle"></ion-icon>--></div>
+              <div  class="mb-0.5 text-center font-light text-white mt-0.5">Añadir <ion-icon class="text-xl -mb-1.5" name="add-circle"></ion-icon></div>
           </div>
         </div>
 
-        <div *ngIf="!leagueSelected" [@fadeInOnEnter] class="rounded-lg text-sm">
-          <div class="flex justify-start text-gray-700 bg-gray-700 rounded-md px-3 py-3 my-1 mr-3.5">
+        <div *ngIf="!leagueSelected" class="rounded-lg text-sm">
+          <div class="flex justify-start text-gray-700 bg-gray-700 shadow-md rounded-md px-3 py-3 my-1 mr-3.5">
               <div class="flex-grow text-center font-light text-white px-2">Selecciona una liga ...</div>
           </div>
         </div>
 
-        <div [@fadeInOnEnter] *ngIf="leagueSelected && leagueSelected?.teams.length === 0" class="rounded-lg text-sm">
-          <div class="flex justify-start text-gray-700 bg-gray-700 rounded-md px-3 py-3 my-1 mr-3.5">
+        <div *ngIf="leagueSelected && leagueSelected?.teams.length === 0" class="rounded-lg text-sm">
+          <div class="flex justify-start text-gray-700 shadow-md bg-gray-700 rounded-md px-3 py-3 my-1 mr-3.5">
               <div class="flex-grow text-center font-light text-white px-2">No hay equipos...</div>
           </div>
         </div>
 
         <!-- Array de equipos -->
-        <div *ngIf="leagueSelected && leagueSelected?.teams.length !== 0">
-          <div *ngFor="let team of leagueSelected?.teams" class="rounded-lg text-sm">
+        <div [@fadeInOnEnter] [@fadeOutOnLeave] *ngIf="leagueSelected && leagueSelected?.teams.length !== 0">
+          <div *ngFor="let team of leagueSelected?.teams; trackBy:trackByLeagueId" class="rounded-lg text-sm">
             <div class="flex justify-start text-gray-700 bg-blue-200 rounded-md px-3 py-3 my-1 mr-3.5">
-                <span class="bg-blue-500 h-2 w-2 m-2 rounded-full"></span>
-                <div class="flex-grow text-blue-500 mt-0.5 px-2">{{team.name}}</div>
+                <img class="w-7 h-7 rounded-full ml-1.5 -mt-0.5 absolute" [src]="'http://localhost:3000/api/uploads/teamImg/' + team.emblem">
+                
+                <div class="flex-grow text-blue-500 ml-[34px] mt-0.5 px-2">{{team.name}}</div>
                 <div class="dropdown dropdown-end">
                   <div tabindex="0" class="badge py-1 badge-info cursor-pointer hover:text-white !bg-blue-300 hover:!bg-blue-400"><ion-icon name="ellipsis-horizontal"></ion-icon></div>
                   <ul class="shadow menu dropdown-content mt-1 bg-base-100 rounded-box w-52">
                     <li class="text-blue-400" >
-                      <button (click)="showEditTeamModal = true" class="hover:bg-gray-600 p-2">Editar <ion-icon class="ml-1.5" name="pencil-outline"></ion-icon></button>
+                      <button (click)="showEditTeamModal = true" class="hover:bg-gray-200 p-2">Editar <ion-icon class="ml-1.5" name="pencil-outline"></ion-icon></button>
                     </li>
                     <li class="text-red-400">
-                      <button (click)="showDeleteTeamModal = true" class="hover:bg-gray-600 p-2">Eliminar <ion-icon class="ml-1.5" name="trash"></ion-icon></button>
+                      <button (click)="showDeleteTeamModal = true" class="hover:bg-gray-200 p-2">Eliminar <ion-icon class="ml-1.5" name="trash"></ion-icon></button>
                     </li>
                   </ul>
                 </div>
+
             </div>
           </div>
         </div>
@@ -145,32 +158,32 @@
     <div class="bg-white shadow-sm mt-5 rounded-xl py-4 px-3 flex justify-center items-center flex-col">
       <h1 class="ml-1.5 text-[#646470] self-start">Acciones</h1>
 
-      <button [disabled]="!leagueSelected" (click)="showCreateModal = true" *ngIf="userLogged.rol === 'ROL_USER' "
-        class="w-full mt-2.5 justify-center flex items-center py-2 px-3 text-white rounded-lg bg-green-400 shadow">
+      <button (click)="showCreateModal = true" *ngIf="userLogged.rol === 'ROL_USER' "
+        class="w-full mt-2.5 justify-center flex items-center py-2 px-3 text-white rounded-lg bg-green-400 hover:bg-green-500 shadow">
 
-        <svg class="h-6 w-6 fill-current mr-0.5" viewBox="0 0 24 24">
+        <svg class="h-5 w-5 fill-current mr-0.5" viewBox="0 0 24 24">
           <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
         </svg>
 
-        <span>Añadir</span>
+        <span class="text-[16px]">Añadir</span>
 
       </button>
 
       <button [disabled]="!leagueSelected" (click)="showEditModal = true; editForm.patchValue( leagueSelected )"
         class="mt-2.5 w-full justify-center flex items-center py-2 px-3 text-white rounded-lg bg-blue-500 transition duration-300 hover:bg-blue-600 shadow">
-        <svg class="h-5 w-5 fill-current mr-1.5" viewBox="0 0 24 24">
+        <svg class="h-4 w-4 mt-1 fill-current mr-1.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
         </svg>
 
-        <span>Editar</span>
+        <span class="text-[15px]">Editar</span>
 
       </button>
 
       <button [disabled]="!leagueSelected" (click)="showDeleteModal = true"
         class="mt-2.5 w-full justify-center flex items-center py-2 px-3 text-white rounded-lg bg-red-500 transition duration-300 hover:bg-red-600 shadow">
-        <ion-icon name="trash-outline" class="h-5 w-5 fill-current mr-2"></ion-icon>
-        <span>Eliminar</span>
+        <ion-icon name="trash" class="text-lg fill-current mr-1"></ion-icon>
+        <span class="text-[15px]">Eliminar</span>
       </button>
     </div>
 
@@ -203,10 +216,8 @@
       <form class="space-y-4 text-gray-700 p-10" [formGroup]="createForm">
         <div class="flex flex-wrap">
           <div class="w-full">
-            <label class="block mb-1" for="formGridCode_card">Nombre</label>
-            <input formControlName="name"
-              class="w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500"
-              type="text" id="formGridCode_card" />
+            <label class="block mb-1 text-sm" for="formGridCode_card">Nombre</label>
+            <input formControlName="name" class="w-full text-indigo-500 h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500"type="text" id="formGridCode_card" />
           </div>
         </div>
       </form>
@@ -227,10 +238,8 @@
       <form class="space-y-4 text-gray-700 p-8" [formGroup]="editForm">
         <div class="flex flex-wrap">
           <div class="w-full">
-            <label class="block mb-1" for="formGridCode_card">Nombre</label>
-            <input formControlName="name"
-              class="w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500"
-              type="text" />
+            <label class="block mb-1 text-sm" for="formGridCode_card">Nombre</label>
+            <input formControlName="name" class="w-full text-indigo-500 h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500"type="text" />
           </div>
         </div>
       </form>
@@ -294,7 +303,7 @@
         <img src="../../../assets/failedModal.svg" class="w-40 -ml-10">
         <div>
           <h1 class="font-medium text-2xl text-red-400">Error</h1>
-          <h2 class="text-gray-600 text-sm">Parece que en esta liga ya existen 10 equipos</h2>
+          <h2 class="text-gray-600 text-sm">Error inesperado</h2>
         </div>
       </div>
 
@@ -312,14 +321,36 @@
 
       <form class="space-y-4 text-gray-700 p-10" [formGroup]="createTeamForm">
         <div class="flex flex-wrap -mx-2 space-y-4 md:space-y-0">
+          
           <div class="w-full px-2 md:w-1/2">
-            <label class="block mb-1">Nombre</label>
-            <input formControlName="name" class="w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500" type="text">
+            <label class="block mb-1 text-sm">Nombre</label>
+            <input formControlName="name" class="w-full text-indigo-500 h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500" type="text">
           </div>
+
           <div class="w-full px-2 md:w-1/2">
-            <label class="block mb-1" >Entrenador</label>
-            <input formControlName="coach" class="w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500" type="text"/>
+            <label class="block mb-1 text-sm">Entrenador</label>
+            <input formControlName="coach" class="w-full text-indigo-500 h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500" type="text"/>
           </div>
+
+          <div class="!mt-5 mx-1.5 h-32 rounded-lg w-full border border-gray-200 bg-white flex justify-center items-center">
+            <div class="absolute">
+              <div class="flex flex-col items-center "> <ion-icon name="cloud-upload" class="text-gray-300 text-5xl"></ion-icon> <span
+                  class="block text-gray-400 font-normal">Foto De Equipo</span>
+                  <span class="block text-blue-400 text-sm font-normal">Buscar Imagen</span> </div>
+            </div>
+
+            <input *ngIf="!fileTitle" (change)="fileChange($event)" type="file" accept="image/*" class="cursor-pointer h-full w-full opacity-0">
+            <div *ngIf="fileTitle" class="h-full flex gap-y-1.5 flex-col justify-center items-center w-full bg-white z-50 mx-1 my-1">
+              <div class="w-16 h-16 rounded-full flex justify-center items-center">
+                <span *ngIf="previewImg === ''" class="text-white flex justify-center items-center w-16 h-16 bg-gray-800 rounded-full">
+                  <div class="img-spinner"></div>
+                </span>
+                <img *ngIf="previewImg && previewImg !== ''" [src]="previewImg" class="w-16 h-16 rounded-full !m-0 !border-none">
+              </div>
+              <span class="text-gray-50 bg-gray-800 tracking-wide text-[11px] px-5 pl-[22px] pt-0.5 pb-1 rounded-full">{{ fileTitle }} <ion-icon (click)="deleteImg()" name="close" class="mb-[-5px] text-lg cursor-pointer"></ion-icon></span>
+            </div>
+          </div>
+
         </div>
       </form>
 
@@ -339,12 +370,12 @@
       <form class="space-y-4 text-gray-700 p-10" [formGroup]="editTeamForm">
         <div class="flex flex-wrap -mx-2 space-y-4 md:space-y-0">
           <div class="w-full px-2 md:w-1/2">
-            <label class="block mb-1">Nombre</label>
-            <input formControlName="name" class="w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500" type="text">
+            <label class="block mb-1 text-sm">Nombre</label>
+            <input formControlName="name" class="w-full text-indigo-500 h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500" type="text">
           </div>
           <div class="w-full px-2 md:w-1/2">
-            <label class="block mb-1" >Entrenador</label>
-            <input formControlName="coach" class="w-full h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500" type="text"/>
+            <label class="block mb-1 text-sm" >Entrenador</label>
+            <input formControlName="coach" class="w-full text-indigo-500 h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500" type="text"/>
           </div>
         </div>
       </form>

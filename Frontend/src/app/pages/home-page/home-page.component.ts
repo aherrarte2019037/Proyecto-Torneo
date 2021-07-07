@@ -13,7 +13,7 @@ import { UserService } from 'src/app/services/user.service';
     fadeInUpOnEnterAnimation({ translate: '30%', duration: 700 }),
     fadeOutDownOnLeaveAnimation({ duration: 200, translate: '10%' }),
     fadeInOnEnterAnimation(),
-    fadeOutOnLeaveAnimation()
+    fadeOutOnLeaveAnimation({ duration: 200 })
   ]
 })
 export class HomePageComponent implements OnInit {
@@ -32,6 +32,10 @@ export class HomePageComponent implements OnInit {
   createTeamForm: FormGroup = this.buildCreateTeamForm();
   editTeamForm: FormGroup = this.buildEditTeamForm();
   formEditChanges: any = {};
+  fileTitle: string = '';
+  createTeamData: FormData = new FormData();
+  previewImg: string = '';
+
 
   constructor( private _leagueService: LeagueService, private fmBuilder: FormBuilder, private userService: UserService ) { }
 
@@ -50,7 +54,6 @@ export class HomePageComponent implements OnInit {
       setTimeout(() => this.leagueSelected = league, 200);
       return;
     }
-
     this.leagueSelected = league;
   }
 
@@ -59,23 +62,23 @@ export class HomePageComponent implements OnInit {
         data=>{
           this._leagueService.getLeagues().subscribe(data=> this.leagues = data);
           this.showCreateModal = false;
+          this.leagueSelected = null;
         }
       )
   }
 
   addTeam(){
-    this._leagueService.addTeam(this.createTeamForm.value,this.leagueSelected._id).subscribe(
-      data=>{
-        this._leagueService.getLeagues().subscribe(data=> this.leagues = data);
-        this.showCreateTeamModal = false;
-      },
-      error=>{
-        console.log(<any>error);
-        this.showCreateTeamModal = false;
-        this.showErrorTeamModal = true;
+    this.createTeamData.append( 'name', this.createTeamForm.value.name );
+    this.createTeamData.append( 'coach', this.createTeamForm.value.coach );
 
-      }
-    )
+    this._leagueService.addTeam( this.createTeamData, this.leagueSelected._id).subscribe(
+      data => { 
+        this.showCreateTeamModal = false;
+        this.leagueSelected.teams = data?.addedTeam.teams;
+
+      },
+      error => { this.showErrorTeamModal = true; this.showCreateTeamModal = false}
+      );
   }
 
   editLeague(){
@@ -135,6 +138,28 @@ export class HomePageComponent implements OnInit {
 
   setEditFormValue(){
     this.editForm.patchValue(this.leagueSelected);
+  }
+
+  trackByLeagueId( index: number, item: any ) {
+    return item._id;
+  }
+
+  fileChange( event: any ) {
+    if( event.target.files.length > 0 ) {
+      const file = event.target.files[0];
+      this.fileTitle = file.name;
+      this.createTeamData.append('files', file);
+
+      const reader = new FileReader();
+      reader.onload = () => this.previewImg = reader.result as string;
+      reader.readAsDataURL( file );
+    }
+  }
+
+  deleteImg() {
+    this.previewImg = '';
+    this.createTeamData.delete('files');
+    this.fileTitle = '';
   }
 
 }
