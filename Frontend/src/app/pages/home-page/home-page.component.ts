@@ -20,6 +20,7 @@ export class HomePageComponent implements OnInit {
   userLogged: any = {};
   leagues: any;
   leagueSelected: any = null;
+  teamsSelected: any = null;
   showCreateModal: boolean = false;
   showEditModal: boolean = false;
   showDeleteModal: boolean = false;
@@ -33,6 +34,7 @@ export class HomePageComponent implements OnInit {
   createTeamForm: FormGroup = this.buildCreateTeamForm();
   editTeamForm: FormGroup = this.buildEditTeamForm();
   formEditChanges: any = {};
+  formEditTeamChanges: any ={};
   fileTitle: string = '';
   createTeamData: FormData = new FormData();
   previewImg: string = '';
@@ -49,11 +51,29 @@ export class HomePageComponent implements OnInit {
     this.editForm.valueChanges.subscribe(value=>{
       if(value.name !== this.leagueSelected.name) this.formEditChanges.name = value.name
     })
+
+    this.editTeamForm.valueChanges.subscribe(value=>{
+      if(value.name!== this.teamsSelected.name) this.formEditTeamChanges.name = value.name;
+      if(value.coach !== this.teamsSelected.coach) this.formEditTeamChanges.coach = value.coach;
+    })
   }
 
   selectLeague( league: any ) {
     this.leagueSelected = league;
   }
+
+  selectTeam(team: any) {
+
+    /*if(this.teamsSelected && this.teamsSelected!==team){
+      this.teamsSelected = team;
+      //setTimeout(() => this.teamsSelected = team,200);
+      return;
+    }*/
+    this.teamsSelected = team;
+
+  }
+
+
 
   createLeague(){
       this._leagueService.createLeague(this.createForm.value).subscribe(
@@ -70,7 +90,7 @@ export class HomePageComponent implements OnInit {
     this.createTeamData.append( 'coach', this.createTeamForm.value.coach );
 
     this._leagueService.addTeam( this.createTeamData, this.leagueSelected._id).subscribe(
-      data => { 
+      data => {
         this.showCreateTeamModal = false;
         this.leagueSelected.teams = data?.addedTeam.teams;
         this.createTeamForm.reset();
@@ -95,11 +115,25 @@ export class HomePageComponent implements OnInit {
     )
   }
 
+  editTeam(){
+    this._leagueService.editTeam(this.formEditTeamChanges,this.leagueSelected._id,this.teamsSelected._id).subscribe(
+      data=>{
+        this.leagueSelected.teams = data?.editedTeam.teams;
+
+        this.showEditTeamModal = false;
+        this.teamsSelected = null;
+      },
+      error=>{
+        console.log(<any>error);
+
+      }
+    )
+  }
+
   deleteLeague(id: String){
 
     this._leagueService.deleteLeague(id).subscribe(
       response=>{
-        console.log(response);
         this._leagueService.getLeagues().subscribe(data=> this.leagues = data);
         this.showDeleteModal = false;
         this.leagueSelected = null;
@@ -112,6 +146,7 @@ export class HomePageComponent implements OnInit {
 
   }
 
+<<<<<<< Updated upstream
   buildMatchDayForm(){
     return this.fmBuilder.group({
       teamOne:    [''],
@@ -121,6 +156,25 @@ export class HomePageComponent implements OnInit {
       goalsTeamOne: ['', Validators.required],
       goalsTeamTwo: ['', Validators.required]
     })
+=======
+  deleteTeam(idTeam:String,idLeague:String){
+
+    this._leagueService.deleteTeam(this.teamsSelected,idLeague,idTeam).subscribe(
+
+      data=>{
+        this.leagueSelected.teams = data?.deletedTeam.teams;
+        this.showDeleteTeamModal = false;
+        this.teamsSelected = null;
+
+      },
+      error=>{
+        console.log(<any>error);
+
+      }
+
+    )
+
+>>>>>>> Stashed changes
   }
 
   buildCreateForm(){
@@ -151,8 +205,9 @@ export class HomePageComponent implements OnInit {
     })
   }
 
-  setEditFormValue(){
-    this.editForm.patchValue(this.leagueSelected);
+  setEditTeamFormValue(){
+    this.editTeamForm.patchValue(this.teamsSelected);
+
   }
 
   trackByLeagueId( index: number, item: any ) {
