@@ -75,9 +75,15 @@ export class HomePageComponent implements OnInit {
       data => { 
         this.showCreateTeamModal = false;
         this.leagueSelected.teams = data?.addedTeam.teams;
+        this.createTeamForm.reset();
+        this.createTeamData.delete('files');
+        this.createTeamData.delete( 'name' );
+        this.createTeamData.delete( 'coach' );
+        this.previewImg = '';
+        this.fileTitle = '';
 
       },
-      error => { this.showErrorTeamModal = true; this.showCreateTeamModal = false}
+      error => { this.showErrorTeamModal = true; this.showCreateTeamModal = false;}
       );
   }
 
