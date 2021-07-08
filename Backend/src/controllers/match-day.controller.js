@@ -260,42 +260,34 @@ function createPDF(req, res) {
         var contenido = '';
         var arrayG = [];
         var cabecera = `
-        <style type="text/css">
+        <style>
         html,
         body {
-            height: 100%;
+            height: 2%;
         }
 
         body {
-            margin: 0;
-            background: linear-gradient(45deg, #49a09d, #5f2c82);
+            margin: 25px;
+            background: linear-gradient(45deg,#e6e9f0,#eef1f5);
             font-family: sans-serif;
             font-weight: 100;
-        }
+        }   
 
         .container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            margin: 15px;
         }
 
         table {
-            width: 800px;
-            border-collapse: collapse;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            width: 1000px;
+            margin: auto;
         }
 
         th,
         td {
-            padding: 15px;
-            background-color: rgba(255,255,255,0.2);
-            color: #fff;
-        }
-
-        th {
-            text-align: left;
+            padding: 5px;
+            background-color: rgba(179,179,180,0.5);
+            color: #000;
+            text-align: center;
         }
 
         thead {
@@ -305,34 +297,27 @@ function createPDF(req, res) {
         }
 
         tbody {
-            tr {
-                &:hover {
-                    background-color: rgba(255,255,255,0.3);
-                }
-            }
-            td {
-                position: relative;
-                &:hover {
-                    &:before {
-                        content: "";
-                        position: absolute;
-                        left: 0;
-                        right: 0;
-                        top: -9999px;
-                        bottom: -9999px;
-                        background-color: rgba(255,255,255,0.2);
-                        z-index: -1;
-                    }
-                }
-            }
         }
+
+
+.content
+  position: absolute
+  top: 0
+  margin: 250px 10vw
+  max-width: 60vw
+  background-color: transparent
+    
+
         </style>    
-            <h1>Resultados de la liga</h1><br>
-            <p>Nombre: <strong>${leagueFound.name}</strong></p>
-            <p>Dueño: <strong>${leagueFound.idCreator.name} ${leagueFound.idCreator.lastname}</strong><br></p>
-            <img style="border-radius: 5px;"  width="250"  src="${leagueFound.emblem}">
+        <div class="blue-bg"></div>
+        <div class="white-bg shadow"></div>
+        <div class="content">
+
+            <h1 style="text-align: center; color: #000;">Reporte de resultados</h1><br>
+            <p style="text-align: center; font-size: 25px; color: #000;">Liga: <strong>${leagueFound.name}</strong></p>
+            <p style="text-align: center; font-size: 25px; color: #000;">Director de la liga: <strong>${leagueFound.idCreator.name} ${leagueFound.idCreator.lastname}</strong><br></p>
             <table>
-                <tr style="background-color: #FF5733;">
+                <tr>
                     <th>Emblema</th>
                     <th>Equipo</th>
                     <th>GF</th>
@@ -453,7 +438,7 @@ function createPDF(req, res) {
             for (var i = 0; i < resultsArray.length; i++) {
                 arrayG[i] = `
                     <tr>
-                        <td><img style="border-radius: 5px;"  width="10"  src="${resultsArray[i].emblem}"></td>
+                        <td><img width="35"  src="http://localhost:3000/api/uploads/teamImg/${resultsArray[i].emblem}"></td>
                         <td>${resultsArray[i].team}</td>
                         <td>${resultsArray[i].goalsFavor}</td>
                         <td>${resultsArray[i].goalsAgainst}</td>
@@ -465,7 +450,8 @@ function createPDF(req, res) {
                 contenido += arrayG[i]
             }
             contenido = cabecera + contenido + `</table>`
-            pdf.create(contenido).toFile(`../PDF/${leagueFound.name}.pdf`, (err, pdfCreado) => {
+
+            pdf.create(contenido, { width: '279mm', height: '216mm'}).toFile(`../PDF/${leagueFound.name}.pdf`, (err, pdfCreado) => {
                 if (err) return res.status(500).send({ err })
                 return res.status(200).send({ pdfCreado })
             })
