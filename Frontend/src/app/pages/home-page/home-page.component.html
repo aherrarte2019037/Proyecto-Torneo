@@ -43,11 +43,15 @@
                   <div tabindex="0" class="badge flex justify-between items-center px-4 py-1 w-full badge-info cursor-pointer !text-gray-600 !bg-gray-300 hover:!bg-gray-400"><ion-icon name="ellipsis-horizontal"></ion-icon></div>
                   <ul class="shadow menu dropdown-content mb-1.5 bg-base-100 rounded-box w-32">
                     <li class="text-purple-400" >
-                      <button  type="button" class="hover:bg-gray-200 p-2">Tabla</button>
+                      <button (click)="showTableModal = true; getResults(leagueSelected._id)" type="button" class="hover:bg-gray-200 p-2">Tabla</button>
                     </li>
 
                     <li class="text-purple-400" >
                       <button  type="button" class="hover:bg-gray-200 p-2">Gráfica</button>
+                    </li>
+
+                    <li class="text-purple-400" >
+                      <button (click)="showPdfModal = true" type="button" class="hover:bg-gray-200 p-2">PDF</button>
                     </li>
 
                     <li *ngFor="let matchDay of matchDays; let i = index" class="text-blue-400" >
@@ -114,7 +118,7 @@
           <div *ngFor="let team of leagueSelected?.teams;" class="rounded-lg text-sm">
             <div class="flex justify-start text-gray-700 bg-blue-200 rounded-md px-3 py-3 my-1 mr-3.5">
                 <img class="w-7 h-7 rounded-full ml-1" [src]="'http://localhost:3000/api/uploads/teamImg/' + team.emblem">
-                
+
                 <div class="flex-grow text-blue-500 ml-1.5 mt-0.5">{{team.name}}</div>
                 <div class="dropdown dropdown-end">
                   <div (click)="selectTeam(team)" tabindex="0" class="badge py-1 badge-info cursor-pointer hover:text-white !bg-blue-300 hover:!bg-blue-400"><ion-icon name="ellipsis-horizontal"></ion-icon></div>
@@ -243,7 +247,7 @@
         <span class="text-blue-500">{{ addMatchDayForm.value.teamOne }}</span>
         <span class="text-purple-500">{{ addMatchDayForm.value.teamTwo }}</span>
       </div>
-      
+
       <div class="w-full mt-2 flex justify-between space-x-2 items-center">
         <input formControlName="goalsTeamOne" class="appearance-none shadow-sm w-full bg-white text-gray-700 rounded text-sm py-2 px-4 leading-tight " type="number" placeholder="Goles">
 
@@ -434,6 +438,43 @@
       <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
         <button (click)="editTeam()" class="btn-modal-close !font-medium mr-1.5">Agregar equipo</button>
         <label (click)="showEditTeamModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showPdfModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <div class="flex px-5 gap-x-1 items-center justify-center">
+        <img src="../../../assets/failedModal.svg" class="w-40 -ml-10">
+        <div>
+          <h1 class="font-medium text-2xl text-red-400">Crear PDF</h1>
+          <h2 *ngIf="leagueSelected" class="text-gray-600 text-sm">Se creará el PDF de la Liga: {{leagueSelected.name}}</h2>
+        </div>
+      </div>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button (click)="generatePdf(leagueSelected._id)" class="btn-modal-close !font-medium mr-1.5">Crear</button>
+        <label (click)="showPdfModal = false" for="search-modal" class="btn-modal-close !font-medium">Cancelar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showTableModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div *ngIf="results" class="modal-box p-0 pt-6 text-left">
+      <div *ngFor="let res of results">
+        <p>{{res._id}}</p>
+      </div>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <label (click)="showTableModal = false" for="search-modal" class="btn-modal-close !font-medium">Cancelar</label>
       </div>
     </div>
   </div>

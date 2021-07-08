@@ -239,7 +239,7 @@ function getResults(req, res) {
             resultsArray.sort(function (a, b) {
                 return (b.pts - a.pts);
             })
-            return res.status(200).send({ resultsArray });
+            return res.status(200).send( resultsArray );
 
         })
     })

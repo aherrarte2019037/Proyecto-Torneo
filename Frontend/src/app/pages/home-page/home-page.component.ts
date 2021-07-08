@@ -19,11 +19,14 @@ import { UserService } from 'src/app/services/user.service';
 export class HomePageComponent implements OnInit {
   userLogged: any = {};
   leagues: any;
+  results: any;
   leagueSelected: any = null;
   teamsSelected: any = null;
   showCreateModal: boolean = false;
   showEditModal: boolean = false;
   showDeleteModal: boolean = false;
+  showPdfModal: boolean = false;
+  showTableModal: boolean = false;
   showDeleteTeamModal: boolean = false;
   showErrorTeamModal: boolean = false;
   showCreateTeamModal: boolean = false;
@@ -77,7 +80,11 @@ export class HomePageComponent implements OnInit {
       goalsTeamTwo: ['', Validators.required]
     })
   }
-  
+
+  getResults(id:String){
+    this._leagueService.getResults(id).subscribe(data=>{ this.results = data; console.log(data)});
+  }
+
   createLeague(){
       this._leagueService.createLeague(this.createForm.value).subscribe(
         data=>{
@@ -168,6 +175,19 @@ export class HomePageComponent implements OnInit {
 
   }
 
+  generatePdf(id:String){
+
+    this._leagueService.generatePdf(id).subscribe(
+      data=>{
+        this.showPdfModal = false;
+      },
+      error=>{
+        console.log(<any>error)
+      }
+    )
+
+  }
+
   buildCreateForm(){
     return this.fmBuilder.group({
       name: ['', [Validators.required]]
@@ -181,6 +201,7 @@ export class HomePageComponent implements OnInit {
     })
 
   }
+
 
   buildCreateTeamForm(){
     return this.fmBuilder.group({
