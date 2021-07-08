@@ -76,14 +76,30 @@ export class LeagueService {
 
   createMatchDays( league: string ) {
     const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
-    
+
     return this.http.post( `${this.apiUrl}/createMatchDay/${league}`, {}, { headers });
   }
 
   addMatchDay( matchDay: string, teams: any ) {
     const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
-    
+
     return this.http.post( `${this.apiUrl}/assignTeams/${matchDay}`, teams, { headers });
+  }
+
+  generatePdf(id: String):Observable<any>{
+
+    const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
+
+    return this.http.get( `${this.apiUrl}/createPDF/${id}`, { headers });
+
+  }
+
+  getResults(id: String):Observable<any>{
+
+    const headers = new HttpHeaders({ Authorization: this.getToken().toString() })
+
+    return this.http.get( `${this.apiUrl}/getResults/${id}`, { headers });
+
   }
 
 }
