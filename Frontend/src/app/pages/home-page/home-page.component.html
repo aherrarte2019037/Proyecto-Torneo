@@ -1,0 +1,595 @@
+<soccer-spinner></soccer-spinner>
+
+<div class="h-screen w-full flex overflow-hidden bg-gray-100 select-none">
+  <main class="my-10 ml-10 pt-2 pb-2 px-5 flex-1 rounded-l-lg transition duration-500 ease-in-out overflow-y-auto">
+
+    <div class="flex flex-col bg-white rounded-t-xl p-8 capitalize text-3xl mt-8">
+      <span class="font-semibold text-gray-800">Hola,</span>
+      <span class="text-indigo-400 -mt-1 text-[27px]">{{ userLogged?.name }} {{ userLogged?.lastname }}</span>
+    </div>
+    <div class="flex h-3/4 bg-white px-5 pb-4 rounded-xl">
+
+      <app-alert class="absolute -top-1 w-full z-50" message="¡PDF Creado!"></app-alert>
+
+      <div class="w-1/2 mt-0 py-2 flex-shrink-0 flex flex-col rounded-xl">
+
+        <h3 class="flex items-center pt-1 pb-1 ml-3 text-gray-800 text-lg font-semibold
+					capitalize dark:text-gray-300">
+          <span>Tus Ligas</span>
+        </h3>
+
+        <div *ngIf="leagues?.length === 0">
+          <ul class="pt-1 -mt-2.5 pb-2 px-3 overflow-y-auto">
+
+            <li class="mt-2 shadow-sm">
+              <a class="px-5 py-[13px] flex flex-col justify-between bg-gray-200 rounded-lg mt-4">
+
+                <div class="flex items-center">
+                  <span class="text-gray-800 text-sm">No tienes ligas...</span>
+                </div>
+
+              </a>
+            </li>
+          </ul>
+
+        </div>
+
+        <div>
+          <ul class="pt-1 h-[60vh] -mt-2.5 pb-2 px-3 overflow-y-hidden">
+
+            <li class="mt-2">
+              <a *ngFor="let leag of leagues" class="px-5 py-3 relative flex flex-col justify-between bg-gray-100 rounded-lg mt-4">
+
+                <div [class.hidden]="preventeSelectMatchDay( leag ) ===  false" class="dropdown dropdown-end w-12 absolute right-2">
+                  <div tabindex="0" class="badge flex justify-between items-center px-4 py-1 w-full badge-info cursor-pointer !text-gray-600 !bg-gray-300 hover:!bg-gray-400"><ion-icon name="ellipsis-horizontal"></ion-icon></div>
+                  <ul class="shadow menu dropdown-content mb-1.5 bg-base-100 rounded-box w-32">
+                    <li class="text-purple-400" >
+                      <button (click)="showTableModal = true; getResults(leagueSelected._id)" type="button" class="hover:bg-gray-200 p-2">Tabla</button>
+                    </li>
+
+                    <li class="text-purple-400" >
+                      <button (click)="showChartsModal = true; getResults(leagueSelected._id)" type="button" class="hover:bg-gray-200 p-2">Gráfica</button>
+                    </li>
+
+                    <li class="text-purple-400" >
+                      <button (click)="showPdfModal = true" type="button" class="hover:bg-gray-200 p-2">PDF</button>
+                    </li>
+
+                    <li *ngFor="let matchDay of matchDays; let i = index" class="text-blue-400" >
+                      <button (click)="setMatchDay( matchDay, i )" type="button" class="hover:bg-gray-200 p-2">Jornada {{ i + 1 }}</button>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="flex items-center font-semibold capitalize dark:text-gray-700">
+                  <div (click)="selectLeague(leag); setMatchDays()"
+                    class="bg-white rounded-full w-[17px] h-[17px] flex flex-shrink-0 justify-center relative mr-2">
+                    <input type="radio" name="radio"
+                      class="checkbox opacity-100 appearance-none border-2 rounded-full border-gray-400 absolute cursor-pointer w-full h-full checked:border-none" />
+                    <div class="check-icon hidden border-4 border-blue-500 rounded-full w-full h-full z-1"></div>
+                  </div>
+
+                  <span class="text-gray-700 text-sm font-normal">{{leag.name}}</span>
+
+                </div>
+
+                <div class="flex justify-between">
+                  <div class="flex">
+                    <span class="text-[13px] text-gray-800 tracking-wide">
+                      <span class="text-blue-500 text-[13px] font-normal">Creador</span>
+                      {{leag?.idCreator.name}} {{leag?.idCreator.lastname}}
+                    </span>
+                  </div>
+                </div>
+
+              </a>
+            </li>
+          </ul>
+
+        </div>
+
+      </div>
+
+      <div class="w-1/2 mt-0 py-2 flex-shrink-0 flex flex-col rounded-xl">
+
+        <h3 class="flex justify-between items-center pt-1 pb-1 ml-3 mb-1.5 text-gray-800 text-lg font-semibold">
+          <span>Equipos</span>
+        </h3>
+
+        <div *ngIf="leagueSelected && leagueSelected?.teams.length !== 10 && userLogged.rol !== 'ROL_ADMIN'" (click)="showCreateTeamModal = true" class="rounded-lg text-sm cursor-pointer">
+          <div class="flex transition duration-300 justify-center items-center text-gray-700 bg-blue-500 hover:bg-blue-600 rounded-md py-2.5 my-1 mr-3.5">
+              <div  class="mb-0.5 text-center font-light text-white mt-0.5">Añadir <ion-icon class="text-xl -mb-1.5" name="add-circle"></ion-icon></div>
+          </div>
+        </div>
+
+        <div *ngIf="!leagueSelected" class="rounded-lg text-sm">
+          <div class="flex justify-start text-gray-700 bg-gray-700 shadow-md rounded-md px-3 py-3 my-1 mr-3.5">
+              <div class="flex-grow text-center font-light text-white px-2">Selecciona una liga ...</div>
+          </div>
+        </div>
+
+        <div *ngIf="leagueSelected && leagueSelected?.teams.length === 0" class="rounded-lg text-sm">
+          <div class="flex justify-start text-gray-700 shadow-md bg-gray-700 rounded-md px-3 py-3 my-1 mr-3.5">
+              <div class="flex-grow text-center font-light text-white px-2">No hay equipos...</div>
+          </div>
+        </div>
+
+        <!-- Array de equipos -->
+        <div [@fadeInOnEnter] [@fadeOutOnLeave] *ngIf="leagueSelected && leagueSelected?.teams.length !== 0">
+          <div *ngFor="let team of leagueSelected?.teams;" class="rounded-lg text-sm">
+            <div class="flex justify-start text-gray-700 bg-blue-200 rounded-md px-3 py-3 my-1 mr-3.5">
+                <img class="w-7 h-7 rounded-full ml-1" [src]="'http://localhost:3000/api/uploads/teamImg/' + team.emblem">
+
+                <div class="flex-grow text-blue-500 ml-1.5 mt-0.5">{{team.name}}</div>
+                <div class="dropdown dropdown-end">
+                  <div (click)="selectTeam(team)" tabindex="0" class="badge py-1 badge-info cursor-pointer hover:text-white !bg-blue-300 hover:!bg-blue-400"><ion-icon name="ellipsis-horizontal"></ion-icon></div>
+                  <ul class="shadow menu dropdown-content mt-1 bg-base-100 rounded-box w-52">
+                    <li class="text-blue-400" >
+                      <button (click)="showEditTeamModal = true; setEditTeamFormValue()" class="hover:bg-gray-200 p-2">Editar <ion-icon class="ml-1.5" name="pencil-outline"></ion-icon></button>
+                    </li>
+                    <li class="text-red-400">
+                      <button (click)="showDeleteTeamModal = true" class="hover:bg-gray-200 p-2">Eliminar <ion-icon class="ml-1.5" name="trash"></ion-icon></button>
+                    </li>
+                  </ul>
+                </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <aside class="w-1/4 max-w-[280px] mr-10 mt-16 px-4 py-4 flex flex-col rounded-r-xl overflow-y-hidden">
+
+    <div class="relative w-full flex search-container shadow-sm">
+      <label class="cursor-pointer px-5 text-gray-500 bg-white py-3 w-full rounded-[11px] text-sm">Buscar</label>
+      <svg class="text-gray-600 absolute top-3.5 right-5 h-4 w-4 fill-current" version="1.1" id="Capa_1" x="0px" y="0px"
+        viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" width="512px"
+        height="512px">
+        <path
+          d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+      </svg>
+    </div>
+
+    <div class="card-container mt-5">
+      <ion-icon class="btn-edit" name="pencil">
+      </ion-icon>
+      <ion-icon class="btn-close" name="close">
+      </ion-icon>
+      <ion-icon class="btn-save" name="checkmark-circle"></ion-icon>
+      <h1>Rol</h1>
+      <ion-icon class="text-indigo-500" name="navigate-circle-outline"></ion-icon>
+      <input class="text-indigo-500" disabled type="text" [value]="userLogged.rol">
+    </div>
+
+    <div class="bg-white shadow-sm mt-5 rounded-xl py-4 px-3 flex justify-center items-center flex-col">
+      <h1 class="ml-1.5 text-[#646470] self-start">Acciones</h1>
+
+      <button (click)="showCreateModal = true" *ngIf="userLogged.rol === 'ROL_USER' "
+        class="w-full mt-2.5 justify-center flex items-center py-2 px-3 text-white rounded-lg bg-green-400 hover:bg-green-500 shadow">
+
+        <svg class="h-5 w-5 fill-current mr-0.5" viewBox="0 0 24 24">
+          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
+        </svg>
+
+        <span class="text-[16px]">Añadir</span>
+
+      </button>
+
+      <button [disabled]="!leagueSelected" (click)="showEditModal = true; editForm.patchValue( leagueSelected )"
+        class="mt-2.5 w-full justify-center flex items-center py-2 px-3 text-white rounded-lg bg-blue-500 transition duration-300 hover:bg-blue-600 shadow">
+        <svg class="h-4 w-4 mt-1 fill-current mr-1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+        </svg>
+
+        <span class="text-[15px]">Editar</span>
+
+      </button>
+
+      <button [disabled]="!leagueSelected" (click)="showDeleteModal = true"
+        class="mt-2.5 w-full justify-center flex items-center py-2 px-3 text-white rounded-lg bg-red-500 transition duration-300 hover:bg-red-600 shadow">
+        <ion-icon name="trash" class="text-lg fill-current mr-1"></ion-icon>
+        <span class="text-[15px]">Eliminar</span>
+      </button>
+    </div>
+
+    <div *ngIf="leagueSelected" [@fadeInUpOnEnter] [@fadeOutDownOnLeave] class="mt-5 flex items-center">
+      <span class="text-gray-700">Liga Seleccionada</span>
+    </div>
+
+    <a *ngIf="leagueSelected" [@fadeInUpOnEnter] [@fadeOutDownOnLeave] class="user-detail-container mt-3 p-4 flex justify-center shadow-sm bg-white rounded-lg
+			font-semibold capitalize">
+      <div class="flex justify-center">
+
+        <div class="flex justify-center text-white gap-x-2 items-center">
+          <ion-icon class="text-lg p-2 rounded-full bg-gray-800" name="trophy"></ion-icon>
+          <span class="font-semibold text-gray-700">{{leagueSelected.name}}</span>
+        </div>
+
+      </div>
+    </a>
+
+    <div *ngIf="selectedMatchDay" [@fadeInUpOnEnter] [@fadeOutDownOnLeave] class="mt-7 flex items-center">
+      <span class="text-gray-700">Añadir Marcador</span>
+    </div>
+
+    <form [formGroup]="addMatchDayForm" *ngIf="selectedMatchDay" class="mt-3.5">
+
+      <div class="class flex justify-center mb-2 font-semibold text-gray-700 text-sm items-center">
+        <h1>Jornada {{ selectedMatchDay?.index }}</h1>
+      </div>
+
+      <div class="flex w-full space-x-2 items-center justify-between">
+        <div class="dropdown dropdown-top w-full">
+          <div tabindex="0" class="badge flex justify-between items-center px-4 py-2 w-full badge-info cursor-pointer !text-blue-600 !bg-blue-300 hover:!bg-blue-400">Equipo 1 <ion-icon name="chevron-down-outline"></ion-icon></div>
+          <ul class="shadow menu dropdown-content mb-1.5 bg-base-100 rounded-box w-full">
+            <li (click)="addMatchDayForm.get('teamOne')?.setValue(team.name); addMatchDayForm.get('idTeamOne')?.setValue(team._id)" *ngFor="let team of leagueSelected?.teams" class="text-blue-400" >
+              <button type="button" class="hover:bg-gray-200 p-2">{{ team.name }}</button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="dropdown dropdown-top w-full">
+          <div tabindex="0" class="badge flex justify-between items-center px-4 py-2 w-full badge-info cursor-pointer !text-purple-600 !bg-purple-300 hover:!bg-purple-400">Equipo 2 <ion-icon name="chevron-down-outline"></ion-icon></div>
+          <ul class="shadow menu dropdown-content mb-1.5 bg-base-100 rounded-box w-full">
+            <li (click)="addMatchDayForm.get('teamTwo')?.setValue(team.name); addMatchDayForm.get('idTeamTwo')?.setValue(team._id)" *ngFor="let team of leagueSelected?.teams" class="text-purple-400" >
+              <button type="button" class="hover:bg-gray-200 p-2">{{ team.name }}</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flex text-sm mt-2 justify-around w-full items-center">
+        <span class="text-blue-500">{{ addMatchDayForm.value.teamOne }}</span>
+        <span class="text-purple-500">{{ addMatchDayForm.value.teamTwo }}</span>
+      </div>
+
+      <div class="w-full mt-2 flex justify-between space-x-2 items-center">
+        <input formControlName="goalsTeamOne" class="appearance-none shadow-sm w-full bg-white text-gray-700 rounded text-sm py-2 px-4 leading-tight " type="number" placeholder="Goles">
+
+        <input formControlName="goalsTeamTwo" class="appearance-none shadow-sm w-full bg-white text-gray-700 rounded py-2 px-4 text-sm leading-tight " type="number" placeholder="Goles">
+      </div>
+
+      <div *ngIf="addMatchDayForm.valid" class="flex justify-center items-center w-full">
+        <button (click)="addMatchDay()" type="button" class="bg-gray-700 mt-4 text-white px-8 py-2 rounded-full text-sm mx-3 hover:bg-gray-800 transition duration-200 each-in-out">Agregar</button>
+      </div>
+    </form>
+
+  </aside>
+
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showCreateModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <form class="space-y-4 text-gray-700 p-10" [formGroup]="createForm">
+        <div class="flex flex-wrap">
+          <div class="w-full">
+            <label class="block mb-1 text-sm" for="formGridCode_card">Nombre</label>
+            <input formControlName="name" class="w-full text-indigo-500 h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500"type="text" id="formGridCode_card" />
+          </div>
+        </div>
+      </form>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button (click)="createLeague()" class="btn-modal-close !font-medium mr-1.5">Crear Liga</button>
+        <label (click)="showCreateModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showEditModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <form class="space-y-4 text-gray-700 p-8" [formGroup]="editForm">
+        <div class="flex flex-wrap">
+          <div class="w-full">
+            <label class="block mb-1 text-sm" for="formGridCode_card">Nombre</label>
+            <input formControlName="name" class="w-full text-indigo-500 h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500"type="text" />
+          </div>
+        </div>
+      </form>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button (click)="editLeague()" class="btn-modal-close !font-medium mr-1.5">Editar Liga</button>
+        <label (click)="showEditModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showDeleteModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <div class="flex px-5 gap-x-1 items-center justify-center">
+        <img src="../../../assets/failedModal.svg" class="w-40 -ml-10">
+        <div>
+          <h1 class="font-medium text-2xl text-red-400">Eliminar Liga</h1>
+          <h2 class="text-gray-600 text-sm">¿Estás Seguro?</h2>
+        </div>
+      </div>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button (click)="deleteLeague(leagueSelected._id)" class="btn-modal-close !font-medium mr-1.5">Eliminar</button>
+        <label (click)="showDeleteModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showDeleteTeamModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <div class="flex px-5 gap-x-1 items-center justify-center">
+        <img src="../../../assets/failedModal.svg" class="w-40 -ml-10">
+        <div>
+          <h1 class="font-medium text-2xl text-red-400">Eliminar Equipo</h1>
+          <h2 class="text-gray-600 text-sm">¿Estás Seguro?</h2>
+        </div>
+      </div>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button (click)="deleteTeam(teamsSelected._id,leagueSelected._id)" class="btn-modal-close !font-medium mr-1.5">Eliminar</button>
+        <label (click)="showDeleteTeamModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showErrorTeamModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <div class="flex px-5 gap-x-1 items-center justify-center">
+        <img src="../../../assets/failedModal.svg" class="w-40 -ml-10">
+        <div>
+          <h1 class="font-medium text-2xl text-red-400">Error</h1>
+          <h2 class="text-gray-600 text-sm">Error inesperado</h2>
+        </div>
+      </div>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <label (click)="showErrorTeamModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showCreateTeamModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <form class="space-y-4 text-gray-700 p-10" [formGroup]="createTeamForm">
+        <div class="flex flex-wrap -mx-2 space-y-4 md:space-y-0">
+
+          <div class="w-full px-2 md:w-1/2">
+            <label class="block mb-1 text-sm">Nombre</label>
+            <input formControlName="name" class="w-full text-indigo-500 h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500" type="text">
+          </div>
+
+          <div class="w-full px-2 md:w-1/2">
+            <label class="block mb-1 text-sm">Entrenador</label>
+            <input formControlName="coach" class="w-full text-indigo-500 h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500" type="text"/>
+          </div>
+
+          <div class="!mt-5 mx-1.5 h-32 rounded-lg w-full border border-gray-200 bg-white flex justify-center items-center">
+            <div class="absolute">
+              <div class="flex flex-col items-center "> <ion-icon name="cloud-upload" class="text-gray-300 text-5xl"></ion-icon> <span
+                  class="block text-gray-400 font-normal">Foto De Equipo</span>
+                  <span class="block text-blue-400 text-sm font-normal">Buscar Imagen</span> </div>
+            </div>
+
+            <input *ngIf="!fileTitle" (change)="fileChange($event)" type="file" accept="image/*" class="cursor-pointer h-full w-full opacity-0">
+            <div *ngIf="fileTitle" class="h-full flex gap-y-1.5 flex-col justify-center items-center w-full bg-white z-50 mx-1 my-1">
+              <div class="w-16 h-16 rounded-full flex justify-center items-center">
+                <span *ngIf="previewImg === ''" class="text-white flex justify-center items-center w-16 h-16 bg-gray-800 rounded-full">
+                  <div class="img-spinner"></div>
+                </span>
+                <img *ngIf="previewImg && previewImg !== ''" [src]="previewImg" class="w-16 h-16 rounded-full !m-0 !border-none">
+              </div>
+              <span class="text-gray-50 bg-gray-800 tracking-wide text-[11px] px-5 pl-[22px] pt-0.5 pb-1 rounded-full">{{ fileTitle }} <ion-icon (click)="deleteImg()" name="close" class="mb-[-5px] text-lg cursor-pointer"></ion-icon></span>
+            </div>
+          </div>
+
+        </div>
+      </form>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button (click)="addTeam()" class="btn-modal-close !font-medium mr-1.5">Agregar equipo</button>
+        <label (click)="showCreateTeamModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showEditTeamModal" class="modal-toggle" >
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <form class="space-y-4 text-gray-700 p-10" [formGroup]="editTeamForm">
+        <div class="flex flex-wrap -mx-2 space-y-4 md:space-y-0">
+          <div class="w-full px-2 md:w-1/2">
+            <label class="block mb-1 text-sm">Nombre</label>
+            <input formControlName="name" class="w-full text-indigo-500 h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500" type="text">
+          </div>
+          <div class="w-full px-2 md:w-1/2">
+            <label class="block mb-1 text-sm" >Entrenador</label>
+            <input formControlName="coach" class="w-full text-indigo-500 h-10 px-3 text-base placeholder-gray-600 border rounded-lg focus:border focus:border-indigo-500" type="text"/>
+          </div>
+        </div>
+      </form>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button (click)="editTeam()" class="btn-modal-close !font-medium mr-1.5">Agregar equipo</button>
+        <label (click)="showEditTeamModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showPdfModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div class="modal-box p-0 pt-6 text-left">
+
+      <div class="flex px-5 gap-x-1 items-center justify-center">
+        <img src="../../../assets/failedModal.svg" class="w-40 -ml-10">
+        <div>
+          <h1 class="font-medium text-2xl text-red-400">Crear PDF</h1>
+          <h2 *ngIf="leagueSelected" class="text-gray-600 text-sm">Se creará el PDF de la Liga: {{leagueSelected.name}}</h2>
+        </div>
+      </div>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <button (click)="generatePdf(leagueSelected._id)" class="btn-modal-close !font-medium mr-1.5">Crear</button>
+        <label (click)="showPdfModal = false" for="search-modal" class="btn-modal-close !font-medium">Cancelar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showTableModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div *ngIf="results" class="bg-gray-50 rounded-lg p-0 pt-6">
+      <div class="flex flex-col p-4">
+        <div class="-my-2 overflow-x-auto">
+          <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-blue-100">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Equipo
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Puntos
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Goles a Favor
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Goles en contra
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      DIferencia de Goles
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Partidos jugados
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200" *ngFor="let res of results">
+                  <tr class="hover:bg-gray-100">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <div class="flex-shrink-0 h-10 w-10">
+                        <img class="h-10 w-10 rounded-full" [src]="'http://localhost:3000/api/uploads/teamImg/' + res.emblem">
+                        </div>
+                        <div class="ml-4">
+                          <div class="text-sm font-medium text-gray-900">
+                            {{res.team}}
+                          </div>
+                          <div class="text-sm text-gray-500">
+                            {{res.coach}}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                      {{res.pts}}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                      {{res.goalsFavor}}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                      {{res.goalsAgainst}}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                      {{res.goalsDifference}}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                      {{res.matchesPlayed}}
+                    </td>
+                  </tr>
+
+                  <!-- More people... -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <label (click)="showTableModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showChartsModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div *ngIf="results" class="!w-[50%] rounded-xl bg-white p-0 pt-6 text-left">
+
+      <div class="w-full mt-5 text-center text-xl text-gray-800">
+        Puntos Por Equipo
+      </div>
+
+      <div class="flex w-full justify-center space-x-2 mt-2 items-center">
+        <label class="cursor-pointer label">
+          <span class="label-text mr-1.5">Puntos</span> 
+          <div>
+            <input (click)="setPtsFilter()" type="radio" name="opt" checked="checked" class="radio radio-accent"> 
+            <span class="radio-mark"></span>
+          </div>
+        </label>
+
+        <label class="cursor-pointer label">
+          <span class="label-text mr-1.5">Goles</span> 
+          <div>
+            <input (click)="setGoalsFilter()" type="radio" name="opt" class="radio radio-accent"> 
+            <span class="radio-mark"></span>
+          </div>
+        </label>
+      </div>
+
+      <div class="m-10">
+        <div>
+          <div class="block">
+            <canvas baseChart
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [legend]="barChartLegend"
+              [chartType]="barChartType">
+            </canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <label (click)="showChartsModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
+      </div>
+    </div>
+  </div>
+</div>
