@@ -16,13 +16,13 @@ if( haveCredentials ) {
     URL = `mongodb://${USER}:${PASS}@localhost:${PORT}/${DB}?authSource=admin`;
 
 } else {
-    URL = 'mongodb://localhost:27017/TorneoDeportivo';
+    URL = 'mongodb+srv://root:root@tornaisse.j89lr.mongodb.net/tornaisseDB?retryWrites=true&w=majority';
 }
 
 mongoose.connect( URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }).then(() => {
     console.log('Successful database connection')
 
-    app.listen(3000, function () {
+    app.listen(process.env.PORT || 3000, function () {
         console.log('Server running on port 3000')
     })
 }).catch(err => console.log(err))
