@@ -10,9 +10,8 @@ function createMatchDay(req, res) {//Crea la jornada
 
     MatchDay.findOne({leagueId: LeagueId}, (err, matchDayFound) => {
         if(err) return res.status(500).send({ message: 'Error en la petición'})
-        if(matchDayFound) return res.status(500).send({ message: 'Ya no se pueden crear mas jornadas'})
         
-            League.findById(LeagueId, (err, foundLeague) => {
+            League.findById(LeagueId, async (err, foundLeague) => {
                 if (err) return res.status(500).send({ message: 'Error en la petición' });
                 if (!foundLeague) return res.status(500).send({ message: 'Error al encontrar la Liga' });
 
@@ -36,10 +35,15 @@ function createMatchDay(req, res) {//Crea la jornada
                         x++;
                     }
 
+                    if( matchDayFound ) {
+                        const matchs = await MatchDay.find({leagueId: LeagueId});
+                        return res.status(200).send(matchs)
+                    }
+
                     MatchDay.insertMany(matchDayArray, (err, saveMatchDay) => {
                         if (err) return res.status(500).send({ message: 'Error en la petición', err });
                         if (!saveMatchDay) return res.status(500).send({ message: `Error al guardar la Jornada: ${x}` });
-                        return res.status(200).send({ message: 'Se crearon las Jornadas.' });
+                        return res.status(200).send(saveMatchDay);
                     })
             })
 
@@ -116,7 +120,7 @@ function assignTeams(req, res) {
             MatchDay.findByIdAndUpdate(idMatchDay, { $push: { match: { teamIdOne: params.idTeamOne, teamIdTwo: params.idTeamTwo, goalsTeamOne: params.goalsTeamOne, goalsTeamTwo: params.goalsTeamTwo, winner: winnerId } } }, { new: true, useFindAndModify: false }, (err, addedMatch) => {
                 if (err) return res.status(500).send({ message: 'Error en la petición' })
                 if (!addedMatch) return res.status(500).send({ message: 'Error al guardar el partido' })
-                return res.status(200).send({ addedMatch })
+                return res.status(200).send(addedMatch)
             })
 
         })

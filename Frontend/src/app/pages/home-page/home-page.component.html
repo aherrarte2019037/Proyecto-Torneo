@@ -39,9 +39,17 @@
             <li class="mt-2">
               <a *ngFor="let leag of leagues" class="px-5 py-3 relative flex flex-col justify-between bg-gray-100 rounded-lg mt-4">
 
-                <div class="dropdown dropdown-end w-12 absolute right-2">
+                <div [class.hidden]="preventeSelectMatchDay( leag ) ===  false" class="dropdown dropdown-end w-12 absolute right-2">
                   <div tabindex="0" class="badge flex justify-between items-center px-4 py-1 w-full badge-info cursor-pointer !text-gray-600 !bg-gray-300 hover:!bg-gray-400"><ion-icon name="ellipsis-horizontal"></ion-icon></div>
                   <ul class="shadow menu dropdown-content mb-1.5 bg-base-100 rounded-box w-32">
+                    <li class="text-purple-400" >
+                      <button  type="button" class="hover:bg-gray-200 p-2">Tabla</button>
+                    </li>
+
+                    <li class="text-purple-400" >
+                      <button  type="button" class="hover:bg-gray-200 p-2">Gráfica</button>
+                    </li>
+
                     <li *ngFor="let matchDay of matchDays; let i = index" class="text-blue-400" >
                       <button (click)="setMatchDay( matchDay, i )" type="button" class="hover:bg-gray-200 p-2">Jornada {{ i + 1 }}</button>
                     </li>
