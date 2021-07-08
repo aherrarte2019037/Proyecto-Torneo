@@ -9,7 +9,7 @@ import { User } from '../model/user.model';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl: string = 'http://localhost:3000/api';
+  private apiUrl: string = 'https://tornaisse.herokuapp.com/api';
   private userLogged = new BehaviorSubject<any>({});
   private profileImg = new BehaviorSubject<any>(`${this.apiUrl}/uploads/profileImg/defaultProfile.gif`);
 
