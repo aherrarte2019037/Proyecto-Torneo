@@ -35,3 +35,10 @@ ion-icon {
 .nav-home {
     font-size: 23px;
 }
+
+.user-span {
+    font-size: 13px;
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(221, 221, 221);
+    @apply mb-1 mt-1 font-medium;
+}

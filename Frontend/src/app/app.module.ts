@@ -16,6 +16,10 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SoccerSpinerComponent } from './components/soccer-spinner/soccer-spinner.component';
+import { AlertComponent } from './components/alert/alert.component';
+import { HttpClientModule } from '@angular/common/http';
+import { UserPageComponent } from './pages/user-page/user-page.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -29,6 +33,8 @@ import { SoccerSpinerComponent } from './components/soccer-spinner/soccer-spinne
     HomePageComponent,
     ProfilePageComponent,
     SoccerSpinerComponent,
+    AlertComponent,
+    UserPageComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +42,9 @@ import { SoccerSpinerComponent } from './components/soccer-spinner/soccer-spinne
     BrowserAnimationsModule,
     ReactiveFormsModule,
     LoadingBarModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    HttpClientModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

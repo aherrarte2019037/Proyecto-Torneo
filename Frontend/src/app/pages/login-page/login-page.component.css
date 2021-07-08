@@ -25,7 +25,6 @@ hr {
   .logo-icon {
     margin-top: 6px;
     width: 180px;
-    animation: pulse 1s ease-in-out infinite both;
   }
 
   .bg-pattern {
@@ -108,7 +107,7 @@ hr {
   height: 50px;
   position: relative;
   border-radius: 10px;
-  margin-bottom: 18px;
+  margin-bottom: 28px;
 }
 
 .label-input {
@@ -413,4 +412,8 @@ input.input-field {
   margin-top: -1px;
   width: 12px;
   margin-left: 31px;
+}
+
+.btn-modal-close {
+  @apply px-4 py-2 text-sm bg-white rounded-xl border-2 transition-colors duration-150 ease-linear border-gray-200 text-gray-500 focus:ring-0 font-medium hover:bg-gray-100 cursor-pointer;
 }
