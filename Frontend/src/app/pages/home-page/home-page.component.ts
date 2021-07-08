@@ -49,13 +49,6 @@ export class HomePageComponent implements OnInit {
 
   barChartOptions: ChartOptions = {
     responsive: true,
-    scales: { xAxes: [{}], yAxes: [{}] },
-    plugins: {
-      datalabels: {
-        anchor: 'end',
-        align: 'end',
-      }
-    }
   };
   barChartLabels: Label[] = [];
   barChartType: ChartType = 'bar';
@@ -102,9 +95,8 @@ export class HomePageComponent implements OnInit {
     this._leagueService.getResults(id).subscribe(data=>{
       this.results = data;
       this.barChartLabels = this.results.map( (team :any) => team.team );
-      this.barChartData = this.results.map( (team :any) => {
-        return { data: [team.pts], label: team.team }
-      });
+      const arr = this.results.map( (team :any) => team.pts );
+      this.barChartData = [{ data: arr, label:  'Puntos' }]
     });
   }
 
@@ -285,15 +277,15 @@ export class HomePageComponent implements OnInit {
   }
 
   setGoalsFilter() {
-    this.barChartData = this.results.map( (team :any) => {
-      return { data: [team.goalsFavor], label: team.team }
-    });
+    this.barChartLabels = this.results.map( (team :any) => team.team );
+    const arr = this.results.map( (team :any) => team.goalsFavor );
+    this.barChartData = [{ data: arr, label:  'Goles' }]
   }
 
   setPtsFilter() {
-    this.barChartData = this.results.map( (team :any) => {
-      return { data: [team.pts], label: team.team }
-    });
+    this.barChartLabels = this.results.map( (team :any) => team.team );
+    const arr = this.results.map( (team :any) => team.pts );
+    this.barChartData = [{ data: arr, label:  'Puntos' }]
   }
 
 }
