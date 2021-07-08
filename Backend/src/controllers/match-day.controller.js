@@ -3,39 +3,46 @@ const MatchDay = require('../models/match-day.model');
 const League = require('../models/league.model');
 const pdf = require("html-pdf")
 
-function createMatchDay(req, res) {
+function createMatchDay(req, res) {//Crea la jornada
     var LeagueId = req.params.LeagueId;
 
     if (req.user.rol != 'ROL_USER') return res.status(500).send({ message: 'No tienes los permisos para generar las jornadas' })
-    League.findById(LeagueId, (err, foundLeague) => {
-        if (err) return res.status(500).send({ message: 'Error en la petición' });
-        if (!foundLeague) return res.status(500).send({ message: 'Error al encontrar la Liga' });
 
-        var quantity = foundLeague.teams.length;
-        var x = 2;
-        var matchDayArray = [{
-            number: 1,
-            leagueId: LeagueId,
-            match: [],
-            date: new Date()
-        }];
+    MatchDay.findOne({leagueId: LeagueId}, (err, matchDayFound) => {
+        if(err) return res.status(500).send({ message: 'Error en la petición'})
+        if(matchDayFound) return res.status(500).send({ message: 'Ya no se pueden crear mas jornadas'})
+        
+            League.findById(LeagueId, (err, foundLeague) => {
+                if (err) return res.status(500).send({ message: 'Error en la petición' });
+                if (!foundLeague) return res.status(500).send({ message: 'Error al encontrar la Liga' });
 
-        for (let i = 0; i < quantity - 2; i++) {
+                    var quantity = foundLeague.teams.length;
+                    var x = 2;
+                    var matchDayArray = [{
+                        number: 1,
+                        leagueId: LeagueId,
+                        match: [],
+                        date: new Date()
+                    }];
 
-            matchDayArray.push({
-                number: x,
-                leagueId: LeagueId,
-                match: [],
-                date: new Date(Date.now())
-            });
-            x++;
-        }
+                    for (let i = 0; i < quantity - 2; i++) {
 
-        MatchDay.insertMany(matchDayArray, (err, saveMatchDay) => {
-            if (err) return res.status(500).send({ message: 'Error en la petición', err });
-            if (!saveMatchDay) return res.status(500).send({ message: `Error al guardar la Jornada: ${x}` });
-            return res.status(200).send(saveMatchDay);
-        })
+                        matchDayArray.push({
+                            number: x,
+                            leagueId: LeagueId,
+                            match: [],
+                            date: new Date(Date.now())
+                        });
+                        x++;
+                    }
+
+                    MatchDay.insertMany(matchDayArray, (err, saveMatchDay) => {
+                        if (err) return res.status(500).send({ message: 'Error en la petición', err });
+                        if (!saveMatchDay) return res.status(500).send({ message: `Error al guardar la Jornada: ${x}` });
+                        return res.status(200).send({ message: 'Se crearon las Jornadas.' });
+                    })
+            })
+
     })
 
 }
