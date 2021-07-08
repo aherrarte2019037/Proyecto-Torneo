@@ -4,6 +4,8 @@ import { fadeInOnEnterAnimation, fadeInUpOnEnterAnimation, fadeOutDownOnLeaveAni
 import { LeagueService } from 'src/app/services/league.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
+import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
+import { Label } from 'ng2-charts';
 
 @Component({
   selector: 'app-home-page',
@@ -43,7 +45,22 @@ export class HomePageComponent implements OnInit {
   previewImg: string = '';
   matchDays: [] = [];
   selectedMatchDay: any = null;
+  showChartsModal: boolean = false;
 
+  barChartOptions: ChartOptions = {
+    responsive: true,
+    scales: { xAxes: [{}], yAxes: [{}] },
+    plugins: {
+      datalabels: {
+        anchor: 'end',
+        align: 'end',
+      }
+    }
+  };
+  barChartLabels: Label[] = [];
+  barChartType: ChartType = 'bar';
+  barChartLegend = true;
+  barChartData: ChartDataSets[] = [];
 
   constructor( private _leagueService: LeagueService, private fmBuilder: FormBuilder, private userService: UserService ) { }
 
@@ -81,8 +98,14 @@ export class HomePageComponent implements OnInit {
     })
   }
 
-  getResults(id:String){
-    this._leagueService.getResults(id).subscribe(data=>{ this.results = data; console.log(data)});
+  getResults( id:String ){
+    this._leagueService.getResults(id).subscribe(data=>{
+      this.results = data;
+      this.barChartLabels = this.results.map( (team :any) => team.team );
+      this.barChartData = this.results.map( (team :any) => {
+        return { data: [team.pts], label: team.team }
+      });
+    });
   }
 
   createLeague(){
@@ -259,6 +282,18 @@ export class HomePageComponent implements OnInit {
   preventeSelectMatchDay( league: any ) {
     if( this.leagueSelected?._id !== league?._id ) return false;
     return true;
+  }
+
+  setGoalsFilter() {
+    this.barChartData = this.results.map( (team :any) => {
+      return { data: [team.goalsFavor], label: team.team }
+    });
+  }
+
+  setPtsFilter() {
+    this.barChartData = this.results.map( (team :any) => {
+      return { data: [team.pts], label: team.team }
+    });
   }
 
 }

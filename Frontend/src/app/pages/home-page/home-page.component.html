@@ -47,7 +47,7 @@
                     </li>
 
                     <li class="text-purple-400" >
-                      <button  type="button" class="hover:bg-gray-200 p-2">Gráfica</button>
+                      <button (click)="showChartsModal = true; getResults(leagueSelected._id)" type="button" class="hover:bg-gray-200 p-2">Gráfica</button>
                     </li>
 
                     <li class="text-purple-400" >
@@ -475,6 +475,54 @@
 
       <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
         <label (click)="showTableModal = false" for="search-modal" class="btn-modal-close !font-medium">Cancelar</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-theme="light" class="modal-container">
+  <input type="checkbox" id="search-modal" [checked]="showChartsModal" class="modal-toggle">
+  <div class="modal bg-opacity-50 bg-blacks">
+    <div *ngIf="results" class="!w-[50%] rounded-xl bg-white p-0 pt-6 text-left">
+
+      <div class="w-full mt-5 text-center text-xl text-gray-800">
+        Puntos Por Equipo
+      </div>
+
+      <div class="flex w-full justify-center space-x-2 mt-2 items-center">
+        <label class="cursor-pointer label">
+          <span class="label-text mr-1.5">Puntos</span> 
+          <div>
+            <input (click)="setPtsFilter()" type="radio" name="opt" checked="checked" class="radio radio-accent"> 
+            <span class="radio-mark"></span>
+          </div>
+        </label>
+
+        <label class="cursor-pointer label">
+          <span class="label-text mr-1.5">Goles</span> 
+          <div>
+            <input (click)="setGoalsFilter()" type="radio" name="opt" class="radio radio-accent"> 
+            <span class="radio-mark"></span>
+          </div>
+        </label>
+      </div>
+
+      <div class="m-10">
+        <div>
+          <div class="block">
+            <canvas baseChart
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [legend]="barChartLegend"
+              [chartType]="barChartType">
+            </canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
+        <label (click)="showChartsModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
       </div>
     </div>
   </div>
