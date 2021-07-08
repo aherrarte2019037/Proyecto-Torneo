@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { fadeInOnEnterAnimation, fadeInUpOnEnterAnimation, fadeOutDownOnLeaveAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 import { LeagueService } from 'src/app/services/league.service';
+import { AlertComponent } from 'src/app/components/alert/alert.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 
@@ -17,6 +18,7 @@ import { UserService } from 'src/app/services/user.service';
   ]
 })
 export class HomePageComponent implements OnInit {
+  @ViewChild(AlertComponent) alert!: AlertComponent;
   userLogged: any = {};
   leagues: any;
   results: any;
@@ -179,6 +181,8 @@ export class HomePageComponent implements OnInit {
 
     this._leagueService.generatePdf(id).subscribe(
       data=>{
+        this.alert.duration = 2000;
+        this.alert.showAlert();
         this.showPdfModal = false;
       },
       error=>{

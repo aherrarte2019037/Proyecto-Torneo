@@ -142,6 +142,7 @@ function getResults(req, res) {
                 _id: "",
                 team: "",
                 emblem: "",
+                coach: "",
                 pts: 0,
                 goalsFavor: 0,
                 goalsAgainst: 0,
@@ -153,7 +154,8 @@ function getResults(req, res) {
                 resultsArray.push({
                     _id: foundLeague.teams[i]._id,
                     team: foundLeague.teams[i].name,
-                    emblem: foundLeague.teams[i].emblem
+                    emblem: foundLeague.teams[i].emblem,
+                    coach: foundLeague.teams[i].coach
 
                 })
 
@@ -227,6 +229,7 @@ function getResults(req, res) {
                             _id: foundLeague.teams[i]._id,
                             team: foundLeague.teams[i].name,
                             emblem: foundLeague.teams[i].emblem,
+                            coach: foundLeague.teams[i].coach,
                             pts: ptsVar,
                             goalsFavor: goalsFavorVar,
                             goalsAgainst: goalsAgainstVar,
@@ -462,7 +465,7 @@ function createPDF(req, res) {
                 contenido += arrayG[i]
             }
             contenido = cabecera + contenido + `</table>`
-            pdf.create(contenido).toFile(`${leagueFound.name}.pdf`, (err, pdfCreado) => {
+            pdf.create(contenido).toFile(`../PDF/${leagueFound.name}.pdf`, (err, pdfCreado) => {
                 if (err) return res.status(500).send({ err })
                 return res.status(200).send({ pdfCreado })
             })

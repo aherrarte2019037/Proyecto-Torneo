@@ -7,8 +7,9 @@
       <span class="font-semibold text-gray-800">Hola,</span>
       <span class="text-indigo-400 -mt-1 text-[27px]">{{ userLogged?.name }} {{ userLogged?.lastname }}</span>
     </div>
-
     <div class="flex h-3/4 bg-white px-5 pb-4 rounded-xl">
+
+      <app-alert class="absolute -top-1 w-full z-50" message="¡PDF Creado!"></app-alert>
 
       <div class="w-1/2 mt-0 py-2 flex-shrink-0 flex flex-col rounded-xl">
 
@@ -468,13 +469,78 @@
 <div data-theme="light" class="modal-container">
   <input type="checkbox" id="search-modal" [checked]="showTableModal" class="modal-toggle">
   <div class="modal bg-opacity-50 bg-blacks">
-    <div *ngIf="results" class="modal-box p-0 pt-6 text-left">
-      <div *ngFor="let res of results">
-        <p>{{res._id}}</p>
+    <div *ngIf="results" class="bg-gray-50 rounded-lg p-0 pt-6">
+      <div class="flex flex-col p-4">
+        <div class="-my-2 overflow-x-auto">
+          <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-blue-100">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Equipo
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Puntos
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Goles a Favor
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Goles en contra
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      DIferencia de Goles
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Partidos jugados
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200" *ngFor="let res of results">
+                  <tr class="hover:bg-gray-100">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <div class="flex-shrink-0 h-10 w-10">
+                        <img class="h-10 w-10 rounded-full" [src]="'http://localhost:3000/api/uploads/teamImg/' + res.emblem">
+                        </div>
+                        <div class="ml-4">
+                          <div class="text-sm font-medium text-gray-900">
+                            {{res.team}}
+                          </div>
+                          <div class="text-sm text-gray-500">
+                            {{res.coach}}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                      {{res.pts}}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                      {{res.goalsFavor}}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                      {{res.goalsAgainst}}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                      {{res.goalsDifference}}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                      {{res.matchesPlayed}}
+                    </td>
+                  </tr>
+
+                  <!-- More people... -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="modal-action  rounded-b-2xl px-5 mt-2 pb-5">
-        <label (click)="showTableModal = false" for="search-modal" class="btn-modal-close !font-medium">Cancelar</label>
+        <label (click)="showTableModal = false" for="search-modal" class="btn-modal-close !font-medium">Cerrar</label>
       </div>
     </div>
   </div>
