@@ -19,6 +19,7 @@ import { SoccerSpinerComponent } from './components/soccer-spinner/soccer-spinne
 import { AlertComponent } from './components/alert/alert.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UserPageComponent } from './pages/user-page/user-page.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { UserPageComponent } from './pages/user-page/user-page.component';
     ReactiveFormsModule,
     LoadingBarModule,
     NgxSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
