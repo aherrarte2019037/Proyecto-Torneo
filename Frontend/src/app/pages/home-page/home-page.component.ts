@@ -224,16 +224,20 @@ export class HomePageComponent implements OnInit {
   }
 
   addMatchDay() {
-    this._leagueService.addMatchDay( this.selectedMatchDay.selectedMatch._id, this.addMatchDayForm.value ).subscribe( data => console.log(data) )
+    this._leagueService.addMatchDay( this.selectedMatchDay.selectedMatch._id, this.addMatchDayForm.value ).subscribe()
   }
 
   setMatchDays() {
-    if( this.matchDays.length > 0 ) return
     this._leagueService.createMatchDays( this.leagueSelected._id ).subscribe( (data: any) => this.matchDays = data );
   }
 
   setMatchDay( selectedMatch: any, index: number ) {
     this.selectedMatchDay = { selectedMatch, index: index+1 }
+  }
+
+  preventeSelectMatchDay( league: any ) {
+    if( this.leagueSelected?._id !== league?._id ) return false;
+    return true;
   }
 
 }
